@@ -4,23 +4,30 @@ import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useLoginUserMutation } from "../../redux/features/auth/auth.api";
+import { jwtDecode } from "jwt-decode";
+import { TUser } from "../../interface/user.auth.interface";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/auth/auth.slice";
 
 const Login = () => {
     const { register, handleSubmit } = useForm()
     const [showPassword1, setShowPassword1] = useState(false);
     const [loginUser] = useLoginUserMutation();
+    const dispatch = useAppDispatch();
 
     const handleLoginAction: SubmitHandler<FieldValues> = async (credential) => {
         const toastId = toast.loading('Logging in...');
 
         try {
-            const serverResponse = await loginUser(credential).unwrap();
-            if (!serverResponse?.success) {
+            const serverResponse = await loginUser(credential);
+            if (!serverResponse?.data?.success) {
                 toast.dismiss(toastId);
 
             } else {
-                // action
-                console.log(serverResponse)
+                //! actual action
+                const extractUserFormToken = (jwtDecode(serverResponse?.data?.token as string) as TUser);
+                dispatch(setUser({ user: extractUserFormToken, token: serverResponse?.data?.token }));
+                toast.success('Logged in Success', { id: toastId });
             }
 
         } catch (error) {
