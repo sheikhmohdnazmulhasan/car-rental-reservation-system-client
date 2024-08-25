@@ -1,9 +1,16 @@
 import { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+    const { register, handleSubmit } = useForm()
     const [showPassword1, setShowPassword1] = useState(false);
+
+    const handleLoginAction: SubmitHandler<FieldValues> = (credential) => {
+        console.log(credential);
+    }
+
     return (
         <div>
             <section className="">
@@ -16,12 +23,12 @@ const Login = () => {
                             </h1>
                             <form className="space-y-4 md:space-y-6" action="#">
                                 <div>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                                    <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@example.com" required />
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email Address</label>
+                                    <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@example.com" required {...register('email')} />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                                    <input type={showPassword1 ? 'text' : 'password'} name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required />
+                                    <input type={showPassword1 ? 'text' : 'password'} id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required {...register('password')} />
                                     <p className="absolute hidden md:flex -mt-8 cursor-pointer curs ml-[350px]" onClick={() => setShowPassword1(!showPassword1)}>
                                         {showPassword1 ? <FaEyeSlash /> : <FaEye />}
                                     </p>
