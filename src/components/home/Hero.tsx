@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import HeroFilter from "./HeroFilter";
 
 export const Hero = () => {
     const [currentSlider, setCurrentSlider] = useState(0);
@@ -44,7 +45,7 @@ export const Hero = () => {
 
                 <div className="drop-shadow-lg text-white text-center w-full">
 
-                    <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8" >
+                    <div className="relative flex justify-between mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8" >
                         <div className="max-w-3xl text-center ltr:sm:text-left rtl:sm:text-right">
                             {titles[currentSlider]}
                             <p className="mt-4 max-w-lg text-white md:text-left sm:text-xl/relaxed">
@@ -54,10 +55,13 @@ export const Hero = () => {
                             <div data-aos='fade-right' className="mt-8 flex flex-wrap gap-4 text-center !justify-start md:justify-center">
 
                                 <Link to={'/products'} className="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto">
-                                    Browse Products
+                                    Book Now
                                 </Link>
                             </div>
                         </div>
+
+                        {/* filter */}
+                        <HeroFilter />
                     </div>
                 </div>
             </div>
