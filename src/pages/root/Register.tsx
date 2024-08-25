@@ -10,7 +10,14 @@ const Register = () => {
 
     // TODO: Actual Req
     const handleAccountRegister: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordRegex.test(data.password)) {
+            console.log('invalid');
+
+        } else {
+            console.log('valid');
+        }
     }
 
     return (
