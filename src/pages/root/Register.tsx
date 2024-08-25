@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -8,15 +9,26 @@ const Register = () => {
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
-    // TODO: Actual Req
     const handleAccountRegister: SubmitHandler<FieldValues> = (data) => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const toastId = toast.loading('Working... 💋')
 
         if (!passwordRegex.test(data.password)) {
-            console.log('invalid');
+            toast.error('Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character. 🥱', { id: toastId })
+            return
 
         } else {
-            console.log('valid');
+            if (data.password !== data.password2) {
+                toast.error('Password did not match 😒', { id: toastId });
+                return;
+
+            } else {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { password2, ...dataWithoutConfirmPassword } = data;
+                const dataForBackend = { ...dataWithoutConfirmPassword, role: 'user' }
+
+                console.log(dataForBackend);
+            }
         }
     }
 
