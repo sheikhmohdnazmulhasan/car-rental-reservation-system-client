@@ -2,14 +2,17 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useCreateUserMutation } from "../../redux/features/auth/auth.api";
 
 const Register = () => {
     const { register, handleSubmit, reset } = useForm();
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+    const [createUser] = useCreateUserMutation();
+    const navigate = useNavigate();
 
-    const handleAccountRegister: SubmitHandler<FieldValues> = (data) => {
+    const handleAccountRegister: SubmitHandler<FieldValues> = async (data) => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         const toastId = toast.loading('Working... 💋')
 
@@ -25,9 +28,24 @@ const Register = () => {
             } else {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { password2, ...dataWithoutConfirmPassword } = data;
-                const dataForBackend = { ...dataWithoutConfirmPassword, role: 'user' }
+                const dataForBackend = { ...dataWithoutConfirmPassword, role: 'user' };
 
-                console.log(dataForBackend);
+                try {
+                    const serverResponse = await createUser(dataForBackend);
+                    if (serverResponse.data?.success) {
+                        toast.success('Registration Successful! Plz Login 🫡', { id: toastId });
+                        reset();
+                        navigate('/login');
+
+                    } else {
+                        const errorMessage = serverResponse.error?.data?.message || 'Registration failed. Please try again later. 🙁';
+                        toast.error(errorMessage, { id: toastId });
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                    toast.error('Oops! Something went wrong 🙄', { id: toastId })
+                }
             }
         }
     }
