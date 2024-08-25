@@ -1,8 +1,9 @@
+import Navbar from "./components/root/Navbar";
 
 const Root = () => {
     return (
-        <div>
-            hi
+        <div >
+            <Navbar />
         </div>
     );
 };
