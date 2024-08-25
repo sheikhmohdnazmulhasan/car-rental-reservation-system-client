@@ -13,7 +13,6 @@ const Register = () => {
         console.log(data);
     }
 
-
     return (
         <div>
             <section className="">
