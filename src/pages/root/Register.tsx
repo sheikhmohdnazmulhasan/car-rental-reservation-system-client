@@ -31,20 +31,19 @@ const Register = () => {
                 const dataForBackend = { ...dataWithoutConfirmPassword, role: 'user' };
 
                 try {
-                    const serverResponse = await createUser(dataForBackend);
-                    if (serverResponse.data?.success) {
+                    const serverResponse = await createUser(dataForBackend)
+                    if (!serverResponse.data?.success) {
+                        toast.dismiss(toastId);
+
+                    } else {
                         toast.success('Registration Successful! Plz Login 🫡', { id: toastId });
                         reset();
                         navigate('/login');
-
-                    } else {
-                        const errorMessage = serverResponse.error?.data?.message || 'Registration failed. Please try again later. 🙁';
-                        toast.error(errorMessage, { id: toastId });
                     }
 
                 } catch (error) {
+                    toast.error('An error occurred. Please try again later. 🙁', { id: toastId });
                     console.log(error);
-                    toast.error('Oops! Something went wrong 🙄', { id: toastId })
                 }
             }
         }

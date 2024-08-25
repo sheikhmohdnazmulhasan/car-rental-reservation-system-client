@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../../store";
+import { TUser } from "../../../interface/user.auth.interface";
 
-const initialState = {
+interface TAuthState {
+    user: null | TUser;
+    token: null | string
+}
+
+const initialState: TAuthState = {
     user: null,
     token: null
 }

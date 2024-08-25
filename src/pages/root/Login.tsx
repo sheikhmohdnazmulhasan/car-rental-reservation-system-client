@@ -1,14 +1,32 @@
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useLoginUserMutation } from "../../redux/features/auth/auth.api";
 
 const Login = () => {
     const { register, handleSubmit } = useForm()
     const [showPassword1, setShowPassword1] = useState(false);
+    const [loginUser] = useLoginUserMutation();
 
-    const handleLoginAction: SubmitHandler<FieldValues> = (credential) => {
-        console.log(credential);
+    const handleLoginAction: SubmitHandler<FieldValues> = async (credential) => {
+        const toastId = toast.loading('Logging in...');
+
+        try {
+            const serverResponse = await loginUser(credential).unwrap();
+            if (!serverResponse?.success) {
+                toast.dismiss(toastId);
+
+            } else {
+                // action
+                console.log(serverResponse)
+            }
+
+        } catch (error) {
+            toast.error('An error occurred. Please try again later. 🙁', { id: toastId });
+            console.log(error);
+        }
     }
 
     return (
@@ -21,7 +39,7 @@ const Login = () => {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6" action="#">
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(handleLoginAction)}>
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email Address</label>
                                     <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@example.com" required {...register('email')} />
