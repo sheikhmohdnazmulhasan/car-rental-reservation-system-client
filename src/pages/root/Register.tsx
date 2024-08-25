@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Register = () => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+
+    // TODO: Actual Req
+    const handleAccountRegister: SubmitHandler<FieldValues> = (data) => {
+        console.log(data);
+    }
+
 
     return (
         <div>
@@ -18,29 +24,29 @@ const Register = () => {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                                 Create your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6" action="#">
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(handleAccountRegister)}>
                                 <div>
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
-                                    <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: Sheikh" required />
+                                    <input type="text" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: Sheikh" required {...register('name')} />
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email Address</label>
-                                    <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: name@example.com" required />
+                                    <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: name@example.com" required {...register('email')} />
                                 </div>
                                 <div>
                                     <label htmlFor="number" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
-                                    <input type="number" name="number" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: 01700000000" />
+                                    <input type="number" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: 01700000000" {...register('phone')} />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                                    <input type={showPassword1 ? 'text' : 'password'} name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required />
+                                    <input type={showPassword1 ? 'text' : 'password'} id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required {...register('password')} />
                                     <p className="absolute hidden md:flex -mt-8 cursor-pointer curs ml-[350px]" onClick={() => setShowPassword1(!showPassword1)}>
                                         {showPassword1 ? <FaEyeSlash /> : <FaEye />}
                                     </p>
                                 </div>
                                 <div>
                                     <label htmlFor="password2" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                                    <input type={showPassword2 ? 'text' : 'password'} name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required />
+                                    <input type={showPassword2 ? 'text' : 'password'} id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required {...register('password2')} />
                                     <p className="absolute hidden md:flex -mt-8 cursor-pointer ml-[350px]" onClick={() => setShowPassword2(!showPassword2)}>
                                         {showPassword2 ? <FaEyeSlash /> : <FaEye />}
                                     </p>
