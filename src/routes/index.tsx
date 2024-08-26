@@ -9,9 +9,12 @@ import AdminRoot from "../pages/dashboard/admin/AdminRoot";
 import AdminOverview from "../pages/dashboard/admin/AdminOverview";
 import AllVehicles from "../pages/dashboard/admin/Vehicles/AllVehicles";
 import AddVehicle from "../pages/dashboard/admin/Vehicles/AddVehicle";
-import AllBookings from "../pages/dashboard/admin/bookings/AllBookings";
-import Return from "../pages/dashboard/admin/bookings/Return";
-import AllUsers from "../pages/dashboard/admin/users/AllUsers";
+import SuccessfulBookings from "../pages/dashboard/admin/bookings/SuccessfulBookings";
+import CanceledBookings from "../pages/dashboard/admin/bookings/CanceledBookings";
+import UpcomingBookings from "../pages/dashboard/admin/bookings/UpcomingBookings";
+import OngoingBookings from "../pages/dashboard/admin/bookings/OngoingBookings";
+import Admins from "../pages/dashboard/admin/users/Admins";
+import Customers from "../pages/dashboard/admin/users/Customers";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -32,9 +35,12 @@ export const router = createBrowserRouter([
           { path: '/dashboard/admin/overview', element: <AdminOverview /> },
           { path: '/dashboard/admin/vehicles/manage/view', element: <AllVehicles /> },
           { path: '/dashboard/admin/vehicles/manage/new', element: <AddVehicle /> },
-          { path: '/dashboard/admin/bookings/manage/view', element: <AllBookings /> },
-          { path: '/dashboard/admin/bookings/manage/return', element: <Return /> },
-          { path: '/dashboard/admin/users/manage/view', element: <AllUsers /> },
+          { path: '/dashboard/admin/bookings/manage/upcoming', element: <UpcomingBookings /> },
+          { path: '/dashboard/admin/bookings/manage/ongoing', element: <OngoingBookings /> },
+          { path: '/dashboard/admin/bookings/manage/success', element: <SuccessfulBookings /> },
+          { path: '/dashboard/admin/bookings/manage/canceled', element: <CanceledBookings /> },
+          { path: '/dashboard/admin/users/manage/admins', element: <Admins /> },
+          { path: '/dashboard/admin/users/manage/customers', element: <Customers /> },
         ]
       }
     ]
