@@ -5,13 +5,13 @@ import About from "../pages/root/About";
 import Contact from "../pages/root/Contact";
 import Login from "../pages/root/Login";
 import Register from "../pages/root/Register";
-import AdminRoot from "../pages/admin/AdminRoot";
-import AdminOverview from "../pages/admin/AdminOverview";
-import AddVehicle from "../pages/admin/Vehicles/AddVehicle";
-import AllVehicles from "../pages/admin/Vehicles/AllVehicles";
-import AllBookings from "../pages/admin/bookings/AllBookings";
-import Return from "../pages/admin/bookings/Return";
-import AllUsers from "../pages/admin/users/AllUsers";
+import AdminRoot from "../pages/dashboard/admin/AdminRoot";
+import AdminOverview from "../pages/dashboard/admin/AdminOverview";
+import AllVehicles from "../pages/dashboard/admin/Vehicles/AllVehicles";
+import AddVehicle from "../pages/dashboard/admin/Vehicles/AddVehicle";
+import AllBookings from "../pages/dashboard/admin/bookings/AllBookings";
+import Return from "../pages/dashboard/admin/bookings/Return";
+import AllUsers from "../pages/dashboard/admin/users/AllUsers";
 export const router = createBrowserRouter([
   {
     path: "/",
