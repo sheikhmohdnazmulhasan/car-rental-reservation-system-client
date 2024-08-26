@@ -41,7 +41,7 @@ const HeroFilter = () => {
                                 {...field}
                                 showSearch
                                 placeholder='Select Your Area'
-                                style={{ width: '100%' }}
+                                style={{ width: '100%', height: '40px' }}
                                 optionFilterProp="label"
                                 options={actualDistrictFilterOptions}
                             />
@@ -59,7 +59,7 @@ const HeroFilter = () => {
                                 {...field}
                                 showSearch
                                 placeholder='Select Your Favorite Color'
-                                style={{ width: '100%' }}
+                                style={{ width: '100%', height: '40px' }}
                                 optionFilterProp="label"
                                 options={actualColorFilterOptions}
                             />
@@ -75,7 +75,7 @@ const HeroFilter = () => {
                         render={({ field }) => (
                             <DatePicker
                                 {...field}
-                                style={{ width: '100%' }}
+                                style={{ width: '100%', height: '40px' }}
                             />
                         )}
                     />
