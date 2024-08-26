@@ -2,7 +2,7 @@
 const AddVehicle = () => {
     return (
         <div>
-            add car
+
         </div>
     );
 };
