@@ -4,10 +4,7 @@ import authReducer from './features/auth/auth.slice'
 import storage from 'redux-persist/lib/storage'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 
-const persistConfig = {
-    key: 'auth',
-    storage,
-}
+const persistConfig = { key: 'auth', storage }
 const persistedReducer = persistReducer(persistConfig, authReducer)
 
 export const store = configureStore({
