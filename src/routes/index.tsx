@@ -15,6 +15,7 @@ import AllUsers from "../pages/dashboard/admin/users/AllUsers";
 export const router = createBrowserRouter([
   {
     path: "/",
+
     element: <Root />,
     children: [
       { index: true, element: <Home /> },

@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import { TUser } from "../../interface/user.auth.interface";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/auth.slice";
+import Navbar from "../../components/root/Navbar";
 
 const Login = () => {
     const { register, handleSubmit } = useForm()
@@ -38,6 +39,7 @@ const Login = () => {
 
     return (
         <div>
+            <Navbar />
             <section className="">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <h2 className="text-3xl mb-5">Rent<span className='text-rose-600'>NGo—</span></h2>

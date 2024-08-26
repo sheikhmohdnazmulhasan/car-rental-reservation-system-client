@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserMutation } from "../../redux/features/auth/auth.api";
+import Navbar from "../../components/root/Navbar";
 
 const Register = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -51,6 +52,7 @@ const Register = () => {
 
     return (
         <div>
+            <Navbar />
             <section className="">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-screen md:!pt-20 lg:py-0">
                     <h2 className="text-3xl mb-5">Rent<span className='text-rose-600'>NGo—</span></h2>

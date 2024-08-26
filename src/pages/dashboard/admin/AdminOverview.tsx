@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom";
+
 
 const AdminOverview = () => {
     return (
         <div>
-            <Outlet />
+            hi
         </div>
     );
 };
