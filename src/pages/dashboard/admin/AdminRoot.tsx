@@ -2,6 +2,8 @@ import { Link, Outlet } from "react-router-dom";
 import Navbar from "../../../components/root/Navbar";
 import { useState } from "react";
 import { FaCarSide } from "react-icons/fa";
+import { FaSwatchbook } from "react-icons/fa";
+import { FaUsersCog } from "react-icons/fa";
 
 const AdminRoot = () => {
     const [openManageVehiclesMenus, setOpenManageVehiclesMenus] = useState(false);
@@ -45,7 +47,7 @@ const AdminRoot = () => {
                             </li>
                             <li>
                                 <button onClick={() => setOpenManageOrdersMenus(!openManageOrdersMenus)} type="button" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                                    <FaCarSide size={22} />
+                                    <FaSwatchbook size={22} />
                                     <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manage Bookings</span>
                                     <svg className={`size-3 ${openManageOrdersMenus && 'rotate-180'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
@@ -68,7 +70,7 @@ const AdminRoot = () => {
                                 </ul>
                                 <li>
                                     <button onClick={() => setOpenManageUsersMenus(!openManageUsersMenus)} type="button" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                                        <FaCarSide size={22} />
+                                        <FaUsersCog size={22} />
                                         <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manage Users</span>
                                         <svg className={`size-3 ${openManageUsersMenus && 'rotate-180'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
