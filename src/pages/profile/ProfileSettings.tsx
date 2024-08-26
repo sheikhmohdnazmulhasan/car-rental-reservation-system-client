@@ -6,14 +6,16 @@ import { useAppSelector } from '../../redux/hooks';
 import { useCurrentUser } from '../../redux/features/auth/auth.slice';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 const ProfileSettings: React.FC = () => {
     const user = useAppSelector(useCurrentUser);
     const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
     const [patchUser] = usePatchUserMutation();
+    const { register, handleSubmit } = useForm();
 
     const handleProfilePictureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const toastId = toast.loading('Working...')
+        const toastId = toast.loading('Working...');
         if (event.target.files && event.target.files[0]) {
 
             const img = new FormData();
@@ -30,16 +32,62 @@ const ProfileSettings: React.FC = () => {
                     }
                 });
 
-                if (serverResponse.data.success) {
+                if (serverResponse.data?.success) {
                     toast.success('Profile Picture Updated 🫡', { id: toastId });
 
                 } else {
                     toast.success('Oops! Something went wrong 🙁', { id: toastId });
-
                 }
             }
         }
     };
+
+    const handleChangeUserDetails: SubmitHandler<FieldValues> = async (data) => {
+        const filteredObj = Object.fromEntries(
+            Object.entries(data).filter(([, value]) => value !== "")
+        );
+
+        if (Object.keys(filteredObj).length === 0) {
+            console.log('no changes');
+            return
+        }
+
+        const toastId = toast.loading('Working...');
+
+        if (data.password) {
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(data.password)) {
+                toast.error('Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character. 🥱', { id: toastId })
+                return
+
+            } else if (data.password !== data.password2) {
+                toast.error('Password did not match 😒', { id: toastId });
+                return;
+
+            } else {
+                // const hashPassword = await bcrypt.hash(data.password, 4);
+
+                // console.log(hashPassword);
+
+                console.log('hello');
+            }
+
+        } else {
+
+            const serverResponse = await patchUser({
+                query: user?.user,
+                payload: filteredObj
+            });
+
+            if (serverResponse.data?.success) {
+                toast.success('Profile Details Updated 🫡', { id: toastId });
+
+            } else {
+                toast.success('Oops! Something went wrong 🙁', { id: toastId });
+            }
+        }
+    }
 
     return (
         <div className="">
@@ -108,7 +156,7 @@ const ProfileSettings: React.FC = () => {
                     {/* Right Column - Edit Details Form */}
                     <div>
                         <h2 className="text-xl font-semibold mb-4">Edit Details</h2>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={(handleSubmit(handleChangeUserDetails))}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
@@ -119,6 +167,7 @@ const ProfileSettings: React.FC = () => {
                                         type="text"
                                         defaultValue={fullUser?.data?.name}
                                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
+                                        {...register('name')}
                                     />
                                 </div>
                                 <div>
@@ -130,6 +179,7 @@ const ProfileSettings: React.FC = () => {
                                         type="email"
                                         defaultValue={fullUser?.data?.email}
                                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
+                                        disabled
                                     />
                                 </div>
                                 <div>
@@ -141,6 +191,7 @@ const ProfileSettings: React.FC = () => {
                                         type="text"
                                         defaultValue={fullUser?.data?.phone}
                                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
+                                        {...register('phone')}
                                     />
                                 </div>
                                 <div>
@@ -152,6 +203,7 @@ const ProfileSettings: React.FC = () => {
                                         type="text"
                                         defaultValue={fullUser?.data?.address}
                                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
+                                        {...register('address')}
                                     />
                                 </div>
                             </div>
@@ -164,6 +216,7 @@ const ProfileSettings: React.FC = () => {
                                     type="password"
                                     placeholder="Enter new password"
                                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
+                                    {...register('password')}
                                 />
                             </div>
                             <div>
@@ -175,6 +228,7 @@ const ProfileSettings: React.FC = () => {
                                     type="password"
                                     placeholder="Confirm new password"
                                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
+                                    {...register('password2')}
                                 />
                             </div>
                             <div className="flex justify-end">
