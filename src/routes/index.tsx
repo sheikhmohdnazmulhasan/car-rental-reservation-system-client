@@ -15,6 +15,7 @@ import UpcomingBookings from "../pages/dashboard/admin/bookings/UpcomingBookings
 import OngoingBookings from "../pages/dashboard/admin/bookings/OngoingBookings";
 import Admins from "../pages/dashboard/admin/users/Admins";
 import Customers from "../pages/dashboard/admin/users/Customers";
+import ProfileSettings from "../pages/profile/ProfileSettings";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: '/contact', element: <Contact /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
+      { path: '/profile/settings', element: <ProfileSettings /> },
 
       // admin (protected)
       {

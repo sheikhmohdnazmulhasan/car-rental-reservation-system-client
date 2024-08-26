@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout, useCurrentUser } from '../../redux/features/auth/auth.slice';
-import { useGetFullUserQuery } from '../../redux/features/auth/auth.api';
 import demoProfile from '../../../src/assets/demo-profile.jpg';
+import { useGetFullUserQuery } from '../../redux/features/user/user.api';
 
 const Navbar = () => {
     const [dropDownState, setDropDownState] = useState(false);
@@ -12,8 +12,6 @@ const Navbar = () => {
     const user = useAppSelector(useCurrentUser);
     const dispatch = useAppDispatch();
     const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
-
-    console.log(fullUser);
 
     return (
         <nav className="flex border-b items-center justify-between text-[#393E46] px-4 py-2 bg-white">
@@ -62,6 +60,9 @@ const Navbar = () => {
                                 </div>
                             </li>
                             <li>
+                                <Link to={`/profile/settings`} >Profile Settings</Link>
+                            </li>
+                            <li>
                                 <Link to={`/dashboard/${user?.role}`} >Dashboard</Link>
                             </li>
                             <li onClick={() => dispatch(logout())}> <a>Logout</a> </li>
@@ -91,6 +92,9 @@ const Navbar = () => {
                                     {user.role === 'user' ? 'Customer' : 'Admin'}
                                 </span>
                             </div>
+                        </li>
+                        <li>
+                            <Link to={`/profile/settings`} >Profile Settings</Link>
                         </li>
                         <li>
                             <Link to={`/dashboard/${user?.role}`} >Dashboard</Link>
