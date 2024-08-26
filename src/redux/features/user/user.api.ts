@@ -14,13 +14,29 @@ const userApi = baseApi.injectEndpoints({
                 };
 
                 return {
-                    url: `auth/user`,
+                    url: `/auth/user`,
                     method: 'GET',
                     params
                 }
-            }
+            },
+            providesTags: ['patchUser']
+        }),
+
+        patchUser: builder.mutation({
+            query: (args) => {
+                const params = new URLSearchParams();
+                params.append('email', args.query);
+
+                return {
+                    url: `/auth/user/update`,
+                    method: 'PATCH',
+                    body: args.payload,
+                    params
+                }
+            },
+            invalidatesTags: ['patchUser']
         })
     })
 })
 
-export const { useGetFullUserQuery } = userApi
+export const { useGetFullUserQuery, usePatchUserMutation } = userApi

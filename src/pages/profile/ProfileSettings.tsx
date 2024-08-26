@@ -1,18 +1,43 @@
 import React from 'react';
 import Navbar from '../../components/root/Navbar';
 import demoProfile from '../../../src/assets/demo-profile.jpg';
-import { useGetFullUserQuery } from '../../redux/features/user/user.api';
+import { useGetFullUserQuery, usePatchUserMutation } from '../../redux/features/user/user.api';
 import { useAppSelector } from '../../redux/hooks';
 import { useCurrentUser } from '../../redux/features/auth/auth.slice';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+
 const ProfileSettings: React.FC = () => {
     const user = useAppSelector(useCurrentUser);
-    const { data: fullUser, refetch } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
+    const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
+    const [patchUser] = usePatchUserMutation();
 
-    console.log(fullUser);
-
-    const handleProfilePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleProfilePictureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const toastId = toast.loading('Working...')
         if (event.target.files && event.target.files[0]) {
-            // change the img
+
+            const img = new FormData();
+            img.append('image', event.target.files[0]);
+
+            const imgBbResponse = await axios.post(`https://api.imgbb.com/1/upload?key=4b159d954d16c4775776e8c6e880b320`, img);
+
+            if (imgBbResponse.data?.success) {
+
+                const serverResponse = await patchUser({
+                    query: user?.user,
+                    payload: {
+                        photo: imgBbResponse.data?.data?.display_url
+                    }
+                });
+
+                if (serverResponse.data.success) {
+                    toast.success('Profile Picture Updated 🫡', { id: toastId });
+
+                } else {
+                    toast.success('Oops! Something went wrong 🙁', { id: toastId });
+
+                }
+            }
         }
     };
 
