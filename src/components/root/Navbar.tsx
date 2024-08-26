@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout, useCurrentUser } from '../../redux/features/auth/auth.slice';
 import { useGetFullUserQuery } from '../../redux/features/auth/auth.api';
+import demoProfile from '../../../src/assets/demo-profile.jpg';
 
 const Navbar = () => {
     const [dropDownState, setDropDownState] = useState(false);
@@ -10,10 +11,9 @@ const Navbar = () => {
     const currentRoute = url.split('/')[3];
     const user = useAppSelector(useCurrentUser);
     const dispatch = useAppDispatch();
-    // let fullUser;
-    const { data, isLoading, isError } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
+    const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
 
-    console.log({ data, isLoading, isError });
+    console.log(fullUser);
 
     return (
         <nav className="flex border-b items-center justify-between text-[#393E46] px-4 py-2 bg-white">
@@ -46,7 +46,7 @@ const Navbar = () => {
                             <div className="w-10 rounded-full">
                                 <img
                                     alt="Profile img"
-                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                    src={fullUser?.data?.photo ? fullUser?.data?.photo : demoProfile} />
                             </div>
                         </div>
                         <ul
@@ -77,7 +77,7 @@ const Navbar = () => {
                         <div className="w-10 rounded-full">
                             <img
                                 alt="Profile img"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                src={fullUser?.data?.photo ? fullUser?.data?.photo : demoProfile} />
                         </div>
                     </div>
                     <ul
