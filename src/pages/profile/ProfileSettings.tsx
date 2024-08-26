@@ -2,17 +2,21 @@ import React from 'react';
 import Navbar from '../../components/root/Navbar';
 import demoProfile from '../../../src/assets/demo-profile.jpg';
 import { useGetFullUserQuery, usePatchUserMutation } from '../../redux/features/user/user.api';
-import { useAppSelector } from '../../redux/hooks';
-import { useCurrentUser } from '../../redux/features/auth/auth.slice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { logout, useCurrentUser } from '../../redux/features/auth/auth.slice';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import bcrypt from 'bcryptjs';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileSettings: React.FC = () => {
     const user = useAppSelector(useCurrentUser);
     const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
     const [patchUser] = usePatchUserMutation();
     const { register, handleSubmit } = useForm();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleProfilePictureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const toastId = toast.loading('Working...');
@@ -66,18 +70,31 @@ const ProfileSettings: React.FC = () => {
                 return;
 
             } else {
-                // const hashPassword = await bcrypt.hash(data.password, 4);
+                const hashPassword = await bcrypt.hash(data.password, 10);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { password2, ...excludePassword2 } = filteredObj;
+                const dataForBackend = { ...excludePassword2, password: hashPassword };
 
-                // console.log(hashPassword);
+                const serverResponse = await patchUser({
+                    query: user?.user,
+                    payload: dataForBackend,
+                });
 
-                console.log('hello');
+                if (serverResponse.data?.success) {
+                    toast.success('Profile Details Updated, Places Login again 😊', { id: toastId });
+                    dispatch(logout());
+                    navigate('/login');
+
+                } else {
+                    toast.success('Oops! Something went wrong 🙁', { id: toastId });
+                }
             }
 
         } else {
 
             const serverResponse = await patchUser({
                 query: user?.user,
-                payload: filteredObj
+                payload: filteredObj,
             });
 
             if (serverResponse.data?.success) {
@@ -119,7 +136,7 @@ const ProfileSettings: React.FC = () => {
                                 />
                             </div>
                             <h1 className="text-2xl font-semibold">{fullUser?.data?.name}</h1>
-                            <p className="text-gray-600">{fullUser?.data?.role.charAt(0).toUpperCase() + fullUser?.data?.role.slice(1)}</p>
+                            <p className="text-gray-600">{fullUser?.data?.role === 'user' ? 'Customer' : 'Admin'}</p>
                         </div>
                         <div className="mb-4">
                             <h2 className="text-xl font-semibold mb-2">Personal Information</h2>
