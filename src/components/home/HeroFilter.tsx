@@ -1,27 +1,11 @@
 import { DatePicker, Select } from "antd";
-import { TFilterFOptions } from "../../interface/filter.options.interface";
 import { heroDistrictFilterOptions } from "../../const/filter.district";
 import { heroColorFilterOptions } from "../../const/filter.colors";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import antSelectOptionsGenerator from "../../utils/AntSelectOptionsGenerator";
 
 const HeroFilter = () => {
     const { control, handleSubmit } = useForm();
-    const actualDistrictFilterOptions: TFilterFOptions[] = [];
-    const actualColorFilterOptions: TFilterFOptions[] = [];
-
-    for (let i: number = 0; i < heroDistrictFilterOptions.length; i++) {
-        actualDistrictFilterOptions.push({
-            value: heroDistrictFilterOptions[i],
-            label: heroDistrictFilterOptions[i]
-        });
-    }
-
-    for (let i: number = 0; i < heroColorFilterOptions.length; i++) {
-        actualColorFilterOptions.push({
-            value: heroColorFilterOptions[i],
-            label: heroColorFilterOptions[i],
-        });
-    }
 
     //! actual action fn
     const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -43,7 +27,7 @@ const HeroFilter = () => {
                                 placeholder='Select Your Area'
                                 style={{ width: '100%', height: '40px' }}
                                 optionFilterProp="label"
-                                options={actualDistrictFilterOptions}
+                                options={antSelectOptionsGenerator(heroDistrictFilterOptions)}
                             />
                         )}
                     />
@@ -61,7 +45,7 @@ const HeroFilter = () => {
                                 placeholder='Select Your Favorite Color'
                                 style={{ width: '100%', height: '40px' }}
                                 optionFilterProp="label"
-                                options={actualColorFilterOptions}
+                                options={antSelectOptionsGenerator(heroColorFilterOptions)}
                             />
                         )}
                     />
