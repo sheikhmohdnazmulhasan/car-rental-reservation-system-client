@@ -6,13 +6,22 @@ import antSelectOptionsGenerator from "../../../../utils/AntSelectOptionsGenerat
 import { fuelTypesOptions } from "../../../../const/options.fuel_types";
 import { carFeatures } from "../../../../const/options.features";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { VehicleValidation } from "../../../../schemas/vehicle.schema";
+import { TypeOf } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+// Infer the TypeScript type from the schema
+type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidationSchema>;
 
 const AddVehicle = () => {
-    const { control, handleSubmit } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm<createVehicleSchema>({
+        resolver: zodResolver(VehicleValidation.createVehicleValidationSchema)
+    });
 
     const handleCreateNewVehicle: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
     }
+
+    console.log(errors);
 
     return (
         <div>
@@ -37,6 +46,7 @@ const AddVehicle = () => {
                                 />
                             )}
                         />
+                        {errors.name && <small className=" ml-1 text-rose-600">{errors.name?.message}</small>}
                     </div>
                     <div className="flex-1">
                         <label htmlFor="location">Location</label>
@@ -56,6 +66,7 @@ const AddVehicle = () => {
                                 />
                             )}
                         />
+                        {errors.location && <small className=" ml-1 text-rose-600">{errors.location?.message}</small>}
                     </div>
                 </div>
                 <div className="flex justify-between gap-5">
@@ -77,6 +88,7 @@ const AddVehicle = () => {
                                 />
                             )}
                         />
+                        {errors.color && <small className=" ml-1 text-rose-600">{errors.color?.message}</small>}
                     </div>
 
                     <div className="flex-1">
@@ -97,6 +109,7 @@ const AddVehicle = () => {
                                 />
                             )}
                         />
+                        {errors.fuelType && <small className=" ml-1 text-rose-600">{errors.fuelType?.message}</small>}
                     </div>
                 </div>
 
@@ -120,6 +133,7 @@ const AddVehicle = () => {
                                 />
                             )}
                         />
+                        {errors.features && <small className=" ml-1 text-rose-600">{errors.features?.message}</small>}
                     </div>
                     <div className="flex-1">
                         <label htmlFor="pricePerHour">Price Per Hour</label>
@@ -142,6 +156,7 @@ const AddVehicle = () => {
                                 />
                             )}
                         />
+                        {errors.pricePerHour && <small className=" ml-1 text-rose-600">{errors.pricePerHour?.message}</small>}
                     </div>
                 </div>
                 <div>
@@ -161,6 +176,7 @@ const AddVehicle = () => {
                             />
                         )}
                     />
+                    {errors.description && <small className=" ml-1 text-rose-600">{errors.description?.message}</small>}
                 </div>
                 <div className="flex justify-end">
                     <button
