@@ -9,7 +9,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 
 const Admins = () => {
     const currentUser = useAppSelector(useCurrentUser);
-    const { data: dataWithLoggedUser, isError, isLoading, isSuccess } = useGetRoleBaseUsersQuery([{ role: 'admin' }], { skip: !currentUser });
+    const { data: dataWithLoggedUser, isError, isLoading } = useGetRoleBaseUsersQuery([{ role: 'admin' }], { skip: !currentUser });
 
     const admins = dataWithLoggedUser?.data.filter((user: TFullUser) => user.email !== currentUser?.user);
 

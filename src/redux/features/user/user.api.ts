@@ -37,6 +37,7 @@ const userApi = baseApi.injectEndpoints({
                     params
                 }
             },
+            providesTags: ['patchUserRole']
         }),
 
         patchUser: builder.mutation({
@@ -47,13 +48,27 @@ const userApi = baseApi.injectEndpoints({
                 return {
                     url: `/auth/user/update`,
                     method: 'PATCH',
-                    body: args.payload,
+                    body: args?.payload,
                     params
                 }
             },
             invalidatesTags: ['patchUser']
+        }),
+
+        PatchUserRole: builder.mutation({
+            query: (args) => ({
+                url: '/auth/user/update-role',
+                method: 'PATCH',
+                body: args?.payload,
+            }),
+            invalidatesTags: ['patchUser', 'patchUserRole']
         })
     })
 })
 
-export const { useGetFullUserQuery, usePatchUserMutation, useGetRoleBaseUsersQuery } = userApi
+export const {
+    useGetFullUserQuery,
+    usePatchUserMutation,
+    useGetRoleBaseUsersQuery,
+    usePatchUserRoleMutation,
+} = userApi
