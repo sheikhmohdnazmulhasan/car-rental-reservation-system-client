@@ -1,9 +1,21 @@
+
+import UsersCard from "../../../../components/dashboard/admin/users/UsersCard";
+import FetchErrorElmt from "../../../../components/error/FetchErrorElmt";
+import LoadingSpinier from "../../../../components/global/LoadingSpinier";
+import { TFullUser } from "../../../../interface/user.interface";
+import { useCurrentUser } from "../../../../redux/features/auth/auth.slice";
 import { useGetRoleBaseUsersQuery } from "../../../../redux/features/user/user.api";
+import { useAppSelector } from "../../../../redux/hooks";
 
 const Admins = () => {
-    const { data, isError, isLoading, isSuccess } = useGetRoleBaseUsersQuery([{ role: 'admin' }]);
+    const currentUser = useAppSelector(useCurrentUser);
+    const { data: dataWithLoggedUser, isError, isLoading, isSuccess } = useGetRoleBaseUsersQuery([{ role: 'admin' }], { skip: !currentUser });
 
-    console.log({ data, isError, isLoading, isSuccess });
+    const admins = dataWithLoggedUser?.data.filter((user: TFullUser) => user.email !== currentUser?.user);
+
+    if (isLoading) return <LoadingSpinier />
+    if (isError) return <FetchErrorElmt />
+
     return (
         <div className="">
             <h1 className="text-2xl font-semibold mb-5">Admins</h1>
@@ -17,26 +29,7 @@ const Admins = () => {
                     <div className="flex-1 py-2 px-4">Action</div>
                 </div>
 
-                {/* Data Rows */}
-                <div className="flex">
-                    <div className="flex-1 py-2 px-4 border-b border-gray-300">John Doe</div>
-                    <div className="flex-1 py-2 px-4 border-b border-gray-300">user@example.com</div>
-                    <div className="flex-1 py-2 px-4 border-b border-gray-300">1234567890</div>
-                    <div className="flex-1 py-2 px-4 border-b border-gray-300">admin</div>
-                    <div className="flex-1 py-2 px-4 border-b border-gray-300">
-                        <button className="border bg-gray-200 rounded-sm hover:bg-gray-300 transition-all hover:scale-105 py-1 px-2">Make Customer</button>
-                    </div>
-                </div>
-
-                {/* Additional Data Rows */}
-                {/* Add more rows as needed */}
-                {/* <div className="flex">
-        <div className="flex-1 py-2 px-4 border-b border-gray-300">Another Name</div>
-        <div className="flex-1 py-2 px-4 border-b border-gray-300">another@example.com</div>
-        <div className="flex-1 py-2 px-4 border-b border-gray-300">9876543210</div>
-        <div className="flex-1 py-2 px-4 border-b border-gray-300">456 Another St, City, Country</div>
-        <div className="flex-1 py-2 px-4 border-b border-gray-300">user</div>
-      </div> */}
+                {admins?.map((user: TFullUser, indx: number) => <UsersCard key={indx} {...user} />)}
             </div>
         </div>
     );
