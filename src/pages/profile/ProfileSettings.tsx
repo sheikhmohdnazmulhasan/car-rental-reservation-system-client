@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
+import uploadImageToImgBb from '../../utils/uploadImageToImgBb';
 
 const ProfileSettings: React.FC = () => {
     const user = useAppSelector(useCurrentUser);
@@ -22,17 +23,14 @@ const ProfileSettings: React.FC = () => {
         const toastId = toast.loading('Working...');
         if (event.target.files && event.target.files[0]) {
 
-            const img = new FormData();
-            img.append('image', event.target.files[0]);
+            const imgBbResponse = await uploadImageToImgBb(event.target.files[0]);
 
-            const imgBbResponse = await axios.post(`https://api.imgbb.com/1/upload?key=4b159d954d16c4775776e8c6e880b320`, img);
-
-            if (imgBbResponse.data?.success) {
+            if (imgBbResponse.success) {
 
                 const serverResponse = await patchUser({
                     query: user?.user,
                     payload: {
-                        photo: imgBbResponse.data?.data?.display_url
+                        photo: imgBbResponse.url
                     }
                 });
 

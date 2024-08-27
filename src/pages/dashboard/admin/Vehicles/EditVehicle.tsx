@@ -9,44 +9,51 @@ import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form
 import { VehicleValidation } from "../../../../schemas/vehicle.schema";
 import { TypeOf } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreateVehicleMutation } from "../../../../redux/features/vehicle/vehicle.api";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { FC, SetStateAction, useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchVehicleById, updateVehicle } from "../../../../api/vehicleApi"; // Assuming you have these API functions
 
 // Infer the TypeScript type from the schema
 type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidationSchema>;
 
-const AddVehicle: FC = () => {
-    const [createNewVehicle] = useCreateVehicleMutation();
-    const [showFileName, setShowFileName] = useState<SetStateAction<{ name: string } | null>>(null);
-    const navigate = useNavigate();
-    const { control, handleSubmit, formState: { errors } } = useForm<createVehicleSchema>({
+const EditVehicle = ({ vehicleId }: { vehicleId: string }) => {
+    const [initialValues, setInitialValues] = useState<createVehicleSchema | null>(null);
+
+    const { control, handleSubmit, formState: { errors }, setValue } = useForm<createVehicleSchema>({
         resolver: zodResolver(VehicleValidation.createVehicleValidationSchema)
     });
 
-    const handleCreateNewVehicle: SubmitHandler<FieldValues> = async (data) => {
-        const toastId = toast.loading('Working...');
-
-        try {
-            const res = await createNewVehicle({
-                payload: data
-            });
-
-            if (res?.data?.success) {
-                toast.success(`${res?.data?.data?.name} is Created Successfully 💋`, { id: toastId })
+    useEffect(() => {
+        const fetchVehicle = async () => {
+            try {
+                const vehicle = await fetchVehicleById(vehicleId);
+                setInitialValues(vehicle);
+                // Populate form fields with fetched data
+                Object.keys(vehicle).forEach((key) => {
+                    setValue(key as keyof createVehicleSchema, vehicle[key]);
+                });
+            } catch (error) {
+                console.error("Failed to fetch vehicle", error);
             }
+        };
 
+        fetchVehicle();
+    }, [vehicleId, setValue]);
+
+    const handleUpdateVehicle: SubmitHandler<FieldValues> = async (data) => {
+        try {
+            await updateVehicle(vehicleId, data);
+            console.log("Vehicle updated successfully");
         } catch (error) {
-            toast.error('Oops! Something went Wrong 😒', { id: toastId });
-            console.log(error);
+            console.error("Failed to update vehicle", error);
         }
     }
 
+    if (!initialValues) return <div>Loading...</div>;
+
     return (
         <div>
-            <h1 className="text-2xl font-semibold mb-5">Add New Vehicle</h1>
-            <form className="mt-10 mx-5 space-y-5" onSubmit={handleSubmit(handleCreateNewVehicle)}>
+            <h1 className="text-2xl font-semibold mb-5">Edit Vehicle</h1>
+            <form className="mt-10 mx-5 space-y-5" onSubmit={handleSubmit(handleUpdateVehicle)}>
 
                 <div className="flex justify-between gap-5">
                     <div className="flex-1">
@@ -60,7 +67,7 @@ const AddVehicle: FC = () => {
                                     id="vehicle_name"
                                     size="large"
                                     showCount
-                                    maxLength={50}
+                                    maxLength={100}
                                     placeholder="Type Vehicle Name"
                                     aria-label="Vehicle Name"
                                 />
@@ -198,29 +205,12 @@ const AddVehicle: FC = () => {
                     />
                     {errors.description && <small className=" ml-1 text-rose-600">{errors.description?.message}</small>}
                 </div>
-                <div className="">
-                    <label htmlFor="">Vehicle Picture</label>
-                    <div>
-                        <label htmlFor="type2-1" className="flex max-w-[380px] md:w-[380px]">
-                            <div className="w-fit whitespace-nowrap  bg-rose-500  px-2 py-1 text-sm text-white">Choose File</div>
-                            <div className=" flex w-full max-w-[380px] items-center  border-b-[2px] border-rose-500 px-2 text-sm font-medium text-gray-400">{showFileName ? showFileName!.name : 'No File Chosen'}</div>
-                        </label>
-                        <input
-                            onChange={(e) => {
-                                if (e.target.files && e.target.files[0]) {
-                                    const imageFile = e.target.files[0];
-                                    setShowFileName(imageFile);
-                                }
-                            }} className="hidden" type="file" name="" id="type2-1"
-                        />
-                    </div>
-                </div>
                 <div className="flex justify-end">
                     <button
                         type="submit"
                         className="px-6 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700"
                     >
-                        Add Vehicle
+                        Update Vehicle
                     </button>
                 </div>
             </form>
@@ -228,4 +218,4 @@ const AddVehicle: FC = () => {
     );
 };
 
-export default AddVehicle;
+export default EditVehicle;
