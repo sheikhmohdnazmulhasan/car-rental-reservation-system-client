@@ -22,6 +22,23 @@ const userApi = baseApi.injectEndpoints({
             providesTags: ['patchUser']
         }),
 
+        getRoleBaseUsers: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item: TQueryParams) => {
+                        params.append((Object.keys(item)[0] as string), (Object.values(item)[0] as string));
+                    });
+                };
+
+                return {
+                    url: `/auth/users`,
+                    method: 'GET',
+                    params
+                }
+            },
+        }),
+
         patchUser: builder.mutation({
             query: (args) => {
                 const params = new URLSearchParams();
@@ -39,4 +56,4 @@ const userApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetFullUserQuery, usePatchUserMutation } = userApi
+export const { useGetFullUserQuery, usePatchUserMutation, useGetRoleBaseUsersQuery } = userApi

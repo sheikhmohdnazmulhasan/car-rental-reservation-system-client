@@ -247,6 +247,7 @@ const ProfileSettings: React.FC = () => {
                                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-600"
                                     {...register('password2')}
                                 />
+                                <small className='ml-2'>If you change the password, you will need to login again</small>
                             </div>
                             <div className="flex justify-end">
                                 <button
