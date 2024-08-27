@@ -13,6 +13,7 @@ import { useCreateVehicleMutation } from "../../../../redux/features/vehicle/veh
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FC, SetStateAction, useState } from "react";
+import uploadImageToImgBb from "../../../../utils/uploadImageToImgBb";
 
 // Infer the TypeScript type from the schema
 type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidationSchema>;
@@ -20,21 +21,35 @@ type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidati
 const AddVehicle: FC = () => {
     const [createNewVehicle] = useCreateVehicleMutation();
     const [showFileName, setShowFileName] = useState<SetStateAction<{ name: string } | null>>(null);
+    const [imgError, setImgError] = useState<SetStateAction<boolean>>(false);
     const navigate = useNavigate();
     const { control, handleSubmit, formState: { errors } } = useForm<createVehicleSchema>({
         resolver: zodResolver(VehicleValidation.createVehicleValidationSchema)
     });
 
     const handleCreateNewVehicle: SubmitHandler<FieldValues> = async (data) => {
+        setImgError(false);
+        if (!showFileName) {
+            setImgError(true);
+            return
+        }
+
         const toastId = toast.loading('Working...');
 
         try {
-            const res = await createNewVehicle({
-                payload: data
-            });
+            const imgBbResponse = await uploadImageToImgBb(showFileName as File);
 
-            if (res?.data?.success) {
-                toast.success(`${res?.data?.data?.name} is Created Successfully 💋`, { id: toastId })
+            if (imgBbResponse?.success) {
+                const dataWithImgUrl = { ...data, photo: imgBbResponse.url };
+
+                const serverResponse = await createNewVehicle({
+                    payload: dataWithImgUrl
+                });
+
+                if (serverResponse?.data?.success) {
+                    toast.success(`${serverResponse?.data?.data?.name} is Created Successfully 💋`, { id: toastId });
+                    navigate('/dashboard/admin/vehicles/manage/view')
+                }
             }
 
         } catch (error) {
@@ -213,6 +228,7 @@ const AddVehicle: FC = () => {
                                 }
                             }} className="hidden" type="file" name="" id="type2-1"
                         />
+                        {imgError && <small className=" text-rose-600">Vehicle image is required</small>}
                     </div>
                 </div>
                 <div className="flex justify-end">

@@ -4,7 +4,6 @@ import demoProfile from '../../../src/assets/demo-profile.jpg';
 import { useGetFullUserQuery, usePatchUserMutation } from '../../redux/features/user/user.api';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout, useCurrentUser } from '../../redux/features/auth/auth.slice';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import bcrypt from 'bcryptjs';
