@@ -3,6 +3,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { TVehicleResponse } from "../../../../interface/response.vehicle.interface";
 import { useDeleteVehicleMutation } from "../../../../redux/features/vehicle/vehicle.api";
 import Swal from 'sweetalert2'
+import { Link } from "react-router-dom";
 
 const VehicleCard: React.FC<TVehicleResponse> = ({ _id, name, status, description, pricePerHour, location, photo }) => {
     const [deleteVehicle] = useDeleteVehicleMutation();
@@ -65,7 +66,7 @@ const VehicleCard: React.FC<TVehicleResponse> = ({ _id, name, status, descriptio
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <FaEdit className="hover:scale-105 transition-all cursor-pointer" />
+                        <Link to={`/dashboard/admin/vehicles/manage/edit/${_id}`}><FaEdit className="hover:scale-105 transition-all cursor-pointer" /></Link>
                         <FaTrash onClick={handleDeleteVehicle} color="red" className="hover:scale-105 transition-all cursor-pointer" />
                     </div>
                 </div>

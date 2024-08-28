@@ -205,7 +205,7 @@ const AddVehicle: FC = () => {
                                 {...field}
                                 id="description"
                                 showCount
-                                maxLength={500}
+                                maxLength={2000}
                                 placeholder="Write Detailed Description About Vehicle"
                                 className="h-32" // Tailwind CSS class for height
                                 aria-label="Description"
