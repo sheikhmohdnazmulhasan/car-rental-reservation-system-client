@@ -17,6 +17,7 @@ import LoadingSpinier from "../../../../../components/global/LoadingSpinier";
 import FetchErrorElmt from "../../../../../components/error/FetchErrorElmt";
 import { usePatchVehicleMutation } from "../../../../../redux/features/vehicle/vehicle.api";
 import toast from "react-hot-toast";
+import uploadImageToImgBb from "../../../../../utils/uploadImageToImgBb";
 
 // Infer the TypeScript type from the schema
 type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidationSchema>;
@@ -55,7 +56,21 @@ const EditVehicle: React.FC = () => {
         const toastId = toast.loading('Working...');
         if (`${initialValues?.photo.slice(0, 35)}...` !== showFileName?.name) {
             // photo changed. wll upload the new image in imgBb
-            console.log('photo change');
+
+            const imgBbResponse = await uploadImageToImgBb(showFileName as File);
+            if (imgBbResponse.success) {
+                await patchVehicle({
+                    _id,
+                    payload: { ...data, photo: imgBbResponse.url }
+                }).then(() => {
+                    toast.success(`${initialValues?.name} is Updated Successfully 🥱`, { id: toastId });
+                    navigate(`/dashboard/admin/vehicles/manage/view`);
+
+                }).catch((error) => {
+                    console.log(error);
+                    toast.error('Something went wrong 🫥', { id: toastId });
+                });
+            };
 
         } else {
             await patchVehicle({
