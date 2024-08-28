@@ -9,4 +9,4 @@ export const fuelTypesOptions: string[] = [
     "Ethanol",
     "Biodiesel",
     "Flex Fuel"
-];
+] as const;

@@ -9,4 +9,4 @@ export const heroDistrictFilterOptions: string[] = [
     "Natore", "Netrokona", "Nilphamari", "Noakhali", "Pabna", "Panchagarh", "Patuakhali", "Pirojpur",
     "Rajbari", "Rajshahi", "Rangamati", "Rangpur", "Satkhira", "Shariatpur", "Sherpur", "Sirajganj",
     "Sunamganj", "Sylhet", "Tangail", "Thakurgaon"
-];
+] as const;

@@ -17,5 +17,5 @@ export const carFeatures: string[] = [
     "360-Degree Camera",
     "Ventilated Seats",
     "Keyless Entry"
-];
+] as const;
 
