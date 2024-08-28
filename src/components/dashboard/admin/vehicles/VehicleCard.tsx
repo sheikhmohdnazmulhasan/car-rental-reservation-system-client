@@ -1,11 +1,44 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { TVehicleResponse } from "../../../../interface/response.vehicle.interface";
+import { useDeleteVehicleMutation } from "../../../../redux/features/vehicle/vehicle.api";
+import Swal from 'sweetalert2'
 
 const VehicleCard: React.FC<TVehicleResponse> = ({ _id, name, status, description, pricePerHour, location, photo }) => {
+    const [deleteVehicle] = useDeleteVehicleMutation();
 
     const handleDeleteVehicle = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
 
+                try {
+                    const res = await deleteVehicle({ id: _id });
+                    if (res?.data?.success) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: `${name} has been deleted.`,
+                            icon: "success"
+                        });
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Something went wrong!",
+                        text: "An unexpected error occurred."
+                    });
+                }
+            }
+        });
     }
 
     return (
