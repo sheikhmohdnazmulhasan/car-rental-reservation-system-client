@@ -9,10 +9,12 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 import uploadImageToImgBb from '../../utils/uploadImageToImgBb';
+import LoadingSpinier from '../../components/global/LoadingSpinier';
+import FetchErrorElmt from '../../components/error/FetchErrorElmt';
 
 const ProfileSettings: React.FC = () => {
     const user = useAppSelector(useCurrentUser);
-    const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
+    const { data: fullUser, isLoading, isError } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
     const [patchUser] = usePatchUserMutation();
     const { register, handleSubmit } = useForm();
     const dispatch = useAppDispatch();
@@ -52,7 +54,6 @@ const ProfileSettings: React.FC = () => {
         }
 
         const toastId = toast.loading('Working...');
-
         if (data.password) {
             const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -100,6 +101,9 @@ const ProfileSettings: React.FC = () => {
             }
         }
     }
+
+    if (isLoading && !isError) return <LoadingSpinier />;
+    if (isError) return <FetchErrorElmt />;
 
     return (
         <div className="">

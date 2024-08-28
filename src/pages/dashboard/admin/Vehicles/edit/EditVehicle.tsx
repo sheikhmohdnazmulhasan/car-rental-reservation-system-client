@@ -14,14 +14,16 @@ import { fuelTypesOptions } from "../../../../../const/options.fuel_types";
 import { carFeatures } from "../../../../../const/options.features";
 import { TVehicleResponse } from "../../../../../interface/response.vehicle.interface";
 import LoadingSpinier from "../../../../../components/global/LoadingSpinier";
+import FetchErrorElmt from "../../../../../components/error/FetchErrorElmt";
 
 // Infer the TypeScript type from the schema
 type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidationSchema>;
 
 const EditVehicle = () => {
     const { _id } = useParams();
-    const [showFileName, setShowFileName] = useState<SetStateAction<{ name: string } | null>>(null);
+    const [showFileName, setShowFileName] = useState<SetStateAction<{ name: string }>>({ name: 'Error' });
     const [initialValues, setInitialValues] = useState<TVehicleResponse | null>(null);
+    const [fetchError, setFetchError] = useState<SetStateAction<boolean>>(false)
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<createVehicleSchema>({
         resolver: zodResolver(VehicleValidation.createVehicleValidationSchema)
     });
@@ -38,6 +40,7 @@ const EditVehicle = () => {
                 });
             } catch (error) {
                 console.error("Failed to fetch vehicle", error);
+                setFetchError(true);
             }
         };
 
@@ -52,7 +55,10 @@ const EditVehicle = () => {
         }
     }
 
-    if (!initialValues) return <LoadingSpinier />
+    if (!initialValues && !fetchError) return <div className="mt-20">
+        <LoadingSpinier />;
+    </div>
+    if (fetchError) return <FetchErrorElmt />;
 
     return (
         <div>

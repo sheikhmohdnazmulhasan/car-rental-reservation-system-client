@@ -35,16 +35,16 @@ export const router = createBrowserRouter([
         path: '/dashboard/admin',
         element: <AdminRoot />,
         children: [
-          { path: '/dashboard/admin/overview', element: <AdminOverview /> },
-          { path: '/dashboard/admin/vehicles/manage/view', element: <AllVehicles /> },
-          { path: '/dashboard/admin/vehicles/manage/new', element: <AddVehicle /> },
-          { path: '/dashboard/admin/vehicles/manage/edit/:_id', element: <EditVehicle /> },
-          { path: '/dashboard/admin/bookings/manage/upcoming', element: <UpcomingBookings /> },
-          { path: '/dashboard/admin/bookings/manage/ongoing', element: <OngoingBookings /> },
-          { path: '/dashboard/admin/bookings/manage/success', element: <SuccessfulBookings /> },
-          { path: '/dashboard/admin/bookings/manage/canceled', element: <CanceledBookings /> },
-          { path: '/dashboard/admin/users/manage/admins', element: <Admins /> },
-          { path: '/dashboard/admin/users/manage/customers', element: <Customers /> },
+          { path: 'overview', element: <AdminOverview /> },
+          { path: 'vehicles/manage/view', element: <AllVehicles /> },
+          { path: 'vehicles/manage/new', element: <AddVehicle /> },
+          { path: 'vehicles/manage/edit/:_id', element: <EditVehicle /> },
+          { path: 'bookings/manage/upcoming', element: <UpcomingBookings /> },
+          { path: 'bookings/manage/ongoing', element: <OngoingBookings /> },
+          { path: 'bookings/manage/success', element: <SuccessfulBookings /> },
+          { path: 'bookings/manage/canceled', element: <CanceledBookings /> },
+          { path: 'users/manage/admins', element: <Admins /> },
+          { path: 'users/manage/customers', element: <Customers /> },
         ]
       }
     ]
