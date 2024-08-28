@@ -45,7 +45,11 @@ const EditVehicle = () => {
     }, [_id, setValue]);
 
     const handleUpdateVehicle: SubmitHandler<FieldValues> = async (data) => {
+        if (`${initialValues?.photo.slice(0, 35)}...` !== showFileName?.name) {
+            // photo changed. wll upload the new image in imgBb
+            console.log('photo change');
 
+        }
     }
 
     if (!initialValues) return <LoadingSpinier />
@@ -210,7 +214,7 @@ const EditVehicle = () => {
                     <div>
                         <label htmlFor="type2-1" className="flex max-w-[380px] md:w-[380px]">
                             <div className="w-fit whitespace-nowrap  bg-rose-500  px-2 py-1 text-sm text-white">Choose File</div>
-                            <div className=" flex w-full max-w-[380px] items-center  border-b-[2px] border-rose-500 px-2 text-sm font-medium text-gray-400">{showFileName ? showFileName!.name : 'No File Chosen'}</div>
+                            <div className=" flex w-full max-w-[380px] items-center  border-b-[2px] border-rose-500 px-2 text-sm font-medium text-gray-400">{showFileName!.name.length > 35 ? `${showFileName!.name.slice(0, 35)}...` : showFileName!.name}</div>
                         </label>
                         <input
                             onChange={(e) => {
