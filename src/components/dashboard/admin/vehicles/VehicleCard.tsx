@@ -2,7 +2,12 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { TVehicleResponse } from "../../../../interface/response.vehicle.interface";
 
-const VehicleCard: React.FC<TVehicleResponse> = ({ name, status, description, pricePerHour, location, photo }) => {
+const VehicleCard: React.FC<TVehicleResponse> = ({ _id, name, status, description, pricePerHour, location, photo }) => {
+
+    const handleDeleteVehicle = () => {
+
+    }
+
     return (
         <div className="relative flex flex-row border bg-white">
 
@@ -28,7 +33,7 @@ const VehicleCard: React.FC<TVehicleResponse> = ({ name, status, description, pr
                     </div>
                     <div className="flex gap-2">
                         <FaEdit className="hover:scale-105 transition-all cursor-pointer" />
-                        <FaTrash color="red" className="hover:scale-105 transition-all cursor-pointer" />
+                        <FaTrash onClick={handleDeleteVehicle} color="red" className="hover:scale-105 transition-all cursor-pointer" />
                     </div>
                 </div>
             </div>

@@ -18,7 +18,15 @@ const vehicleApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['vehicle']
         }),
+
+        deleteVehicle: builder.mutation({
+            query: (args) => ({
+                url: `cars/${args?.vehicle_Id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['vehicle']
+        })
     })
 })
 
-export const { useCreateVehicleMutation, useGetVehiclesQuery } = vehicleApi
+export const { useCreateVehicleMutation, useGetVehiclesQuery, useDeleteVehicleMutation } = vehicleApi
