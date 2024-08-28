@@ -29,4 +29,8 @@ const vehicleApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useCreateVehicleMutation, useGetVehiclesQuery, useDeleteVehicleMutation } = vehicleApi
+export const {
+    useCreateVehicleMutation,
+    useGetVehiclesQuery,
+    useDeleteVehicleMutation
+} = vehicleApi

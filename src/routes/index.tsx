@@ -16,6 +16,7 @@ import OngoingBookings from "../pages/dashboard/admin/bookings/OngoingBookings";
 import Admins from "../pages/dashboard/admin/users/Admins";
 import Customers from "../pages/dashboard/admin/users/Customers";
 import ProfileSettings from "../pages/profile/ProfileSettings";
+import EditVehicle from "../pages/dashboard/admin/Vehicles/edit/EditVehicle";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
           { path: '/dashboard/admin/overview', element: <AdminOverview /> },
           { path: '/dashboard/admin/vehicles/manage/view', element: <AllVehicles /> },
           { path: '/dashboard/admin/vehicles/manage/new', element: <AddVehicle /> },
+          { path: '/dashboard/admin/vehicles/manage/edit/:_id', element: <EditVehicle /> },
           { path: '/dashboard/admin/bookings/manage/upcoming', element: <UpcomingBookings /> },
           { path: '/dashboard/admin/bookings/manage/ongoing', element: <OngoingBookings /> },
           { path: '/dashboard/admin/bookings/manage/success', element: <SuccessfulBookings /> },
