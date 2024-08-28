@@ -161,7 +161,8 @@ const AddVehicle: FC = () => {
                                     showSearch
                                     mode="tags"
                                     placeholder='Select Your Vehicle Features'
-                                    style={{ width: '100%', height: '40px' }}
+                                    style={{ width: '100%' }}
+                                    size="large"
                                     optionFilterProp="label"
                                     options={antSelectOptionsGenerator(carFeatures)}
                                     aria-label="Features"
@@ -245,3 +246,4 @@ const AddVehicle: FC = () => {
 };
 
 export default AddVehicle;
+

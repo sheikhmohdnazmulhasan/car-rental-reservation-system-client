@@ -18,8 +18,18 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithAdditionalFeatures: BaseQueryFn<FetchArgs, BaseQueryApi, DefinitionType> = async (args, api, extraOptions): Promise<any> => {
     const result = await baseQuery(args, api, extraOptions);
 
-    if (result?.error?.status === 400) {
-        toast.error(result.error.data.message);
+    switch (result?.error?.status) {
+        case 401:
+            console.log('access token invalid or expired');
+            // TODO: call "/api/auth/refresh-token" (GET) for getting new access token.
+            break;
+
+        case 400:
+            toast.error(result.error.data.message);
+            break;
+
+        default:
+            break;
     }
 
     return result;
@@ -28,7 +38,7 @@ const baseQueryWithAdditionalFeatures: BaseQueryFn<FetchArgs, BaseQueryApi, Defi
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithAdditionalFeatures,
-    tagTypes: ['patchUser', 'patchUserRole'],
+    tagTypes: ['patchUser', 'patchUserRole', 'vehicle'],
     endpoints: () => ({})
 })
 

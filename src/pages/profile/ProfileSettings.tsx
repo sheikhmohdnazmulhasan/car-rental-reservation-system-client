@@ -21,11 +21,9 @@ const ProfileSettings: React.FC = () => {
     const handleProfilePictureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const toastId = toast.loading('Working...');
         if (event.target.files && event.target.files[0]) {
-
             const imgBbResponse = await uploadImageToImgBb(event.target.files[0]);
 
             if (imgBbResponse.success) {
-
                 const serverResponse = await patchUser({
                     query: user?.user,
                     payload: {
@@ -98,7 +96,7 @@ const ProfileSettings: React.FC = () => {
                 toast.success('Profile Details Updated 🫡', { id: toastId });
 
             } else {
-                toast.success('Oops! Something went wrong 🙁', { id: toastId });
+                toast.error('Oops! Something went wrong 🙁', { id: toastId });
             }
         }
     }

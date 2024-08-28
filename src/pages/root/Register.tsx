@@ -72,7 +72,7 @@ const Register = () => {
                                 </div>
                                 <div>
                                     <label htmlFor="number" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
-                                    <input type="number" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: 01700000000" {...register('phone')} />
+                                    <input type="number" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: 01700000000" {...register('phone')} />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
@@ -83,7 +83,7 @@ const Register = () => {
                                 </div>
                                 <div>
                                     <label htmlFor="password2" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                                    <input type={showPassword2 ? 'text' : 'password'} id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required {...register('password2')} />
+                                    <input type={showPassword2 ? 'text' : 'password'} id="password2" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required {...register('password2')} />
                                     <p className="absolute hidden md:flex -mt-8 cursor-pointer ml-[350px]" onClick={() => setShowPassword2(!showPassword2)}>
                                         {showPassword2 ? <FaEyeSlash /> : <FaEye />}
                                     </p>
