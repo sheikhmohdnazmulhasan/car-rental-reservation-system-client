@@ -3,9 +3,9 @@ const { TextArea } = Input;
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { TypeOf } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { VehicleValidation } from "../../../../../schemas/vehicle.schema";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import antSelectOptionsGenerator from "../../../../../utils/AntSelectOptionsGenerator";
 import { heroDistrictFilterOptions } from "../../../../../const/filter.district";
@@ -15,15 +15,19 @@ import { carFeatures } from "../../../../../const/options.features";
 import { TVehicleResponse } from "../../../../../interface/response.vehicle.interface";
 import LoadingSpinier from "../../../../../components/global/LoadingSpinier";
 import FetchErrorElmt from "../../../../../components/error/FetchErrorElmt";
+import { usePatchVehicleMutation } from "../../../../../redux/features/vehicle/vehicle.api";
+import toast from "react-hot-toast";
 
 // Infer the TypeScript type from the schema
 type createVehicleSchema = TypeOf<typeof VehicleValidation.createVehicleValidationSchema>;
 
-const EditVehicle = () => {
+const EditVehicle: React.FC = () => {
     const { _id } = useParams();
     const [showFileName, setShowFileName] = useState<SetStateAction<{ name: string }>>({ name: 'Error' });
     const [initialValues, setInitialValues] = useState<TVehicleResponse | null>(null);
-    const [fetchError, setFetchError] = useState<SetStateAction<boolean>>(false)
+    const [fetchError, setFetchError] = useState<SetStateAction<boolean>>(false);
+    const [patchVehicle] = usePatchVehicleMutation();
+    const navigate = useNavigate();
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<createVehicleSchema>({
         resolver: zodResolver(VehicleValidation.createVehicleValidationSchema)
     });
@@ -48,12 +52,25 @@ const EditVehicle = () => {
     }, [_id, setValue]);
 
     const handleUpdateVehicle: SubmitHandler<FieldValues> = async (data) => {
+        const toastId = toast.loading('Working...');
         if (`${initialValues?.photo.slice(0, 35)}...` !== showFileName?.name) {
             // photo changed. wll upload the new image in imgBb
             console.log('photo change');
 
-        }
-    }
+        } else {
+            await patchVehicle({
+                _id,
+                payload: data,
+            }).then(() => {
+                toast.success(`${initialValues?.name} is Updated Successfully 🥱`, { id: toastId });
+                navigate(`/dashboard/admin/vehicles/manage/view`);
+
+            }).catch((error) => {
+                console.log(error);
+                toast.error('Something went wrong 🫥', { id: toastId });
+            });
+        };
+    };
 
     if (!initialValues && !fetchError) return <div className="mt-20">
         <LoadingSpinier />;
