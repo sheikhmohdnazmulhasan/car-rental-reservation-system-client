@@ -38,7 +38,7 @@ const baseQueryWithAdditionalFeatures: BaseQueryFn<FetchArgs, BaseQueryApi, Defi
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithAdditionalFeatures,
-    tagTypes: ['patchUser', 'patchUserRole', 'vehicle'],
+    tagTypes: ['patchUser', 'patchUserRole', 'vehicle', 'booking'],
     endpoints: () => ({})
 })
 
