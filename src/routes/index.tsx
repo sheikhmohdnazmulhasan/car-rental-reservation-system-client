@@ -3,8 +3,8 @@ import Root from "../Root";
 import Home from "../pages/root/Home";
 import About from "../pages/root/About";
 import Contact from "../pages/root/Contact";
-import Login from "../pages/root/Login";
-import Register from "../pages/root/Register";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
 import AdminRoot from "../pages/dashboard/admin/AdminRoot";
 import AdminOverview from "../pages/dashboard/admin/AdminOverview";
 import AllVehicles from "../pages/dashboard/admin/Vehicles/AllVehicles";
@@ -17,6 +17,7 @@ import Admins from "../pages/dashboard/admin/users/Admins";
 import Customers from "../pages/dashboard/admin/users/Customers";
 import ProfileSettings from "../pages/profile/ProfileSettings";
 import EditVehicle from "../pages/dashboard/admin/Vehicles/edit/EditVehicle";
+import Recover from "../pages/auth/Recover";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -26,8 +27,9 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
-      { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
+      { path: '/auth/login', element: <Login /> },
+      { path: '/auth/register', element: <Register /> },
+      { path: '/auth/recover', element: <Recover /> },
       { path: '/profile/settings', element: <ProfileSettings /> },
 
       // admin (protected)

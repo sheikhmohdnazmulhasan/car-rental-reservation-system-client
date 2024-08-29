@@ -34,7 +34,7 @@ const Navbar = () => {
                         Contact<span className={`mt-[2px] h-[3px] ${currentRoute === 'contact' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
                     </li>
                 </NavLink>
-                {!user ? <NavLink to={'/login'}>
+                {!user ? <NavLink to={'/auth/login'}>
                     <li className="group flex  cursor-pointer flex-col">
                         Sign In<span className={`mt-[2px] h-[3px] ${currentRoute === 'login' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
                     </li>
@@ -123,7 +123,7 @@ const Navbar = () => {
                                 </li>
                             </NavLink>
 
-                            {!user && <NavLink to={'/login'}>
+                            {!user && <NavLink to={'/auth/login'}>
                                 <li className="cursor-pointer  px-6 py-2">
                                     Sign in
                                 </li>

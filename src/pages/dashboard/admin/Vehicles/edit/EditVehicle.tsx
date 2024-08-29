@@ -63,7 +63,7 @@ const EditVehicle: React.FC = () => {
                     _id,
                     payload: { ...data, photo: imgBbResponse.url }
                 }).then(() => {
-                    toast.success(`${initialValues?.name} is Updated Successfully 🥱`, { id: toastId });
+                    toast.success(`${initialValues?.name} is Updated🥱`, { id: toastId });
                     navigate(`/dashboard/admin/vehicles/manage/view`);
 
                 }).catch((error) => {
@@ -77,7 +77,7 @@ const EditVehicle: React.FC = () => {
                 _id,
                 payload: data,
             }).then(() => {
-                toast.success(`${initialValues?.name} is Updated Successfully 🥱`, { id: toastId });
+                toast.success(`${initialValues?.name} is Updated🥱`, { id: toastId });
                 navigate(`/dashboard/admin/vehicles/manage/view`);
 
             }).catch((error) => {

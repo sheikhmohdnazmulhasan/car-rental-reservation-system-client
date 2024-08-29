@@ -102,8 +102,14 @@ const ProfileSettings: React.FC = () => {
         }
     }
 
-    if (isLoading && !isError) return <LoadingSpinier />;
-    if (isError) return <FetchErrorElmt />;
+    if (isLoading && !isError) return <div className="">
+        <Navbar />
+        <LoadingSpinier />
+    </div>;
+    if (isError) return <div className="">
+        <Navbar />
+        <FetchErrorElmt />
+    </div>;
 
     return (
         <div className="">
