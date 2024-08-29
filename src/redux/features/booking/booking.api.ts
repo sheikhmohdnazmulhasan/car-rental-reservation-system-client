@@ -14,7 +14,7 @@ const bookingApi = baseApi.injectEndpoints({
 
                 return {
                     url: '/bookings',
-                    method: 'POST',
+                    method: 'GET',
                     params,
                 };
             },

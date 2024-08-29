@@ -3,6 +3,7 @@ import { BaseQueryApi, BaseQueryFn, createApi, DefinitionType, FetchArgs, fetchB
 import toast from "react-hot-toast";
 import { RootState } from "../store";
 
+
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:5000/api',
     credentials: 'include',
