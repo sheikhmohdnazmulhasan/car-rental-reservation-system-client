@@ -25,7 +25,7 @@ const OngoingBookings = () => {
 
     return (
         <div className="">
-            <h1 className="text-2xl font-semibold mb-5">Manage Pending Bookings</h1>
+            <h1 className="text-2xl font-semibold mb-5">Manage Ongoing Bookings</h1>
             <div className="flex flex-col w-full  mx-auto">
                 {/* Column Headers */}
                 <div className="flex bg-gray-200 text-gray-700 font-semibold">

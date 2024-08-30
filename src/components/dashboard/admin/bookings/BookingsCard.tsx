@@ -72,6 +72,10 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                 }
             }
         });
+    };
+
+    async function handleDeleteCanceledBooking() {
+        console.log(booking._id);
     }
 
     return (
@@ -95,6 +99,8 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                     }} className={`border px-1 ${booking?.status === 'pending' ? 'bg-gray-200 hover:bg-gray-300' : 'bg-rose-600 hover:bg-rose-700 text-white'} rounded-md  transition-all hover:scale-105`}>{booking?.status === 'pending' ? 'Approve' : 'Return'}</button>}
 
                     {booking?.status === 'pending' && <button onClick={() => handleBookingStatus('cancel')} className="border bg-rose-600 text-white rounded-md hover:bg-rose-700 transition-all hover:scale-105 px-1 ">Cancel</button>}
+
+                    {booking?.status === 'canceled' && <button onClick={handleDeleteCanceledBooking} className="border bg-rose-600 text-white rounded-md hover:bg-rose-700 transition-all hover:scale-105 px-1 ">Delete</button>}
                 </div>
             </div>
         </div>
