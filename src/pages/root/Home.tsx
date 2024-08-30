@@ -1,3 +1,4 @@
+import Cta from "../../components/home/CTA";
 import Featured from "../../components/home/Featured";
 import { Hero } from "../../components/home/Hero";
 import HotRides from "../../components/home/HotRides";
@@ -15,6 +16,10 @@ const Home = () => {
                 <div className="">
                     <HotRides />
                 </div>
+                <div className="mt-10">
+                    <Cta />
+                </div>
+
                 <div className="">
                     <WhyChooseUs />
                 </div>

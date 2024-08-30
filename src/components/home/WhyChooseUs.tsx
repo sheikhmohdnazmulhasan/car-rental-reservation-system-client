@@ -2,7 +2,7 @@ import React from 'react';
 
 const WhyChooseUs: React.FC = () => {
     return (
-        <div className="mt-10">
+        <div className="">
 
             <section id="features"
                 className="relative block px-6 py-10 md:py-20 md:px-10">

@@ -120,6 +120,11 @@ const Navbar = () => {
                                     Home
                                 </li>
                             </NavLink>
+                            <NavLink to={'/vehicles'}>
+                                <li className="cursor-pointer  px-6 py-2 ">
+                                    Vehicles
+                                </li>
+                            </NavLink>
                             <NavLink to={'/about'}>
                                 <li className="cursor-pointer  px-6 py-2 ">
                                     About

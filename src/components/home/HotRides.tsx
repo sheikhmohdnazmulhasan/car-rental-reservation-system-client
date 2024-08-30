@@ -22,7 +22,7 @@ const HotRides: React.FC = () => {
                                             <div className="p-4">
                                                 <p className="uppercase tracking-wide text-sm font-bold text-gray-700">{vehicle?.name} • {vehicle?.color}</p>
                                                 <p className="text-gray-700">{vehicle?.location}</p>
-                                                <p className='text-gray-700'><span className='text-rose-600 font-semibold text-3xl'>$700</span>/Hour</p>
+                                                <p className='text-gray-700'><span className='text-rose-600 font-semibold text-3xl'>${vehicle?.pricePerHour}</span>/Hour</p>
                                             </div>
 
                                         </div>
