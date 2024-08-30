@@ -7,5 +7,6 @@ export interface TFullUser {
     address: string
     createdAt: Date,
     updatedAt: Date,
-    photo: string
+    photo: string,
+    __v?: number;
 }
