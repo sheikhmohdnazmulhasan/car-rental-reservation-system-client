@@ -33,8 +33,26 @@ const bookingApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags: ['booking', 'vehicle']
+        }),
+
+        deleteBooking: builder.mutation({
+            query: (args: { _id: string; }) => {
+                const params = new URLSearchParams;
+                params.append('_id', args._id);
+
+                return {
+                    url: `/bookings/delete`,
+                    method: 'DELETE',
+                    params,
+                }
+            },
+            invalidatesTags: ['booking', 'vehicle']
         })
     })
 });
 
-export const { useGetBookingForAdminQuery, usePatchBookingStatusMutation } = bookingApi;
+export const {
+    useGetBookingForAdminQuery,
+    usePatchBookingStatusMutation,
+    useDeleteBookingMutation
+} = bookingApi;
