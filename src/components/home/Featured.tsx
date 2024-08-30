@@ -4,6 +4,7 @@ import 'keen-slider/keen-slider.min.css';
 import { useGetVehiclesQuery } from '../../redux/features/vehicle/vehicle.api';
 import { TVehicleResponse } from '../../interface/response.vehicle.interface';
 import LoadingSpinier from '../global/LoadingSpinier';
+import { Link } from 'react-router-dom';
 
 const Featured: React.FC = () => {
     const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -111,39 +112,41 @@ const Featured: React.FC = () => {
 
                             {data?.data?.slice(2, 5).map((vehicle: TVehicleResponse, indx: number) => {
                                 return (
-                                    <div key={indx} className="keen-slider__slide">
-                                        <blockquote
-                                            className="flex h-full flex-col justify-between bg-white shadow-sm"
-                                        >
-                                            <div className="relative border flex flex-col md:flex-row bg-white ">
+                                    <Link to={'/'}>
+                                        <div key={indx} className="keen-slider__slide">
+                                            <blockquote
+                                                className="flex h-full flex-col justify-between bg-white shadow-sm"
+                                            >
+                                                <div className="relative border flex flex-col md:flex-row bg-white ">
 
-                                                < div className="bg-gray-200 absolute right-2 ring-0 top-2 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block" >
-                                                    {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
-                                                </ div>
+                                                    < div className="bg-gray-200 absolute right-2 ring-0 top-2 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block" >
+                                                        {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
+                                                    </ div>
 
-                                                <div className="w-full md:w-[50%] bg-white grid place-items-center">
-                                                    <img src={vehicle.photo} className="w-full h-full object-cover " />
-                                                </div>
-                                                <div className="w-full md:w-[50%] bg-white flex flex-col space-y-2 p-6">
-
-                                                    <h3 className="font-semibold text-gray-800 text-xl mt-1">{vehicle.name}</h3>
-                                                    <p className='md:block hidden'>{vehicle.description.slice(0, 100)}...</p>
-                                                    <p className='md:hidden'>{vehicle.description.slice(0, 50)}...</p>
-                                                    <div className="flex justify-between item-center">
-                                                        <p className="text-gray-500 font-medium hidden md:block"> <strong>Location:</strong>{vehicle.location} </p>
+                                                    <div className="w-full md:w-[50%] bg-white grid place-items-center">
+                                                        <img src={vehicle.photo} className="w-full h-full object-cover " />
                                                     </div>
-                                                    <div className="flex justify-between items-center">
-                                                        <div className="">
-                                                            <p className="text-xl font-black text-rose-600">
-                                                                ${vehicle.pricePerHour}
-                                                                <span className="font-normal text-gray-600 text-base">/Hour</span>
-                                                            </p>
+                                                    <div className="w-full md:w-[50%] bg-white flex flex-col space-y-2 p-6">
+
+                                                        <h3 className="font-semibold text-gray-800 text-xl mt-1">{vehicle.name}</h3>
+                                                        <p className='md:block hidden'>{vehicle.description.slice(0, 100)}...</p>
+                                                        <p className='md:hidden'>{vehicle.description.slice(0, 50)}...</p>
+                                                        <div className="flex justify-between item-center">
+                                                            <p className="text-gray-500 font-medium hidden md:block"> <strong>Location:</strong>{vehicle.location} </p>
+                                                        </div>
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="">
+                                                                <p className="text-xl font-black text-rose-600">
+                                                                    ${vehicle.pricePerHour}
+                                                                    <span className="font-normal text-gray-600 text-base">/Hour</span>
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </blockquote>
-                                    </div>
+                                            </blockquote>
+                                        </div>
+                                    </Link>
                                 )
                             })}
                         </div>

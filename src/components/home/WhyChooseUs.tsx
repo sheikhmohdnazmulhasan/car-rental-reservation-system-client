@@ -59,14 +59,7 @@ const WhyChooseUs: React.FC = () => {
                             From luxury cars to rugged SUVs, our extensive fleet ensures you find the perfect ride to match your style and needs.
                         </p>
                     </div>
-
                 </div>
-
-                <div className="absolute bottom-0 left-0 z-0 h-1/3 w-full border-b">
-                </div>
-                <div className="absolute bottom-0 right-0 z-0 h-1/3 w-full">
-                </div>
-
             </section>
         </div>
     );
