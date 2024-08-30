@@ -1,9 +1,10 @@
 import React from "react";
 import { TBookingCardProps } from "./BookingsCard";
+{/* date, statTime,  status*/ }
 
 const BookingDetails: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) => {
-    return <div className="">
 
+    return <div className="">
         {/* head */}
         <h3 className="text-xl font-semibold">Booking Details</h3>
         <p className="mb-5">{booking?.date}</p>
