@@ -19,6 +19,14 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
             confirmButtonText: `${action === 'approve' ? 'Yes, approve it!' : action === 'return' ? 'Yes, Return it!' : 'Cancel this booking!'}`
         }).then((result) => {
             if (result.isConfirmed) {
+                switch (action) {
+                    case 'approve':
+
+                        break;
+
+                    default:
+                        break;
+                }
 
 
                 // Swal.fire({

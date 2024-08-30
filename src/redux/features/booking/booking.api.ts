@@ -19,8 +19,22 @@ const bookingApi = baseApi.injectEndpoints({
                 };
             },
             providesTags: ['booking']
+        }),
+
+        patchBookingStatus: builder.mutation({
+            query: (args: { _id: string; action: string; }) => {
+                const params = new URLSearchParams;
+                params.append('action', args.action);
+
+                return {
+                    url: `/bookings/action/status/${args._id}`,
+                    method: 'PATCH',
+                    params,
+                }
+            },
+            invalidatesTags: ['booking']
         })
     })
 });
 
-export const { useGetBookingForAdminQuery } = bookingApi;
+export const { useGetBookingForAdminQuery, usePatchBookingStatusMutation } = bookingApi;
