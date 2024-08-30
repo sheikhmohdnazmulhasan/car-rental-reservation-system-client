@@ -48,7 +48,7 @@ export const Hero = () => {
                     <div className="relative flex justify-between mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8" >
                         <div className="max-w-3xl text-center ltr:sm:text-left rtl:sm:text-right">
                             {titles[currentSlider]}
-                            <p className="mt-4 max-w-lg text-white md:text-left sm:text-xl/relaxed">
+                            <p className="mt-4 max-w-lg  text-white md:text-left sm:text-xl/relaxed">
                                 Hit the road with RentNGo— your go-to car rental solution. Choose from a wide range of vehicles at unbeatable prices, with easy booking and 24/7 support. Enjoy flexible rentals and exclusive deals. Your journey starts here!"
                             </p>
 
