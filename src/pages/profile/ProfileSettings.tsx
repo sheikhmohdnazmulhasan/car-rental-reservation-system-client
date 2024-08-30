@@ -79,7 +79,7 @@ const ProfileSettings: React.FC = () => {
                 if (serverResponse.data?.success) {
                     toast.success('Profile Details Updated, Places Login again 😊', { id: toastId });
                     dispatch(logout());
-                    navigate('/login');
+                    navigate('/auth/login');
 
                 } else {
                     toast.success('Oops! Something went wrong 🙁', { id: toastId });

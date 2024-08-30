@@ -1,7 +1,7 @@
 import React from "react";
 import { TBookingResponse } from "../../../../interface/response.booking.interface";
 import Swal from "sweetalert2";
-import { usePatchBookingStatusMutation } from "../../../../redux/features/booking/booking.api";
+import { useDeleteBookingMutation, usePatchBookingStatusMutation } from "../../../../redux/features/booking/booking.api";
 import { useReturnVehicleMutation } from "../../../../redux/features/vehicle/vehicle.api";
 export interface TBookingCardProps {
     booking: TBookingResponse;
@@ -11,6 +11,7 @@ export interface TBookingCardProps {
 const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) => {
     const [patchBookingStatus] = usePatchBookingStatusMutation();
     const [returnVehicle] = useReturnVehicleMutation();
+    const [deleteBooking] = useDeleteBookingMutation();
 
     async function handleBookingStatus(action: 'approve' | 'cancel' | 'return') {
         Swal.fire({
@@ -21,6 +22,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: `${action === 'approve' ? 'Yes, approve it!' : action === 'return' ? 'Yes, Return it!' : 'Cancel this booking!'}`
+
         }).then(async (result) => {
             if (result.isConfirmed) {
                 if (action === 'return') {
@@ -75,7 +77,28 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
     };
 
     async function handleDeleteCanceledBooking() {
-        console.log(booking._id);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await deleteBooking({ _id: booking._id });
+
+                if (res?.data?.success) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Booking has been deleted.",
+                        icon: "success"
+                    });
+                }
+            }
+        });
     }
 
     return (
