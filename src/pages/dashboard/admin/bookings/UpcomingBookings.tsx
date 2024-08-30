@@ -5,12 +5,15 @@ import LoadingSpinier from "../../../../components/global/LoadingSpinier";
 import { useGetBookingForAdminQuery } from "../../../../redux/features/booking/booking.api";
 import { TBookingResponse } from "../../../../interface/response.booking.interface";
 import BookingDetails from "../../../../components/dashboard/admin/bookings/BookingDetails";
+import NoDataErrorElmt from "../../../../components/error/NoDataErrorElmt";
 
 const UpcomingBookings = () => {
     const { data, isLoading, isError } = useGetBookingForAdminQuery([{ status: 'pending' }]);
     const [clickedItem, setClickedItem] = useState<TBookingResponse | null>(null);
 
     if (isLoading) return <LoadingSpinier />;
+    if (!data?.data.length) return <NoDataErrorElmt />;
+
     if (isError) return <FetchErrorElmt />
 
     if (clickedItem) {

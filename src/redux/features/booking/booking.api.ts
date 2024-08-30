@@ -23,6 +23,7 @@ const bookingApi = baseApi.injectEndpoints({
 
         patchBookingStatus: builder.mutation({
             query: (args: { _id: string; action: string; }) => {
+                console.log(args._id);
                 const params = new URLSearchParams;
                 params.append('action', args.action);
 

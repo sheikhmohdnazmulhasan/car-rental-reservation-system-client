@@ -1,12 +1,14 @@
 import React from "react";
 import { TBookingResponse } from "../../../../interface/response.booking.interface";
 import Swal from "sweetalert2";
+import { usePatchBookingStatusMutation } from "../../../../redux/features/booking/booking.api";
 export interface TBookingCardProps {
     booking: TBookingResponse;
     setClickedItem: (id: TBookingResponse | null) => void;
 };
 
 const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) => {
+    const [patchBookingStatus] = usePatchBookingStatusMutation();
 
     async function handleBookingStatus(action: 'approve' | 'cancel' | 'return') {
         Swal.fire({
@@ -17,23 +19,19 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: `${action === 'approve' ? 'Yes, approve it!' : action === 'return' ? 'Yes, Return it!' : 'Cancel this booking!'}`
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                switch (action) {
-                    case 'approve':
-
-                        break;
-
-                    default:
-                        break;
+                const approveRes = await patchBookingStatus({
+                    _id: booking._id,
+                    action: action === 'approve' ? 'ongoing' : 'canceled'
+                });
+                if (approveRes?.data?.success) {
+                    Swal.fire({
+                        title: `${action === 'approve' ? 'Approved' : 'Canceled'}`,
+                        text: `Order has been ${action === 'approve' ? 'Approved' : 'Canceled'}`,
+                        icon: "success"
+                    });
                 }
-
-
-                // Swal.fire({
-                //     title: "Deleted!",
-                //     text: "Your file has been deleted.",
-                //     icon: "success"
-                // });
             }
         });
     }
