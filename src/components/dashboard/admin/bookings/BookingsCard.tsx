@@ -2,6 +2,7 @@ import React from "react";
 import { TBookingResponse } from "../../../../interface/response.booking.interface";
 import Swal from "sweetalert2";
 import { usePatchBookingStatusMutation } from "../../../../redux/features/booking/booking.api";
+import { useReturnVehicleMutation } from "../../../../redux/features/vehicle/vehicle.api";
 export interface TBookingCardProps {
     booking: TBookingResponse;
     setClickedItem: (id: TBookingResponse | null) => void;
@@ -9,6 +10,7 @@ export interface TBookingCardProps {
 
 const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) => {
     const [patchBookingStatus] = usePatchBookingStatusMutation();
+    const [returnVehicle] = useReturnVehicleMutation();
 
     async function handleBookingStatus(action: 'approve' | 'cancel' | 'return') {
         Swal.fire({
@@ -21,6 +23,44 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
             confirmButtonText: `${action === 'approve' ? 'Yes, approve it!' : action === 'return' ? 'Yes, Return it!' : 'Cancel this booking!'}`
         }).then(async (result) => {
             if (result.isConfirmed) {
+                if (action === 'return') {
+                    const hours = new Date().getHours().toString().padStart(2, '0');
+                    const minutes = new Date().getMinutes().toString().padStart(2, '0');
+                    const endTime = `${hours}:${minutes}`
+
+                    const returnRes = await returnVehicle({
+                        payload: {
+                            bookingId: booking._id,
+                            endTime
+                        },
+                    });
+
+                    console.log(returnRes);
+
+                    if (returnRes?.data?.success) {
+                        Swal.fire({
+                            title: `Total acceptable amount $${returnRes?.data?.data?.totalCost}`,
+                            text: "Do you want to mail the payment link to customer?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: `Yes, email to ${returnRes?.data?.data?.user?.email}`
+
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // ! email to customer for clear payment with payment link
+                                // Swal.fire({
+                                //     title: "Deleted!",
+                                //     text: "Your file has been deleted.",
+                                //     icon: "success"
+                                // });
+                            }
+                        });
+                    };
+                    return;
+                }
+
                 const approveRes = await patchBookingStatus({
                     _id: booking._id,
                     action: action === 'approve' ? 'ongoing' : 'canceled'

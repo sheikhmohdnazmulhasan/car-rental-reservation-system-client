@@ -34,6 +34,15 @@ const vehicleApi = baseApi.injectEndpoints({
                 method: 'DELETE'
             }),
             invalidatesTags: ['vehicle']
+        }),
+
+        returnVehicle: builder.mutation({
+            query: (args: { payload: { bookingId: string; endTime: string } }) => ({
+                url: `/cars/return`,
+                method: 'PUT',
+                body: args.payload
+            }),
+            invalidatesTags: ['vehicle', 'booking']
         })
     })
 })
@@ -42,5 +51,6 @@ export const {
     useCreateVehicleMutation,
     useGetVehiclesQuery,
     usePatchVehicleMutation,
+    useReturnVehicleMutation,
     useDeleteVehicleMutation
 } = vehicleApi
