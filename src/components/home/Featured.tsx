@@ -132,7 +132,7 @@ const Featured: React.FC = () => {
                                                         <p className='md:block hidden'>{vehicle.description.slice(0, 100)}...</p>
                                                         <p className='md:hidden'>{vehicle.description.slice(0, 50)}...</p>
                                                         <div className="flex justify-between item-center">
-                                                            <p className="text-gray-500 font-medium hidden md:block"> <strong>Location:</strong>{vehicle.location} </p>
+                                                            <p className="text-gray-500 font-medium hidden md:block"> <strong>Location:</strong> {vehicle.location} </p>
                                                         </div>
                                                         <div className="flex justify-between items-center">
                                                             <div className="">

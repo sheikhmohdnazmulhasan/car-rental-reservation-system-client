@@ -12,10 +12,8 @@ const UpcomingBookings = () => {
     const [clickedItem, setClickedItem] = useState<TBookingResponse | null>(null);
 
     if (isLoading) return <LoadingSpinier />;
-    if (!data?.data.length) return <NoDataErrorElmt />;
-
+    if (!data?.data.length && !isError) return <NoDataErrorElmt />;
     if (isError) return <FetchErrorElmt />
-
     if (clickedItem) {
         return <BookingDetails
             booking={clickedItem as TBookingResponse}

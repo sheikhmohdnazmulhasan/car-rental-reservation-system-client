@@ -24,6 +24,13 @@ const Navbar = () => {
                         Home<span className={`mt-[2px] h-[3px] ${!currentRoute ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
                     </li>
                 </NavLink>
+
+                <NavLink to={'/vehicles'}>
+                    <li className="group flex  cursor-pointer flex-col">
+                        Vehicles<span className={`mt-[2px] h-[3px] ${currentRoute === 'vehicles' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
+                    </li>
+                </NavLink>
+
                 <NavLink to={'/about'}>
                     <li className="group flex  cursor-pointer flex-col">
                         About<span className={`mt-[2px] h-[3px] ${currentRoute === 'about' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
@@ -34,6 +41,7 @@ const Navbar = () => {
                         Contact<span className={`mt-[2px] h-[3px] ${currentRoute === 'contact' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
                     </li>
                 </NavLink>
+
                 {!user ? <NavLink to={'/auth/login'}>
                     <li className="group flex  cursor-pointer flex-col">
                         Sign In<span className={`mt-[2px] h-[3px] ${currentRoute === 'login' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
