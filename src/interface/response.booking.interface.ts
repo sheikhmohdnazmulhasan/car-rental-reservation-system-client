@@ -36,5 +36,4 @@ export interface TBookingResponse {
     status: string;
     createdAt: string;
     updatedAt: string;
-    setClickedItem?: (id: string) => void
 }

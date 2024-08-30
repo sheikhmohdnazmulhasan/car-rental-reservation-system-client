@@ -1,14 +1,21 @@
+import { useState } from "react";
 import BookingCard from "../../../../components/dashboard/admin/bookings/BookingsCard";
 import FetchErrorElmt from "../../../../components/error/FetchErrorElmt";
 import LoadingSpinier from "../../../../components/global/LoadingSpinier";
 import { useGetBookingForAdminQuery } from "../../../../redux/features/booking/booking.api";
+import { TBookingResponse } from "../../../../interface/response.booking.interface";
+import BookingDetails from "../../../../components/dashboard/admin/bookings/BookingDetails";
 
 const UpcomingBookings = () => {
     const { data, isLoading, isError } = useGetBookingForAdminQuery([{ status: 'pending' }]);
-    console.log(data);
+    const [clickedItem, setClickedItem] = useState<TBookingResponse | null>(null);
 
-    // if (isLoading) return <LoadingSpinier />;
-    // if (isError) return <FetchErrorElmt />
+    if (isLoading) return <LoadingSpinier />;
+    if (isError) return <FetchErrorElmt />
+
+    if (clickedItem) {
+        return <BookingDetails booking={clickedItem} setClickedItem={setClickedItem} />
+    }
 
     return (
         <div className="">
@@ -22,7 +29,11 @@ const UpcomingBookings = () => {
                     <div className="flex-1 py-2 px-4">Location</div>
                     <div className="flex-1 py-2 px-4">Action</div>
                 </div>
-                <BookingCard />
+                {
+                    data?.data?.map((booking: TBookingResponse, indx: number) => {
+                        return <BookingCard key={indx} booking={booking} setClickedItem={setClickedItem} />
+                    })
+                }
             </div>
         </div>
     );
