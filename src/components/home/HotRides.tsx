@@ -9,19 +9,19 @@ const HotRides: React.FC = () => {
     return (
         <div className='flex md:flex-row flex-col-reverse  md:justify-center md:items-center'>
             <div className="md:flex ">
-                {data?.data?.slice(4, 7).reverse().map((vehicle: TVehicleResponse, indx: number) => {
+                {data?.data?.slice(4, 7)?.reverse()?.map((vehicle: TVehicleResponse, indx: number) => {
                     return (
                         <Link to={''}>
                             <div key={indx} className="w-full md:w-72 hover:scale-105 transition-all">
                                 <div className="flex items-center justify-center">
                                     <div className="max-w-sm w-full sm:w-full lg:w-full py-6 px-3">
-                                        <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+                                        <div className="bg-white shadow-xl rounded-md overflow-hidden">
                                             <div className="bg-cover bg-center h-56 p-4"
-                                                style={{ backgroundImage: `url(${vehicle.photo})` }}>
+                                                style={{ backgroundImage: `url(${vehicle?.photo})` }}>
                                             </div>
                                             <div className="p-4">
-                                                <p className="uppercase tracking-wide text-sm font-bold text-gray-700">Detached house • 5y old</p>
-                                                <p className="text-gray-700">742 Evergreen Terrace</p>
+                                                <p className="uppercase tracking-wide text-sm font-bold text-gray-700">{vehicle?.name} • {vehicle?.color}</p>
+                                                <p className="text-gray-700">{vehicle?.location}</p>
                                                 <p className='text-gray-700'><span className='text-rose-600 font-semibold text-3xl'>$700</span>/Hour</p>
                                             </div>
 
