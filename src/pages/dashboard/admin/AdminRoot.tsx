@@ -74,9 +74,9 @@ const AdminRoot = () => {
                                     <li className={selectedRoute === '/admin/bookings/manage/ongoing' ? 'bg-rose-600 rounded-md text-white' : undefined} onClick={() => setSelectedRoute('/admin/bookings/manage/ongoing')}>
                                         <Link to={'/dashboard/admin/bookings/manage/ongoing'} className="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11">Ongoing Bookings</Link>
                                     </li>
-                                    <li className={selectedRoute === '/admin/bookings/manage/success' ? 'bg-rose-600 rounded-md text-white' : undefined} onClick={() => setSelectedRoute('/admin/bookings/manage/success')}>
+                                    {/* <li className={selectedRoute === '/admin/bookings/manage/success' ? 'bg-rose-600 rounded-md text-white' : undefined} onClick={() => setSelectedRoute('/admin/bookings/manage/success')}>
                                         <Link to={'/dashboard/admin/bookings/manage/success'} className="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11 ">Successful Bookings</Link>
-                                    </li>
+                                    </li> */}
                                     <li className={selectedRoute === '/admin/bookings/manage/canceled' ? 'bg-rose-600 rounded-md text-white' : undefined} onClick={() => setSelectedRoute('/admin/bookings/manage/canceled')}>
                                         <Link to={'/dashboard/admin/bookings/manage/canceled'} className="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11">Canceled Bookings</Link>
                                     </li>

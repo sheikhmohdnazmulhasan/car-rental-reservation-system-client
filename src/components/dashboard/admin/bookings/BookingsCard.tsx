@@ -35,8 +35,6 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                         },
                     });
 
-                    console.log(returnRes);
-
                     if (returnRes?.data?.success) {
                         Swal.fire({
                             title: `Total acceptable amount $${returnRes?.data?.data?.totalCost}`,
@@ -61,11 +59,11 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                     return;
                 }
 
-                const approveRes = await patchBookingStatus({
+                const res = await patchBookingStatus({
                     _id: booking._id,
                     action: action === 'approve' ? 'ongoing' : 'canceled'
                 });
-                if (approveRes?.data?.success) {
+                if (res?.data?.success) {
                     Swal.fire({
                         title: `${action === 'approve' ? 'Approved' : 'Canceled'}`,
                         text: `Order has been ${action === 'approve' ? 'Approved' : 'Canceled'}`,
@@ -91,10 +89,10 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                         }
                     }} className="border bg-gray-200 hover:bg-gray-300 transition-all hover:scale-105 px-1 rounded-md">View</button>
 
-                    <button onClick={() => {
+                    {booking.status !== 'canceled' && <button onClick={() => {
                         handleBookingStatus(booking?.status === 'pending' ? 'approve' : 'return');
 
-                    }} className={`border px-1 ${booking?.status === 'pending' ? 'bg-gray-200 hover:bg-gray-300' : 'bg-rose-600 hover:bg-rose-700 text-white'} rounded-md  transition-all hover:scale-105`}>{booking?.status === 'pending' ? 'Approve' : 'Return'}</button>
+                    }} className={`border px-1 ${booking?.status === 'pending' ? 'bg-gray-200 hover:bg-gray-300' : 'bg-rose-600 hover:bg-rose-700 text-white'} rounded-md  transition-all hover:scale-105`}>{booking?.status === 'pending' ? 'Approve' : 'Return'}</button>}
 
                     {booking?.status === 'pending' && <button onClick={() => handleBookingStatus('cancel')} className="border bg-rose-600 text-white rounded-md hover:bg-rose-700 transition-all hover:scale-105 px-1 ">Cancel</button>}
                 </div>
