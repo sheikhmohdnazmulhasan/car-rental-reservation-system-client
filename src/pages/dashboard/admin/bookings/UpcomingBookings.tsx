@@ -14,7 +14,10 @@ const UpcomingBookings = () => {
     if (isError) return <FetchErrorElmt />
 
     if (clickedItem) {
-        return <BookingDetails booking={clickedItem} setClickedItem={setClickedItem} />
+        return <BookingDetails
+            booking={clickedItem as TBookingResponse}
+            setClickedItem={setClickedItem}
+        />
     }
 
     return (
@@ -26,7 +29,7 @@ const UpcomingBookings = () => {
                     <div className="flex-1 py-2 px-4">Vehicle</div>
                     <div className="flex-1 py-2 px-4">Date</div>
                     <div className="flex-1 py-2 px-4">Email</div>
-                    <div className="flex-1 py-2 px-4">Location</div>
+                    <div className="flex-1 py-2 px-4">Address</div>
                     <div className="flex-1 py-2 px-4">Action</div>
                 </div>
                 {

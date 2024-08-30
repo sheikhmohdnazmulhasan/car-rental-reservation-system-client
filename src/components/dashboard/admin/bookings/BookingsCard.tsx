@@ -3,7 +3,7 @@ import { TBookingResponse } from "../../../../interface/response.booking.interfa
 
 export interface TBookingCardProps {
     booking: TBookingResponse;
-    setClickedItem: (id: string | null) => void;
+    setClickedItem: (id: TBookingResponse | null) => void;
 };
 
 const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) => {
@@ -18,8 +18,8 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                 <div className="flex-1 py-2 px-4 border-b border-gray-300 space-x-2">
 
                     <button onClick={() => {
-                        if (booking._id && setClickedItem) {
-                            setClickedItem(booking._id)
+                        if (booking && setClickedItem) {
+                            setClickedItem(booking)
                         }
                     }} className="border bg-gray-200 hover:bg-gray-300 transition-all hover:scale-105 px-1 rounded-md">View</button>
 
