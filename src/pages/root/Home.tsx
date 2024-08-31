@@ -5,6 +5,7 @@ import HotRides from "../../components/home/HotRides";
 import Team from "../../components/home/Team";
 import Testimonial from "../../components/home/Testimonial";
 import WhyChooseUs from "../../components/home/WhyChooseUs";
+import Footer from "../../components/root/Footer";
 import Navbar from "../../components/root/Navbar";
 
 const Home = () => {
@@ -29,6 +30,9 @@ const Home = () => {
                 </div>
                 <div className="">
                     <Testimonial />
+                </div>
+                <div className="">
+                    <Footer />
                 </div>
             </div>
         </div>
