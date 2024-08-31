@@ -8,6 +8,7 @@ import { heroDistrictFilterOptions } from "../../const/filter.district";
 import { Select } from "antd";
 import VehicleCard from "../../components/vehicle/VehicleCard";
 import { useLocation } from "react-router-dom";
+import LoadingSpinier from "../../components/global/LoadingSpinier";
 
 const Vehicles = () => {
     const routerLocation = useLocation();
@@ -21,6 +22,9 @@ const Vehicles = () => {
     const [sortOrder, setSortOrder] = useState<string>('asc');
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+
 
     function handleSearch(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -29,17 +33,24 @@ const Vehicles = () => {
     }
 
     const fetchProducts = async (): Promise<void> => {
-        const response = await axios.get('http://localhost:5000/api/cars', {
-            params: {
-                searchTerm,
-                location,
-                color,
-                minPrice,
-                maxPrice,
-                sortOrder,
-            },
-        });
-        setData(response.data.data);
+        try {
+            const response = await axios.get('http://localhost:5000/api/cars', {
+                params: {
+                    searchTerm,
+                    location,
+                    color,
+                    minPrice,
+                    maxPrice,
+                    sortOrder,
+                },
+            });
+            setData(response.data.data);
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false);
+            setIsError(true);
+            console.log(error);
+        }
     };
 
     const clearFilters = () => {
@@ -91,8 +102,8 @@ const Vehicles = () => {
                                         placeholder='Shot Price'
                                         optionFilterProp="label"
                                         options={[
-                                            { value: 'asc', label: 'Low To High' },
-                                            { value: 'desc', label: 'High To Low' },
+                                            { value: 'desc', label: 'Low To High' },
+                                            { value: 'asc', label: 'High To Low' },
                                         ]}
                                         aria-label="Price"
                                         onChange={setSortOrder}
@@ -157,8 +168,8 @@ const Vehicles = () => {
                                     style={{ width: '100%', }}
                                     optionFilterProp="label"
                                     options={[
-                                        { value: 'asc', label: 'Low To High' },
-                                        { value: 'desc', label: 'High To Low' },
+                                        { value: 'desc', label: 'Low To High' },
+                                        { value: 'asc', label: 'High To Low' },
                                     ]}
                                     aria-label="Price"
                                     onChange={setSortOrder}
@@ -195,6 +206,13 @@ const Vehicles = () => {
                     </div>
                 </div>
 
+                {isLoading && <LoadingSpinier />}
+                {!isLoading && isError && <div className="flex justify-center items-center mt-52 ">
+                    <p className="text-sm">Request failed with status code 500 🙏</p>
+                </div>}
+                {!data?.length && !isLoading && !isError && <div className="flex justify-center items-center mt-52 ">
+                    <p className="text-xl">Bro! It's Empty😑</p>
+                </div>}
                 {/* card */}
                 <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
                     {
