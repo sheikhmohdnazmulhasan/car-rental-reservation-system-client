@@ -8,7 +8,7 @@ const WhyChooseUs: React.FC = () => {
                 className="relative block px-6 py-10 md:py-20 md:px-10">
 
                 <div className="relative mx-auto max-w-5xl text-center">
-                    <span className="text-gray-700 my-3 flex items-center justify-center font-medium uppercase tracking-wider">
+                    <span className="text-rose-600 my-3 flex items-center justify-center font-medium uppercase tracking-wider">
                         Why choose us
                     </span>
                     <h2

@@ -44,7 +44,7 @@ const Navbar = () => {
 
                 {!user ? <NavLink to={'/auth/login'}>
                     <li className="group flex  cursor-pointer flex-col">
-                        Sign In<span className={`mt-[2px] h-[3px] ${currentRoute === 'login' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
+                        Sign In<span className={`mt-[2px] h-[3px] ${currentRoute === 'auth' ? 'w-full' : 'w-0'} rounded-full bg-rose-600 transition-all duration-300 group-hover:w-full`}></span>
                     </li>
                 </NavLink> :
                     <div className="dropdown dropdown-end">
@@ -80,7 +80,6 @@ const Navbar = () => {
             <div className="flex md:hidden justify-center items-center z-20">
 
                 {/* mobile profile */}
-
                 {user && <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
