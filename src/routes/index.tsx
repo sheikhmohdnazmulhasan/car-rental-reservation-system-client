@@ -18,7 +18,7 @@ import Customers from "../pages/dashboard/admin/users/Customers";
 import ProfileSettings from "../pages/profile/ProfileSettings";
 import EditVehicle from "../pages/dashboard/admin/Vehicles/edit/EditVehicle";
 import Recover from "../pages/auth/Recover";
-import Vehicles from "../pages/root/vehicles";
+import Vehicles from "../pages/root/Vehicles";
 export const router = createBrowserRouter([
   {
     path: "/",
