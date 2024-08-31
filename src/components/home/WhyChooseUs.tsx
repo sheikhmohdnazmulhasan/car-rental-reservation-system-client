@@ -21,7 +21,7 @@ const WhyChooseUs: React.FC = () => {
                     </p>
                 </div>
 
-                <div className="relative mx-auto max-w-7xl z-10 grid grid-cols-1 gap-10 pt-14 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="relative mx-auto max-w-7xl grid grid-cols-1 gap-10 pt-14 sm:grid-cols-2 lg:grid-cols-3">
                     <div className="rounded-md hover:scale-105 transition-all border border-gray-200 bg-gray-100 p-8 text-center shadow">
                         <div className="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border ">
                             <svg color='red' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">

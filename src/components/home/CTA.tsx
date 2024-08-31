@@ -7,9 +7,9 @@ const Cta = () => {
     const randomNumber: number = Math.floor(Math.random() * data?.data?.length);
     return (
 
-        <div className="relative z-20 flex items-center overflow-hidden ">
+        <div className="relative flex items-center overflow-hidden ">
             <div className="container relative flex px-6 py-10 mx-auto">
-                <div className="relative z-20 flex flex-col sm:w-2/3 lg:w-2/5">
+                <div className="relative flex flex-col sm:w-2/3 lg:w-2/5">
                     <span className="w-20 h-2 mb-12 bg-gray-800">
                     </span>
                     <h1 className="flex flex-col text-6xl font-black leading-none text-gray-800 uppercase font-bebas-neue sm:text-8xl">

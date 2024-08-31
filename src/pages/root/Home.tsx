@@ -1,3 +1,4 @@
+import Accordion from "../../components/home/Accordion";
 import Cta from "../../components/home/CTA";
 import Featured from "../../components/home/Featured";
 import { Hero } from "../../components/home/Hero";
@@ -30,6 +31,9 @@ const Home = () => {
                 </div>
                 <div className="">
                     <Testimonial />
+                </div>
+                <div className="">
+                    <Accordion />
                 </div>
                 <div className="">
                     <Footer />
