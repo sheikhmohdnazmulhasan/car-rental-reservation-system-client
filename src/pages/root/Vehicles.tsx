@@ -6,11 +6,11 @@ import axios from "axios";
 import antSelectOptionsGenerator from "../../utils/AntSelectOptionsGenerator";
 import { heroDistrictFilterOptions } from "../../const/filter.district";
 import { Select } from "antd";
+import VehicleCard from "../../components/vehicle/VehicleCard";
 
 const Vehicles = () => {
     const [data, setData] = useState<TVehicleResponse[]>();
     const [open, setOpen] = useState<boolean>(false);
-
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [location, setLocation] = useState<string>('');
     const [sortOrder, setSortOrder] = useState<string>('asc');
@@ -24,7 +24,7 @@ const Vehicles = () => {
     }
 
     const fetchProducts = async (): Promise<void> => {
-        const response = await axios.get('https://local-loop-server.vercel.app/api/v1/products', {
+        const response = await axios.get('http://localhost:5000/api/cars', {
             params: {
                 searchTerm,
                 location,
@@ -33,8 +33,7 @@ const Vehicles = () => {
                 sortOrder,
             },
         });
-
-        setData(response.data);
+        setData(response.data.data);
     };
 
     const clearFilters = () => {
@@ -46,12 +45,10 @@ const Vehicles = () => {
         fetchProducts();
     };
 
-
-    // useEffect(() => {
-    //     fetchProducts();
-
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [searchTerm, sortOrder, location, minPrice, maxPrice,]);
+    useEffect(() => {
+        fetchProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchTerm, sortOrder, location, minPrice, maxPrice,]);
 
     return (
         <div className="">
@@ -98,7 +95,7 @@ const Vehicles = () => {
 
                             <div className="flex ml-3">
                                 <div className="flex justify-center items-center border rounded-md px-2 ">
-                                    <p className="mr-1">Min Price $: </p>
+                                    <p className="mr-1 text-gray-400 font-thin">Min Price $: </p>
                                     <input onChange={(e) => setMinPrice(e.target.value)} className="rounded-md w-16" type="number" />
                                     <p></p>
                                 </div>
@@ -106,7 +103,7 @@ const Vehicles = () => {
 
                             <div className="flex ml-3">
                                 <div className="flex justify-center items-center border rounded-md px-2 ">
-                                    <p className="mr-1">Max Price $: </p>
+                                    <p className="mr-1 text-gray-400 font-thin">Max Price $: </p>
                                     <input onChange={(e) => setMaxPrice(e.target.value)} className="rounded-md w-16" type="number" />
                                     <p></p>
                                 </div>
@@ -165,7 +162,7 @@ const Vehicles = () => {
                             <div className="flex gap-1 justify-between">
                                 <div className="flex ">
                                     <div className="flex  items-center border rounded-md px-2 ">
-                                        <p className="text-sm">Min Price $: </p>
+                                        <p className="text-sm text-gray-400 font-thin">Min Price $: </p>
                                         <input onChange={(e) => setMinPrice(e.target.value)} className="rounded-md w-16" type="number" />
 
                                     </div>
@@ -173,7 +170,7 @@ const Vehicles = () => {
 
                                 <div className="flex">
                                     <div className="flex justify-center items-center border rounded-md px-2 ">
-                                        <p className="mr-1 text-sm">Max Price $: </p>
+                                        <p className="mr-1 text-sm text-gray-400 font-thin">Max Price $: </p>
                                         <input onChange={(e) => setMaxPrice(e.target.value)} className="rounded-md w-16" type="number" />
 
                                     </div>
@@ -189,6 +186,15 @@ const Vehicles = () => {
                             <button onClick={() => setOpen(true)} className="w-full bg-rose-600 text-center text-white py-1">Add Filter</button>
                         }
                     </div>
+                </div>
+
+                {/* card */}
+                <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
+                    {
+                        data?.slice().reverse().map((vehicle, indx) => {
+                            return <VehicleCard key={indx} {...vehicle} />
+                        })
+                    }
                 </div>
             </div>
             <Footer />
