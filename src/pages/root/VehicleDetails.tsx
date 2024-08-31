@@ -12,7 +12,7 @@ const VehicleDetails = () => {
         <div>
             <Navbar />
             <div className="h-screen">
-                {_id}
+                {data?.data?.name}
             </div>
             <Footer />
         </div>

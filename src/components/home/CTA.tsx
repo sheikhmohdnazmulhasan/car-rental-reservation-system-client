@@ -22,7 +22,7 @@ const Cta = () => {
                         At <strong>RentNGo—</strong>, we understand that every trip is unique. That's why we help you find the perfect car to suit your needs. Whether you’re looking for comfort, fuel efficiency, or a rugged vehicle for an adventure, we’ve got you covered.
                     </p>
                     <div className="flex mt-8">
-                        <Link to={''} className="px-4 py-2 mr-4 text-white uppercase bg-rose-600 border-2 border-transparent rounded-md text-md hover:bg-rose-700">
+                        <Link to={`/vehicles/details/${(data?.data?.[randomNumber] as TVehicleResponse)?._id}`} className="px-4 py-2 mr-4 text-white uppercase bg-rose-600 border-2 border-transparent rounded-md text-md hover:bg-rose-700">
                             Book Now
                         </Link>
                     </div>

@@ -11,7 +11,7 @@ const HotRides: React.FC = () => {
             <div className="md:flex ">
                 {data?.data?.slice(4, 7)?.reverse()?.map((vehicle: TVehicleResponse, indx: number) => {
                     return (
-                        <Link to={''}>
+                        <Link to={`/vehicles/details/${vehicle?._id}`}>
                             <div key={indx} className="w-full md:w-72 hover:scale-105 transition-all">
                                 <div className="flex items-center justify-center">
                                     <div className="max-w-sm w-full sm:w-full lg:w-full py-6 px-3">
