@@ -7,13 +7,17 @@ import antSelectOptionsGenerator from "../../utils/AntSelectOptionsGenerator";
 import { heroDistrictFilterOptions } from "../../const/filter.district";
 import { Select } from "antd";
 import VehicleCard from "../../components/vehicle/VehicleCard";
+import { useLocation } from "react-router-dom";
 
 const Vehicles = () => {
+    const routerLocation = useLocation();
+    const searchParams = new URLSearchParams(routerLocation.search);
+    const [color, setColor] = useState(searchParams.get('color') || '');
+    const locationX = searchParams.get('location');
     const [data, setData] = useState<TVehicleResponse[]>();
     const [open, setOpen] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [location, setLocation] = useState<string>('');
-    // const [color, color] = useState<string>('');
+    const [location, setLocation] = useState<string>(locationX ? locationX : '');
     const [sortOrder, setSortOrder] = useState<string>('asc');
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
@@ -29,7 +33,7 @@ const Vehicles = () => {
             params: {
                 searchTerm,
                 location,
-                // color,
+                color,
                 minPrice,
                 maxPrice,
                 sortOrder,
@@ -44,13 +48,14 @@ const Vehicles = () => {
         setMinPrice('');
         setMaxPrice('');
         setSortOrder('asc');
+        setColor('');
         fetchProducts();
     };
 
     useEffect(() => {
         fetchProducts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, sortOrder, location, minPrice, maxPrice,]);
+    }, [searchTerm, sortOrder, location, minPrice, maxPrice, color]);
 
     return (
         <div className="">
