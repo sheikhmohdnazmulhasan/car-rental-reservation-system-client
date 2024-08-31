@@ -13,6 +13,7 @@ const Vehicles = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [location, setLocation] = useState<string>('');
+    // const [color, color] = useState<string>('');
     const [sortOrder, setSortOrder] = useState<string>('asc');
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
@@ -28,6 +29,7 @@ const Vehicles = () => {
             params: {
                 searchTerm,
                 location,
+                // color,
                 minPrice,
                 maxPrice,
                 sortOrder,

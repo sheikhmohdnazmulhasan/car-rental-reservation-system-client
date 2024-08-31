@@ -19,6 +19,7 @@ import ProfileSettings from "../pages/profile/ProfileSettings";
 import EditVehicle from "../pages/dashboard/admin/Vehicles/edit/EditVehicle";
 import Recover from "../pages/auth/Recover";
 import Vehicles from "../pages/root/Vehicles";
+import VehicleDetails from "../pages/root/VehicleDetails";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '/vehicles', element: <Vehicles /> },
+      { path: '/vehicles/details/:_id', element: <VehicleDetails /> },
       { path: '/auth/login', element: <Login /> },
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/recover', element: <Recover /> },
