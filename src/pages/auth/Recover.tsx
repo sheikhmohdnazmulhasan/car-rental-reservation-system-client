@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../components/root/Footer';
 import Navbar from '../../components/root/Navbar';
 import axios from 'axios';
@@ -12,11 +12,17 @@ interface TAxiosResponse {
     token: string
 }
 
+const WRONG_EMAIL_LIMIT = 3;
+const LOCK_TIME = 1 * 60 * 1000;
+
 const Recover = () => {
     const [user, setUser] = useState<TAxiosResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [failedAttempts, setFailedAttempts] = useState<number>(0);
+    const [isLocked, setIsLocked] = useState<boolean>(false);
+    const [lockTime, setLockTime] = useState<Date | null>(null);
 
-    console.log(user);
+    console.log(lockTime?.toLocaleTimeString());
 
     const handleFindUser = async (event: React.FocusEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
@@ -30,15 +36,47 @@ const Recover = () => {
                 }
             });
             if (res?.data?.success) {
+                setFailedAttempts(0);
                 setUser((res.data?.data as TAxiosResponse));
+
             } else {
-                setError('No user found with this email')
+                const newFailedAttempts = failedAttempts + 1;
+                setFailedAttempts(newFailedAttempts);
+
+                const remainingAttempts = WRONG_EMAIL_LIMIT - newFailedAttempts;
+
+                if (newFailedAttempts >= WRONG_EMAIL_LIMIT) {
+                    const lockUntil = new Date(Date.now() + LOCK_TIME);
+                    setIsLocked(true);
+                    setLockTime(lockUntil);
+                    localStorage.setItem('lockTime', lockUntil.toString());
+                    setError(`Bro! Too many failed attempts. Session restricted for 15 minutes.`)
+                } else {
+                    setError(`Invalid email. You have ${remainingAttempts} attempt(s) left.`);
+                }
             }
         } catch (error) {
             setError('Something went Wrong');
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        const savedLockTime = localStorage.getItem('lockTime');
+        if (savedLockTime) {
+            const timeLeft = new Date(savedLockTime).getTime() - Date.now();
+            if (timeLeft > 0) {
+                setError('Bro! Too many failed attempts. Session restricted for 15 minutes.')
+                setIsLocked(true);
+                setLockTime(new Date(savedLockTime));
+                setTimeout(() => {
+                    setIsLocked(false);
+                    setLockTime(null);
+                    localStorage.removeItem('lockTime');
+                }, timeLeft);
+            }
+        }
+    }, []);
 
     return (
         <div>
@@ -54,6 +92,7 @@ const Recover = () => {
                         </div>
                         <form className={`${user ? 'hidden' : 'flex'} items-center`} onSubmit={handleFindUser}>
                             <input
+                                disabled={isLocked}
                                 name='email'
                                 id="Enter Email Address"
                                 type="email"
@@ -61,7 +100,7 @@ const Recover = () => {
                                 className="w-full px-4 py-2 border border-rose-600 rounded-l-md focus:outline-none focus:ring-0"
                                 required
                             />
-                            <button type='submit' className='py-2 px-3 border hover:bg-rose-700 transition-all border-rose-600 bg-rose-600 text-white rounded-r-md'>Search</button>
+                            <button type={isLocked ? 'button' : 'submit'} className='py-2 px-3 border hover:bg-rose-700 transition-all border-rose-600 bg-rose-600 text-white rounded-r-md'>Search</button>
                         </form>
                         <p className='text-sm text-rose-600 ml-1'>{error}</p>
                     </div>
