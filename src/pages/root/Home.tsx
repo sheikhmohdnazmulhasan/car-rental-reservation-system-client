@@ -1,3 +1,4 @@
+import CookieWrnig from "../../components/global/cookieWornig";
 import Accordion from "../../components/home/Accordion";
 import Cta from "../../components/home/CTA";
 import Featured from "../../components/home/Featured";
@@ -39,6 +40,7 @@ const Home = () => {
                     <Footer />
                 </div>
             </div>
+            <CookieWrnig />
         </div>
     );
 };
