@@ -7,7 +7,7 @@ import { logout, useCurrentUser } from '../../redux/features/auth/auth.slice';
 import toast from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import bcrypt from 'bcryptjs';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import uploadImageToImgBb from '../../utils/uploadImageToImgBb';
 import LoadingSpinier from '../../components/global/LoadingSpinier';
 import FetchErrorElmt from '../../components/error/FetchErrorElmt';
@@ -19,6 +19,7 @@ const ProfileSettings = () => {
     const { register, handleSubmit } = useForm();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const location = useLocation()
 
     const handleProfilePictureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const toastId = toast.loading('Working...');
@@ -102,7 +103,7 @@ const ProfileSettings = () => {
         }
     }
 
-    if (!user) return <Navigate to={'/auth/login'} replace />
+    if (!user) return <Navigate to={'/auth/login'} replace state={location.pathname} />
     if (isLoading && !isError) return <div className="">
         <Navbar />
         <LoadingSpinier />

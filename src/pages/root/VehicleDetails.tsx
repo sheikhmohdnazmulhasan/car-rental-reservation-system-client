@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetSingleVehicleQuery, useGetVehiclesQuery } from "../../redux/features/vehicle/vehicle.api";
 import FetchErrorElmt from "../../components/error/FetchErrorElmt";
 import LoadingSpinier from "../../components/global/LoadingSpinier";
@@ -18,8 +18,9 @@ import Swal from "sweetalert2";
 const VehicleDetails: FC = () => {
     const { _id } = useParams<{ _id: string }>();
     const user = useAppSelector(useCurrentUser)
-    const [openModal, setOpenModal] = useState<boolean>(true);
+    const [openModal, setOpenModal] = useState<boolean>(false);
     const { register, handleSubmit } = useForm();
+    const navigate = useNavigate();
 
     const { data: item, isError: singleError, isLoading: singleLoading } = useGetSingleVehicleQuery<{
         data: {
@@ -44,6 +45,11 @@ const VehicleDetails: FC = () => {
     }>([{ email: user?.user }], { skip: !user });
 
     function handleOpenBookingModal() {
+        if (!user) {
+            navigate(`/auth/login?redirect=${item?.data?._id}`);
+            return
+        }
+
         switch (user?.role) {
             case 'admin':
                 Swal.fire({

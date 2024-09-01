@@ -2,12 +2,12 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../redux/features/auth/auth.api";
 import { jwtDecode } from "jwt-decode";
 import { TUser } from "../../interface/user.auth.interface";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/features/auth/auth.slice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setUser, useCurrentUser } from "../../redux/features/auth/auth.slice";
 import Navbar from "../../components/root/Navbar";
 
 const Login = () => {
@@ -15,6 +15,10 @@ const Login = () => {
     const [showPassword1, setShowPassword1] = useState(false);
     const [loginUser] = useLoginUserMutation();
     const dispatch = useAppDispatch();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location?.search);
+    const redirect = searchParams.get('redirect');
+    const navigate = useNavigate();
 
     const handleLoginAction: SubmitHandler<FieldValues> = async (credential) => {
         const toastId = toast.loading('Logging in...');
@@ -31,6 +35,15 @@ const Login = () => {
                     user: extractUserFormToken,
                     token: serverResponse?.data?.token
                 }));
+
+                if (redirect) {
+                    navigate(`/vehicles/details/${redirect}`);
+                } else if (location?.state) {
+                    navigate(location.state);
+                } else {
+                    // console.log(serverResponse?.data?.data?.role);
+                    navigate(`/dashboard/${serverResponse?.data?.data?.role}`)
+                }
                 toast.success('Logged in Success', { id: toastId });
             }
 
