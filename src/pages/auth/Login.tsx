@@ -6,12 +6,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../redux/features/auth/auth.api";
 import { jwtDecode } from "jwt-decode";
 import { TUser } from "../../interface/user.auth.interface";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setUser, useCurrentUser } from "../../redux/features/auth/auth.slice";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/auth/auth.slice";
 import Navbar from "../../components/root/Navbar";
 
 const Login = () => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit } = useForm();
     const [showPassword1, setShowPassword1] = useState(false);
     const [loginUser] = useLoginUserMutation();
     const dispatch = useAppDispatch();

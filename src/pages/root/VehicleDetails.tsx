@@ -14,6 +14,8 @@ import { useCurrentUser } from "../../redux/features/auth/auth.slice";
 import { TFullUser } from "../../interface/user.interface";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { useCreateNewBookingMutation } from "../../redux/features/booking/booking.api";
+import toast from "react-hot-toast";
 
 const VehicleDetails: FC = () => {
     const { _id } = useParams<{ _id: string }>();
@@ -21,6 +23,7 @@ const VehicleDetails: FC = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
+    const [createNewBooking] = useCreateNewBookingMutation();
 
     const { data: item, isError: singleError, isLoading: singleLoading } = useGetSingleVehicleQuery<{
         data: {
@@ -63,8 +66,50 @@ const VehicleDetails: FC = () => {
         }
     }
 
-    const handleCreateNewBooking: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+    const handleCreateNewBooking: SubmitHandler<FieldValues> = async (data) => {
+        const toastId = toast.loading('Working...');
+        const date = new Date()
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        const payload: {
+            carId: string;
+            date: string;
+            additionalInfo: {
+                drivingLicense: string;
+                nid: string;
+                extraFeatures?: string[];
+            }
+        } = {
+            carId: _id as string,
+            date: formattedDate,
+            additionalInfo: {
+                drivingLicense: data.drivingLicense as string,
+                nid: data.nid as string
+            }
+        };
+
+        try {
+            const res = await createNewBooking({ payload });
+            if (res.data?.success) {
+
+                // Todo: send email to customer for successful booking
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Vehicle Booked Successfully',
+                    text: 'Your booking will be verified by our team. You will receive a confirmation email if the booking is approved. Thanks for being with us'
+                });
+                toast.dismiss(toastId);
+                navigate('/');
+            } else {
+                toast.error('Oops! Something went Wrong 😒', { id: toastId });
+            }
+
+        } catch (error) {
+            toast.error('Oops! Something went Wrong 😒', { id: toastId });
+            console.log(error);
+        }
     }
 
     if (singleLoading) return <LoadingSpinier />;
@@ -150,7 +195,7 @@ const VehicleDetails: FC = () => {
                             <p className=""><span className="text-gray-800 text-3xl font-bold">${item?.data?.pricePerHour}</span> /Hour</p>
                         </div>
 
-                        {item?.data?.status ? (
+                        {item?.data?.status === 'available' ? (
                             <div className="flex flex-wrap gap-4 mt-8">
 
                                 <button onClick={handleOpenBookingModal} type="button" className="w-full  px-4 py-2.5 border bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded">Book Now</button>

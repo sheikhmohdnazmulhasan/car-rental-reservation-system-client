@@ -21,6 +21,15 @@ const bookingApi = baseApi.injectEndpoints({
             providesTags: ['booking']
         }),
 
+        createNewBooking: builder.mutation({
+            query: (args) => ({
+                url: '/bookings',
+                method: 'POST',
+                body: args.payload,
+            }),
+            invalidatesTags: ['booking', 'vehicle']
+        }),
+
         patchBookingStatus: builder.mutation({
             query: (args: { _id: string; action: string; }) => {
                 const params = new URLSearchParams;
@@ -54,5 +63,6 @@ const bookingApi = baseApi.injectEndpoints({
 export const {
     useGetBookingForAdminQuery,
     usePatchBookingStatusMutation,
+    useCreateNewBookingMutation,
     useDeleteBookingMutation
 } = bookingApi;
