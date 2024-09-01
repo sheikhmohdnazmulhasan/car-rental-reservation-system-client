@@ -6,7 +6,6 @@ const CookieWrnig = () => {
     useEffect(() => {
         setTimeout(() => setShowCookieWrnig(true), 3000);
     }, []);
-    // `${showCookieWrnig ? 'visible' : 'invisible'
 
     return (
         <div className={showCookieWrnig ? 'visible' : 'invisible'}>

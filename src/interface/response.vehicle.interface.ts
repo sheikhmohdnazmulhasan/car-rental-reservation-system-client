@@ -12,7 +12,7 @@ export interface TVehicleResponse {
     photo: string;
     pricePerHour: number;
     description: string;
-    features: TVehicleFeatures;
+    features: TVehicleFeatures[];
     color: string;
     fuelType: TVehicleFuelType;
     location: TVehicleLocation;
