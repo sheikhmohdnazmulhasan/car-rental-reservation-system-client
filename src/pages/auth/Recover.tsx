@@ -77,6 +77,7 @@ const Recover = () => {
             return
         }
         setPassed(true);
+        setOpenModal(false);
     };
 
     const sharedProps: OTPProps = {
@@ -127,7 +128,7 @@ const Recover = () => {
                     </div>
 
                     {/* profile details */}
-                    {user && <div className="flex-1 border-t md:border-t-0">
+                    {user && !passed && <div className="flex-1 border-t md:border-t-0">
                         <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => setUser(null)}>x</p>
                         <div className=" flex flex-col mt-2 justify-center px-5 md:px-10 items-center border-l">
                             {/* name and photo */}
@@ -144,6 +145,39 @@ const Recover = () => {
                             <div className="mt-7">
                                 <button onClick={handleSendVerificationEmail} className='py-2 px-3 rounded-md hover:bg-rose-700 transition-all bg-rose-600 text-white'>Send Verification Code To Email</button>
                             </div>
+                        </div>
+                    </div>}
+
+                    {passed && <div className="flex-1 border-t md:border-t-0">
+                        <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => setUser(null)}>x</p>
+                        <div className=" flex flex-col mt-2 justify-center px-5 md:px-10 items-center border-l">
+                            {/* name and photo */}
+                            <form className='w-full'>
+                                <h3 className='text-xl mb-3'>Welcome Back Bro!</h3>
+                                <div className="mb-4">
+                                    <input
+                                        name='password'
+                                        id=""
+                                        type="password"
+                                        placeholder="New Password"
+                                        className="w-full px-4  py-2 border border-rose-600 rounded-md focus:outline-none focus:ring-0"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <input
+                                        name='password'
+                                        id=""
+                                        type="password"
+                                        placeholder="New Password"
+                                        className="w-full px-4  py-2 border border-rose-600 rounded-md focus:outline-none focus:ring-0"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4 flex ">
+                                    <button className='text-white w-full bg-rose-600 hover:bg-rose-700 py-2 px-5 rounded-md'>Change</button>
+                                </div>
+                            </form>
                         </div>
                     </div>}
                 </div>
