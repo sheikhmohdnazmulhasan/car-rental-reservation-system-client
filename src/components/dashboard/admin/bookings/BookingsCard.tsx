@@ -49,7 +49,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
 
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // ! email to customer for clear payment with payment link
+                                // TODO: email to customer for clear payment with payment link
                                 // Swal.fire({
                                 //     title: "Deleted!",
                                 //     text: "Your file has been deleted.",
@@ -66,6 +66,13 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                     action: action === 'approve' ? 'ongoing' : 'canceled'
                 });
                 if (res?.data?.success) {
+                    if (action === 'cancel') {
+                        // TODO: email to customer for notify cancelation
+                    } else {
+                        // TODO: email to customer for notify approve booking
+                    }
+
+                    // TEMP: delete after implementation emailjs
                     Swal.fire({
                         title: `${action === 'approve' ? 'Approved' : 'Canceled'}`,
                         text: `Order has been ${action === 'approve' ? 'Approved' : 'Canceled'}`,

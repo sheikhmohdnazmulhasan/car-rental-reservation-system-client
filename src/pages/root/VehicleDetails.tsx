@@ -93,14 +93,13 @@ const VehicleDetails: FC = () => {
         try {
             const res = await createNewBooking({ payload });
             if (res.data?.success) {
-
+                toast.dismiss(toastId);
                 // Todo: send email to customer for successful booking
                 Swal.fire({
                     icon: 'success',
                     title: 'Vehicle Booked Successfully',
                     text: 'Your booking will be verified by our team. You will receive a confirmation email if the booking is approved. Thanks for being with us'
                 });
-                toast.dismiss(toastId);
                 navigate('/');
             } else {
                 toast.error('Oops! Something went Wrong 😒', { id: toastId });
