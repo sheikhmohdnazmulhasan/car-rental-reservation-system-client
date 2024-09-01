@@ -12,6 +12,8 @@ import { useGetFullUserQuery } from "../../redux/features/user/user.api";
 import { useAppSelector } from "../../redux/hooks";
 import { useCurrentUser } from "../../redux/features/auth/auth.slice";
 import { TFullUser } from "../../interface/user.interface";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const VehicleDetails: FC = () => {
     const { _id } = useParams<{ _id: string }>();
@@ -39,6 +41,24 @@ const VehicleDetails: FC = () => {
             data: TFullUser
         }
     }>([{ email: user?.user }], { skip: !user });
+
+    function handleOpenBookingModal() {
+        switch (user?.role) {
+            case 'admin':
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Yeo! Admin Cannot Book Vehicles'
+                })
+                break;
+            default:
+                setOpenModal(true)
+                break;
+        }
+    }
+
+    const handleCreateNewBooking: SubmitHandler<FieldValues> = (data) => {
+        console.log(data);
+    }
 
     if (singleLoading) return <LoadingSpinier />;
     if (singleError) return <FetchErrorElmt />;
@@ -126,7 +146,7 @@ const VehicleDetails: FC = () => {
                         {item?.data?.status ? (
                             <div className="flex flex-wrap gap-4 mt-8">
 
-                                <button type="button" className="w-full  px-4 py-2.5 border bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded">Book Now</button>
+                                <button onClick={handleOpenBookingModal} type="button" className="w-full  px-4 py-2.5 border bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded">Book Now</button>
                             </div>
                         ) : (
                             <button type="button" className="w-full mt-20 px-4 py-2.5 border border-rose-600 bg-transparent hover:bg-gray-50 text-rose-800 text-sm font-semibold cursor-not-allowed rounded">Vehicle Unavailable</button>
