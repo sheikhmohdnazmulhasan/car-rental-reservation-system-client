@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Footer from '../../components/root/Footer';
 import Navbar from '../../components/root/Navbar';
 import axios from 'axios';
@@ -17,7 +17,7 @@ interface TAxiosResponse {
 const WRONG_EMAIL_LIMIT = 3;
 const LOCK_TIME = 15 * 60 * 1000;
 
-const Recover = () => {
+const Recover: FC = () => {
     const [user, setUser] = useState<TAxiosResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [failedAttempts, setFailedAttempts] = useState<number>(0);
@@ -28,10 +28,10 @@ const Recover = () => {
     const [passed, setPassed] = useState<boolean>(false);
     console.log(verificationCode);
 
-    const handleFindUser = async (event: React.FocusEvent<HTMLFormElement>): Promise<void> => {
+    const handleFindUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         setError(null);
-        const email = event.target.email.value;
+        const email = (event.target as HTMLFormElement).email.value;
 
         try {
             const res = await axios.get<{ success: boolean; data: TAxiosResponse }>(`http://localhost:5000/api/auth/user/recovery`, {
@@ -83,6 +83,16 @@ const Recover = () => {
     const sharedProps: OTPProps = {
         onChange,
     };
+
+    const handleChangePassword = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setError(null);
+        const password = (event.target as HTMLFormElement)?.password?.value;
+        const password2 = (event.target as HTMLFormElement)?.password2?.value;
+
+        // TODO: call the server to set new password;
+        console.log({ password, password2 });
+    }
 
     useEffect(() => {
         const savedLockTime = localStorage.getItem('lockTime');
@@ -152,9 +162,10 @@ const Recover = () => {
                         <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => setUser(null)}>x</p>
                         <div className=" flex flex-col mt-2 justify-center px-5 md:px-10 items-center border-l">
                             {/* name and photo */}
-                            <form className='w-full'>
-                                <h3 className='text-xl mb-3'>Welcome Back Bro!</h3>
-                                <div className="mb-4">
+                            <form className='w-full' onSubmit={handleChangePassword}>
+                                <h3 className='text-xl '>Welcome Back Bro!</h3>
+                                <small className='leading-none'>You have recovered everything in your account. We are delighted to be with you on this journey</small>
+                                <div className="mb-4 mt-4">
                                     <input
                                         name='password'
                                         id=""
@@ -166,16 +177,16 @@ const Recover = () => {
                                 </div>
                                 <div className="mb-4">
                                     <input
-                                        name='password'
+                                        name='password2'
                                         id=""
                                         type="password"
-                                        placeholder="New Password"
+                                        placeholder="Confirm Password"
                                         className="w-full px-4  py-2 border border-rose-600 rounded-md focus:outline-none focus:ring-0"
                                         required
                                     />
                                 </div>
                                 <div className="mb-4 flex ">
-                                    <button className='text-white w-full bg-rose-600 hover:bg-rose-700 py-2 px-5 rounded-md'>Change</button>
+                                    <button type='submit' className='text-white w-full bg-rose-600 hover:bg-rose-700 py-2 px-5 rounded-md'>Change</button>
                                 </div>
                             </form>
                         </div>
