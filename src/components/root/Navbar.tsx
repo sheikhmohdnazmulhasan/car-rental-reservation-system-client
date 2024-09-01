@@ -19,7 +19,7 @@ const Navbar = () => {
 
             <nav className="flex z-20 border-b items-center justify-between text-[#393E46] px-4 py-2 bg-white">
                 <div className="scale-100 cursor-pointer rounded-2xl px-3 py-2 text-xl font-semibold  transition-all duration-200 hover:scale-110">
-                    <h2 >Rent<span className='text-rose-600'>NGo—</span></h2>
+                    <Link to={'/'}> <h2 >Rent<span className='text-rose-600'>NGo—</span></h2></Link>
                 </div>
                 <ul className="hidden items-center justify-between gap-10 md:flex">
                     <NavLink to={'/'}>

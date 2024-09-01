@@ -7,9 +7,16 @@ import Footer from "../../components/root/Footer";
 import { TVehicleResponse } from "../../interface/response.vehicle.interface";
 import Navbar from "../../components/root/Navbar";
 import VehicleCard from "../../components/vehicle/VehicleCard";
+import { FC, useState } from "react";
+import { useGetFullUserQuery } from "../../redux/features/user/user.api";
+import { useAppSelector } from "../../redux/hooks";
+import { useCurrentUser } from "../../redux/features/auth/auth.slice";
+import { TFullUser } from "../../interface/user.interface";
 
-const VehicleDetails = () => {
+const VehicleDetails: FC = () => {
     const { _id } = useParams<{ _id: string }>();
+    const user = useAppSelector(useCurrentUser)
+    const [openModal, setOpenModal] = useState<boolean>(true);
 
     const { data: item, isError: singleError, isLoading: singleLoading } = useGetSingleVehicleQuery<{
         data: {
@@ -27,8 +34,11 @@ const VehicleDetails = () => {
 
     const moreItemExceptThisOne: TVehicleResponse[] = data?.data?.filter((data: { _id: string; }) => data._id !== item?.data?._id);
     const randomIndex = Math.floor(Math.random() * moreItemExceptThisOne?.length);
-
-    console.log();
+    const { data: fullUser } = useGetFullUserQuery<{
+        data: {
+            data: TFullUser
+        }
+    }>([{ email: user?.user }], { skip: !user });
 
     if (singleLoading) return <LoadingSpinier />;
     if (singleError) return <FetchErrorElmt />;
@@ -62,7 +72,7 @@ const VehicleDetails = () => {
 
                     <div className="lg:col-span-2">
                         <h2 className="text-2xl font-extrabold text-gray-800">{item?.data?.name} {item?.data?.color}</h2>
-                        <p className="">{item?.data?.description.slice(1, 200)}...</p>
+                        <p className="">{item?.data?.description.slice(0, 200)}...</p>
 
                         {/* rating */}
                         <div className="flex space-x-2 mt-4">
@@ -137,6 +147,61 @@ const VehicleDetails = () => {
             )}
 
             <Footer />
+
+
+            {/* booking form */}
+            <div className="mx-auto flex w-72 items-center justify-center">
+                <div onClick={() => setOpenModal(false)} className={`fixed z-[100] flex items-center justify-center ${openModal ? 'opacity-1 visible' : 'invisible opacity-0'} inset-0 h-full w-full bg-black/20 backdrop-blur-sm duration-100`}>
+                    <div onClick={(e_) => e_.stopPropagation()} className={`absolute rounded-lg bg-white drop-shadow-2xl w-[95%] md:w-[60%] ${openModal ? 'opacity-1 translate-y-0 duration-300' : '-translate-y-20 opacity-0 duration-150'}`}>
+                        <form className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10">
+                            <svg onClick={() => setOpenModal(false)} className="mx-auto mr-0 w-10 cursor-pointer fill-black" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M6.99486 7.00636C6.60433 7.39689 6.60433 8.03005 6.99486 8.42058L10.58 12.0057L6.99486 15.5909C6.60433 15.9814 6.60433 16.6146 6.99486 17.0051C7.38538 17.3956 8.01855 17.3956 8.40907 17.0051L11.9942 13.4199L15.5794 17.0051C15.9699 17.3956 16.6031 17.3956 16.9936 17.0051C17.3841 16.6146 17.3841 15.9814 16.9936 15.5909L13.4084 12.0057L16.9936 8.42059C17.3841 8.03007 17.3841 7.3969 16.9936 7.00638C16.603 6.61585 15.9699 6.61585 15.5794 7.00638L11.9942 10.5915L8.40907 7.00636C8.01855 6.61584 7.38538 6.61584 6.99486 7.00636Z"></path></g></svg>
+                            <h1 className="pb-8 text-3xl backdrop-blur-sm">
+                                Book {item?.data?.name} {item?.data?.fuelType} {item?.data?.color}
+                            </h1>
+                            <div className="md:flex w-full gap-4 space-y-5 md:space-y-0">
+                                <div className="flex-1">
+                                    <label htmlFor="name" className="block mb-2">
+                                        Name
+                                    </label>
+                                    <div className="relative">
+                                        <input defaultValue={fullUser?.data?.name} id="name" type="text" className="block w-full rounded-lg p-3  outline-none drop-shadow-lg bg-white" readOnly />
+                                    </div>
+                                </div>
+                                <div className="flex-1">
+                                    <label htmlFor="email" className="block mb-2">
+                                        Email
+                                    </label>
+                                    <div className="relative">
+                                        <input defaultValue={fullUser?.data?.email} id="email" type="email" className="block w-full rounded-lg p-3  outline-none drop-shadow-lg bg-white" readOnly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="md:flex w-full gap-4 mt-5 space-y-5 md:space-y-0">
+                                <div className="flex-1">
+                                    <label htmlFor="nid" className="block mb-2">
+                                        NID Number<span className="text-red-600">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <input id="nid" type="text" placeholder="7182278018" className="block w-full rounded-lg p-3  outline-none drop-shadow-lg bg-white" required />
+                                    </div>
+                                </div>
+                                <div className="flex-1">
+                                    <label htmlFor="driving" className="block mb-2">
+                                        Driving Licenses Number<span className="text-red-600">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <input id="driving" type="email" placeholder="DL-4894293021" className="block w-full rounded-lg p-3  outline-none drop-shadow-lg bg-white" />
+                                    </div>
+                                </div>
+                            </div>
+                            {/* button type will be submit for handling form submission*/}
+                            <button type="submit" className="relative py-2.5 px-5 rounded-md text-white mt-6 bg-rose-600 drop-shadow-lg hover:bg-rose-700">
+                                Book
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
