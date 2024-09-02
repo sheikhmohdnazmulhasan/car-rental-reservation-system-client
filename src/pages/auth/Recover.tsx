@@ -8,6 +8,7 @@ import { GetProps, Input } from 'antd';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import sendEmail from '../../utils/sendEmail';
+import { TAuthEmail } from '../../interface/email.emailjs.params.interface';
 type OTPProps = GetProps<typeof Input.OTP>;
 
 interface TAxiosResponse {
@@ -74,15 +75,14 @@ const Recover: FC = () => {
         setVerificationCode(sixDigitCode);
 
         // DONE: Email verification code to user for rest password
-        const TEMPLATE_ID: string = 'template_c57ck16';
-        const TEMPLATE_PARAMS: { name: string; email: string; otp: string } = {
+        const EMAIL_PARAMS: TAuthEmail = {
             name: user?.name as string,
             email: user?.email as string,
             otp: sixDigitCode as string
         }
 
         try {
-            const res = await sendEmail(TEMPLATE_ID, TEMPLATE_PARAMS);
+            const res = await sendEmail(1, EMAIL_PARAMS);
             if (res?.status == 200) {
                 toast.success('You have been emailed with a 6 digit code. If you do not find the email in your inbox, please check your spam or junk folder', { id: toastId });
                 setOpenModal(true);
