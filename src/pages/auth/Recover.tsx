@@ -5,6 +5,7 @@ import Navbar from '../../components/root/Navbar';
 import axios from 'axios';
 import demoProfile from '../../assets/demo-profile.jpg';
 import { GetProps, Input } from 'antd';
+import toast from 'react-hot-toast';
 type OTPProps = GetProps<typeof Input.OTP>;
 
 interface TAxiosResponse {
@@ -87,11 +88,24 @@ const Recover: FC = () => {
     const handleChangePassword = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(null);
+        const toastId = toast.loading('Working...')
         const password = (event.target as HTMLFormElement)?.password?.value;
         const password2 = (event.target as HTMLFormElement)?.password2?.value;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        // TODO: call the server to set new password;
-        console.log({ password, password2 });
+        if (!passwordRegex.test(password)) {
+            setError(`Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character`);
+            toast.dismiss(toastId);
+            return;
+        } else if (password !== password2) {
+            setError(`Password did not match`);
+            toast.dismiss(toastId);
+            return;
+        } else {
+            // TODO: call the server to set new password;
+            console.log({ password });
+        }
+
     }
 
     useEffect(() => {
@@ -133,8 +147,8 @@ const Recover: FC = () => {
                             />
                             <button type={isLocked ? 'button' : 'submit'} className={`py-2 px-3 border hover:bg-rose-700 transition-all border-rose-600 bg-rose-600 text-white rounded-r-md`}>Search</button>
                         </form>
-                        <p className='text-sm text-rose-600 ml-1'>{error}</p>
-                        {!error && !user && <p className='ml-1 text-sm text-gray-400'>Note: 3 wrong attempts will lock you out for 5 minutes.</p>}
+                        {!passed && <p className='text-sm text-rose-600 ml-1'>{error}</p>}
+                        {!error && !user && <p className='ml-1 text-sm text-gray-400'>Note: 3 wrong attempts will lock you out for 15 minutes.</p>}
                     </div>
 
                     {/* profile details */}
@@ -158,7 +172,7 @@ const Recover: FC = () => {
                         </div>
                     </div>}
 
-                    {passed && <div className="flex-1 border-t md:border-t-0">
+                    {passed && user && <div className="flex-1 border-t md:border-t-0">
                         <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => setUser(null)}>x</p>
                         <div className=" flex flex-col mt-2 justify-center px-5 md:px-10 items-center border-l">
                             {/* name and photo */}
@@ -184,6 +198,7 @@ const Recover: FC = () => {
                                         className="w-full px-4  py-2 border border-rose-600 rounded-md focus:outline-none focus:ring-0"
                                         required
                                     />
+                                    <p className='text-sm text-rose-600 ml-1'>{error}</p>
                                 </div>
                                 <div className="mb-4 flex ">
                                     <button type='submit' className='text-white w-full bg-rose-600 hover:bg-rose-700 py-2 px-5 rounded-md'>Change</button>
