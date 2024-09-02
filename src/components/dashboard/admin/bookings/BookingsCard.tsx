@@ -89,7 +89,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                 });
                 if (res?.data?.success) {
                     if (action === 'cancel') {
-                        // TODO: email to customer for notify cancelation
+                        // DONE: email to customer for notify cancelation
                         const EMAIL_PARAMS: TNotificationEmail = {
                             name: booking.user.name,
                             email: booking.user.email,
@@ -99,15 +99,21 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                             If you have any questions or need assistance with a new booking, please feel free to contact us.   
                             We apologize for any inconvenience this may have caused and appreciate your understanding.`
                         };
-                        const res = await sendEmail(2, EMAIL_PARAMS);
-                        if (res?.status === 200) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Booking Canceled',
-                            })
-                        }
+                        await sendEmail(2, EMAIL_PARAMS);
+
                     } else {
                         // TODO: email to customer for notify approve booking
+                        const EMAIL_PARAMS: TNotificationEmail = {
+                            name: booking?.user?.name,
+                            email: booking?.user?.email,
+                            subject: `Booking Approved for ${booking?.car?.name} – Please Collect Your Vehicle`,
+                            description: `We’re pleased to inform you that your booking for the "${booking?.car?.name}" has been approved.
+                            
+                            Please be aware that pricing starts from now, so we kindly request that you collect your vehicle as soon as possible to make the most of your rental period.
+                            
+                            If you have any questions or need assistance, feel free to contact us.`
+                        };
+                        await sendEmail(2, EMAIL_PARAMS);
                     }
 
                     // TEMP: delete after implementation emailjs
