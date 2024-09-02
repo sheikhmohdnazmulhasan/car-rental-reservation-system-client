@@ -53,7 +53,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
 
                         }).then(async (result) => {
                             if (result.isConfirmed) {
-                                // TODO: email to customer for clear payment
+                                // DONE: email to customer for clear payment
                                 const user: TFullUser = returnRes?.data?.data?.user;
                                 const car: TVehicleResponse = returnRes?.data?.data?.car;
                                 const due = returnRes?.data?.data?.totalCost;
@@ -90,6 +90,22 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                 if (res?.data?.success) {
                     if (action === 'cancel') {
                         // TODO: email to customer for notify cancelation
+                        const EMAIL_PARAMS: TNotificationEmail = {
+                            name: booking.user.name,
+                            email: booking.user.email,
+                            subject: `Booking Cancellation Notice for ${booking?.car?.name}`,
+                            description: `We regret to inform you that your booking for the "${booking?.car?.name}" has been canceled. 
+                            
+                            If you have any questions or need assistance with a new booking, please feel free to contact us.   
+                            We apologize for any inconvenience this may have caused and appreciate your understanding.`
+                        };
+                        const res = await sendEmail(2, EMAIL_PARAMS);
+                        if (res?.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Booking Canceled',
+                            })
+                        }
                     } else {
                         // TODO: email to customer for notify approve booking
                     }
