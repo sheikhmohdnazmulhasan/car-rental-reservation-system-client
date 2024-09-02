@@ -6,6 +6,8 @@ import axios from 'axios';
 import demoProfile from '../../assets/demo-profile.jpg';
 import { GetProps, Input } from 'antd';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import sendEmail from '../../utils/sendEmail';
 type OTPProps = GetProps<typeof Input.OTP>;
 
 interface TAxiosResponse {
@@ -27,11 +29,11 @@ const Recover: FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const [verificationCode, setVerificationCode] = useState<string | null>(null);
     const [passed, setPassed] = useState<boolean>(false);
-    console.log(verificationCode);
+    const navigate = useNavigate();
 
     const handleFindUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
-        setError(null);
+        setError('Searching...');
         const email = (event.target as HTMLFormElement).email.value;
 
         try {
@@ -43,6 +45,7 @@ const Recover: FC = () => {
             if (res?.data?.success) {
                 setFailedAttempts(0);
                 setUser((res.data?.data as TAxiosResponse));
+                setError(null);
 
             } else {
                 const newFailedAttempts = failedAttempts + 1;
@@ -60,15 +63,38 @@ const Recover: FC = () => {
                 }
             }
         } catch (error) {
-            setError('Something went Wrong');
+            setError('Something went wrong');
             console.log(error);
         }
     };
 
-    const handleSendVerificationEmail = () => {
-        setVerificationCode(String(Math.floor(100000 + Math.random() * 900000)));
-        // TODO: Email verification code to user for rest password
-        setOpenModal(true);
+    const handleSendVerificationEmail = async () => {
+        const toastId = toast.loading('Sending Email...');
+        const sixDigitCode = String(Math.floor(100000 + Math.random() * 900000))
+        setVerificationCode(sixDigitCode);
+
+        // DONE: Email verification code to user for rest password
+        const TEMPLATE_ID: string = 'template_c57ck16';
+        const TEMPLATE_PARAMS: { name: string; email: string; otp: string } = {
+            name: user?.name as string,
+            email: user?.email as string,
+            otp: sixDigitCode as string
+        }
+
+        try {
+            const res = await sendEmail(TEMPLATE_ID, TEMPLATE_PARAMS);
+            if (res?.status == 200) {
+                toast.success('You have been emailed with a 6 digit code. If you do not find the email in your inbox, please check your spam or junk folder', { id: toastId });
+                setOpenModal(true);
+            }
+        } catch (error) {
+            toast.error('For an unknown reason we failed to send you the verification email. Please try again', {
+                id: toastId
+            })
+            setUser(null);
+            console.log(error);
+        }
+
     }
 
     const onChange: OTPProps['onChange'] = (inputtedVerificationCode) => {
@@ -85,7 +111,7 @@ const Recover: FC = () => {
         onChange,
     };
 
-    const handleChangePassword = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleChangePassword = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(null);
         const toastId = toast.loading('Working...')
@@ -102,10 +128,24 @@ const Recover: FC = () => {
             toast.dismiss(toastId);
             return;
         } else {
-            // TODO: call the server to set new password;
-            console.log({ password });
-        }
+            // DONE: call the server to set new password;
+            const res = await axios.patch<{ success: boolean; message: string }>(`http://localhost:5000/api/auth/user/recovery/passed`, {
+                token: user?.token,
+                newPassword: password
+            });
 
+            if (res.data.success) {
+                toast.success(res.data.message, { id: toastId });
+                navigate('/auth/login');
+                setUser(null);
+                setPassed(false);
+
+            } else {
+                toast.error(res.data.message, { id: toastId });
+                setUser(null);
+                setPassed(false);
+            }
+        }
     }
 
     useEffect(() => {
@@ -182,7 +222,7 @@ const Recover: FC = () => {
                                 <div className="mb-4 mt-4">
                                     <input
                                         name='password'
-                                        id=""
+                                        id="password"
                                         type="password"
                                         placeholder="New Password"
                                         className="w-full px-4  py-2 border border-rose-600 rounded-md focus:outline-none focus:ring-0"
@@ -192,7 +232,7 @@ const Recover: FC = () => {
                                 <div className="mb-4">
                                     <input
                                         name='password2'
-                                        id=""
+                                        id="password2"
                                         type="password"
                                         placeholder="Confirm Password"
                                         className="w-full px-4  py-2 border border-rose-600 rounded-md focus:outline-none focus:ring-0"
@@ -211,7 +251,7 @@ const Recover: FC = () => {
 
             {/* email verification modal */}
             <div className="mx-auto w-fit">
-                <div onClick={() => setOpenModal(false)} className={`fixed z-[100] w-screen ${openModal ? 'visible opacity-100' : 'invisible opacity-0'} inset-0 grid place-items-center backdrop-blur-sm duration-100 bg-transparent`}>
+                <div className={`fixed z-[100] w-screen ${openModal ? 'visible opacity-100' : 'invisible opacity-0'} inset-0 grid place-items-center backdrop-blur-sm duration-100 bg-transparent`}>
                     <div onClick={(e_) => e_.stopPropagation()} className={`absolute w-full md:w-[40%] rounded-lg bg-white p-6 drop-shadow-lg ${openModal ? 'opacity-1 duration-300' : 'scale-110 opacity-0 duration-150'}`}>
                         <svg onClick={() => setOpenModal(false)} className="absolute right-3 top-3 w-6 cursor-pointer fill-zinc-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.99486 7.00636C6.60433 7.39689 6.60433 8.03005 6.99486 8.42058L10.58 12.0057L6.99486 15.5909C6.60433 15.9814 6.60433 16.6146 6.99486 17.0051C7.38538 17.3956 8.01855 17.3956 8.40907 17.0051L11.9942 13.4199L15.5794 17.0051C15.9699 17.3956 16.6031 17.3956 16.9936 17.0051C17.3841 16.6146 17.3841 15.9814 16.9936 15.5909L13.4084 12.0057L16.9936 8.42059C17.3841 8.03007 17.3841 7.3969 16.9936 7.00638C16.603 6.61585 15.9699 6.61585 15.5794 7.00638L11.9942 10.5915L8.40907 7.00636C8.01855 6.61584 7.38538 6.61584 6.99486 7.00636Z"></path></svg>
                         <h1 className="text-gray-700 mb-2 text-2xl font-semibold">Verification Code</h1>

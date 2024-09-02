@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^3.9.0",
     "@reduxjs/toolkit": "^2.2.7",
     "antd": "^5.20.2",
     "axios": "^1.7.5",
     "bcryptjs": "^2.4.3",
+    "emailjs-com": "^3.2.0",
     "jwt-decode": "^4.0.0",
     "keen-slider": "^6.8.6",
     "localforage": "^1.10.0",
