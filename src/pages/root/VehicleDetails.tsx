@@ -261,7 +261,7 @@ const VehicleDetails: FC = () => {
                                         Driving Licenses Number<span className="text-red-600">*</span>
                                     </label>
                                     <div className="relative">
-                                        <input id="driving" type="text" placeholder="DL-4894293021" className="block w-full rounded-lg p-3  outline-none drop-shadow-lg bg-white" {...register('drivingLicense')} />
+                                        <input id="driving" type="text" placeholder="DL-4894293021" className="block w-full rounded-lg p-3  outline-none drop-shadow-lg bg-white" {...register('drivingLicense')} required />
                                     </div>
                                 </div>
                             </div>

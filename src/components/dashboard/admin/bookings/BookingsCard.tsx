@@ -3,6 +3,10 @@ import { TBookingResponse } from "../../../../interface/response.booking.interfa
 import Swal from "sweetalert2";
 import { useDeleteBookingMutation, usePatchBookingStatusMutation } from "../../../../redux/features/booking/booking.api";
 import { useReturnVehicleMutation } from "../../../../redux/features/vehicle/vehicle.api";
+import { TNotificationEmail } from "../../../../interface/email.emailjs.params.interface";
+import { TFullUser } from "../../../../interface/user.interface";
+import { TVehicleResponse } from "../../../../interface/response.vehicle.interface";
+import sendEmail from "../../../../utils/sendEmail";
 export interface TBookingCardProps {
     booking: TBookingResponse;
     setClickedItem: (id: TBookingResponse | null) => void;
@@ -47,14 +51,32 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                             cancelButtonColor: "#d33",
                             confirmButtonText: `Yes, email to ${returnRes?.data?.data?.user?.email}`
 
-                        }).then((result) => {
+                        }).then(async (result) => {
                             if (result.isConfirmed) {
-                                // TODO: email to customer for clear payment with payment link
-                                // Swal.fire({
-                                //     title: "Deleted!",
-                                //     text: "Your file has been deleted.",
-                                //     icon: "success"
-                                // });
+                                // TODO: email to customer for clear payment
+                                const user: TFullUser = returnRes?.data?.data?.user;
+                                const car: TVehicleResponse = returnRes?.data?.data?.car;
+                                const due = returnRes?.data?.data?.totalCost;
+
+                                const EMAIL_PARAMS: TNotificationEmail = {
+                                    name: user?.name,
+                                    email: user?.email,
+                                    subject: `Vehicle Return Confirmation & Payment Due for ${car?.name}`,
+                                    description: `Thank you for returning the "${car.name}" to RentNGo. We hope you had a great experience.
+
+                                    Please note that your total due for this rental is USD ${due}. Kindly clear the outstanding payment at your earliest convenience. 
+
+                                    If you have any questions or need assistance, feel free to contact us.`
+                                }
+
+                                const res = await sendEmail(2, EMAIL_PARAMS);
+                                if (res?.status === 200) {
+                                    Swal.fire({
+                                        title: "Email Send",
+                                        icon: "success"
+                                    });
+                                }
+                                console.log(EMAIL_PARAMS);
                             }
                         });
                     };
