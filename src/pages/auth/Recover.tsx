@@ -8,7 +8,7 @@ import { GetProps, Input } from 'antd';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import sendEmail from '../../utils/sendEmail';
-import { TAuthEmail } from '../../interface/email.emailjs.params.interface';
+import { TAuthEmail, TNotificationEmail } from '../../interface/email.emailjs.params.interface';
 type OTPProps = GetProps<typeof Input.OTP>;
 
 interface TAxiosResponse {
@@ -135,10 +135,22 @@ const Recover: FC = () => {
             });
 
             if (res.data.success) {
-                toast.success(res.data.message, { id: toastId });
-                navigate('/auth/login');
-                setUser(null);
-                setPassed(false);
+                const EMAIL_PARAMS: TNotificationEmail = {
+                    subject: 'Welcome back',
+                    name: user?.name as string,
+                    email: user?.email as string,
+                    description: `We happy to inform you that your RentNGo account has been successfully recovered. You can now log in to your account using your new password. 
+                    
+                    If you did not initiate this password recovery, please contact our support team immediately.`
+                };
+
+                const emailjsRes = await sendEmail(2, EMAIL_PARAMS);
+                if (emailjsRes?.status === 200) {
+                    toast.success(res.data.message, { id: toastId });
+                    navigate('/auth/login');
+                    setUser(null);
+                    setPassed(false);
+                }
 
             } else {
                 toast.error(res.data.message, { id: toastId });
