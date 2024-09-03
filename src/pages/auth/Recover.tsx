@@ -225,7 +225,10 @@ const Recover: FC = () => {
                     </div>}
 
                     {passed && user && <div className="flex-1 border-t md:border-t-0">
-                        <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => setUser(null)}>x</p>
+                        <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => {
+                            setUser(null);
+                            setPassed(false);
+                        }}>x</p>
                         <div className=" flex flex-col mt-2 justify-center px-5 md:px-10 items-center border-l">
                             {/* name and photo */}
                             <form className='w-full' onSubmit={handleChangePassword}>
