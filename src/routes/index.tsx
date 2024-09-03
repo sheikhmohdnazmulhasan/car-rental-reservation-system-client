@@ -20,11 +20,13 @@ import EditVehicle from "../pages/dashboard/admin/Vehicles/edit/EditVehicle";
 import Recover from "../pages/auth/Recover";
 import Vehicles from "../pages/root/Vehicles";
 import VehicleDetails from "../pages/root/VehicleDetails";
+import NotFoundError from "../components/error/404";
 export const router = createBrowserRouter([
   {
     path: "/",
 
     element: <Root />,
+    errorElement: <NotFoundError />,
     children: [
       { index: true, element: <Home /> },
       { path: '/about', element: <About /> },
