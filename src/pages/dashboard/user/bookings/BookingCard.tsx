@@ -11,7 +11,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) =
                 <div className={`flex-1 py-2 px-4 border-b border-gray-300 
                 ${booking.status === 'canceled' ? 'text-rose-600'
                         : booking.status === 'succeed' ? 'text-green-700'
-                            : booking.status === 'ongoing' ? 'text-blue-500' : 'text-white'}`}>
+                            : booking.status === 'ongoing' ? 'text-blue-500' : undefined}`}>
                     {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                 </div>
                 <div className="flex-1 py-2 px-4 border-b border-gray-300 space-x-2">

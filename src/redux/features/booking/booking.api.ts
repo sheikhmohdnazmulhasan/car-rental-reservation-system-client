@@ -35,7 +35,8 @@ const bookingApi = baseApi.injectEndpoints({
                     method: 'GET',
                     params
                 }
-            }
+            },
+            providesTags: ['booking']
         }),
 
         createNewBooking: builder.mutation({
