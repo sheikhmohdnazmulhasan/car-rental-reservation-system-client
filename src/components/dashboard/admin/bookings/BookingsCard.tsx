@@ -102,7 +102,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                         await sendEmail(2, EMAIL_PARAMS);
 
                     } else {
-                        // TODO: email to customer for notify approve booking
+                        // DONE: email to customer for notify approve booking
                         const EMAIL_PARAMS: TNotificationEmail = {
                             name: booking?.user?.name,
                             email: booking?.user?.email,

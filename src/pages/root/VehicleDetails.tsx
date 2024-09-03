@@ -16,6 +16,8 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useCreateNewBookingMutation } from "../../redux/features/booking/booking.api";
 import toast from "react-hot-toast";
+import { TNotificationEmail } from "../../interface/email.emailjs.params.interface";
+import sendEmail from "../../utils/sendEmail";
 
 const VehicleDetails: FC = () => {
     const { _id } = useParams<{ _id: string }>();
@@ -93,13 +95,27 @@ const VehicleDetails: FC = () => {
         try {
             const res = await createNewBooking({ payload });
             if (res.data?.success) {
-                toast.dismiss(toastId);
-                // TODO: send email to customer for successful booking
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Vehicle Booked Successfully',
-                    text: 'Your booking will be verified by our team. You will receive a confirmation email if the booking is approved. Thanks for being with us'
-                });
+                // DONE: send email to customer for successful booking
+                const EMAIL_PARAMS: TNotificationEmail = {
+                    name: fullUser?.data?.name,
+                    email: fullUser?.data?.email,
+                    subject: `Booking Received: Pending Verification for - ${item?.data?.name}`,
+                    description: `Thank you for choosing RentNGo! We have received your booking and it is currently pending verification.
+                    Our team is reviewing your booking, and you will receive a confirmation email if your booking is approved.
+                    
+                    If you have any questions or need further assistance, please feel free to contact us.`
+                };
+
+                const emailSend = await sendEmail(2, EMAIL_PARAMS);
+                if (emailSend?.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Vehicle Booked Successfully',
+                        text: 'We have emailed you the next step, please check your inbox'
+                    });
+                    toast.dismiss(toastId);
+                }
+
                 navigate('/');
             } else {
                 toast.error('Oops! Something went Wrong 😒', { id: toastId });

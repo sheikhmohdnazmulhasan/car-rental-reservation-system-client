@@ -28,7 +28,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) =
                 } = await patchBookingStatus({ _id: booking._id, action: 'canceled' }).unwrap();
 
                 if (res.success) {
-                    // TODO: email to user for booking cancelation notification
+                    // DONE: email to user for booking cancelation notification
                     const EMAIL_PARAMS: TNotificationEmail = {
                         name: booking?.user?.name,
                         email: booking?.user?.email,
