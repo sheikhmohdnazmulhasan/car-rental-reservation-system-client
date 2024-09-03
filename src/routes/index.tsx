@@ -23,7 +23,7 @@ import VehicleDetails from "../pages/root/VehicleDetails";
 import NotFoundError from "../components/error/404";
 import UserRoot from "../pages/dashboard/user/UserRoot";
 import UserOverview from "../pages/dashboard/user/UserOverview";
-import Bookings from "../pages/dashboard/user/Bookings";
+import Bookings from "../pages/dashboard/user/bookings/Bookings";
 export const router = createBrowserRouter([
   {
     path: "/",

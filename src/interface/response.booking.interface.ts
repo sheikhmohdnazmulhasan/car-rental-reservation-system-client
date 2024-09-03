@@ -33,7 +33,8 @@ export interface TBookingResponse {
     totalCost: number;
     car: Car;
     user: TFullUser;
-    status: string;
+    status: 'succeed' | 'ongoing' | 'canceled' | 'pending';
+    paymentStatus?: "unverified" | "verified"
     createdAt: string;
     updatedAt: string;
 }
