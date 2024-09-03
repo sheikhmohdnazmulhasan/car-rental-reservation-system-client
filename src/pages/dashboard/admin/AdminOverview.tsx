@@ -3,8 +3,14 @@ import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PieChart } from '@mui/x-charts/PieChart';
+import { useStatisticsQuery } from '../../../redux/features/statistics/statistics.api';
 
 const AdminOverview: React.FC = () => {
+    const { data, isLoading, isError } = useStatisticsQuery<{
+        isError: boolean;
+        isLoading: boolean;
+        data: 
+    }>({ role: 'admin' })
     const revenueData = [
         { x: 0, y: 5000, label: 'Jan' },
         { x: 1, y: 7000, label: 'Feb' },

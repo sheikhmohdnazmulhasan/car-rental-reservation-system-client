@@ -45,7 +45,7 @@ const bookingApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: args.payload,
             }),
-            invalidatesTags: ['booking', 'vehicle']
+            invalidatesTags: ['booking', 'vehicle', 'statistics']
         }),
 
         patchBookingStatus: builder.mutation({
@@ -59,7 +59,7 @@ const bookingApi = baseApi.injectEndpoints({
                     params,
                 }
             },
-            invalidatesTags: ['booking', 'vehicle']
+            invalidatesTags: ['booking', 'vehicle', 'statistics']
         }),
 
         deleteBooking: builder.mutation({
@@ -73,7 +73,7 @@ const bookingApi = baseApi.injectEndpoints({
                     params,
                 }
             },
-            invalidatesTags: ['booking', 'vehicle']
+            invalidatesTags: ['booking', 'vehicle', 'statistics']
         })
     })
 });

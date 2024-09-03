@@ -24,7 +24,7 @@ const vehicleApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: arg.payload
             }),
-            invalidatesTags: ['vehicle']
+            invalidatesTags: ['vehicle', 'statistics']
         }),
 
         patchVehicle: builder.mutation({
@@ -41,7 +41,7 @@ const vehicleApi = baseApi.injectEndpoints({
                 url: `/cars/${args?.id}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['vehicle']
+            invalidatesTags: ['vehicle', 'statistics']
         }),
 
         returnVehicle: builder.mutation({
@@ -50,7 +50,7 @@ const vehicleApi = baseApi.injectEndpoints({
                 method: 'PUT',
                 body: args.payload
             }),
-            invalidatesTags: ['vehicle', 'booking']
+            invalidatesTags: ['vehicle', 'booking', 'statistics']
         })
     })
 })
