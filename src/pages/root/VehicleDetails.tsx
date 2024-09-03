@@ -115,7 +115,6 @@ const VehicleDetails: FC = () => {
                     });
                     toast.dismiss(toastId);
                 }
-
                 navigate('/');
             } else {
                 toast.error('Oops! Something went Wrong 😒', { id: toastId });
