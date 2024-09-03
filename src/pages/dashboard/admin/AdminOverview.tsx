@@ -4,13 +4,17 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useStatisticsQuery } from '../../../redux/features/statistics/statistics.api';
+import { TStatisticsAdmin } from '../../../interface/response.statistics.admin';
+import LoadingSpinier from '../../../components/global/LoadingSpinier';
+import FetchErrorElmt from '../../../components/error/FetchErrorElmt';
 
 const AdminOverview: React.FC = () => {
     const { data, isLoading, isError } = useStatisticsQuery<{
         isError: boolean;
         isLoading: boolean;
-        data: 
-    }>({ role: 'admin' })
+        data: TStatisticsAdmin;
+    }>({ role: 'admin' });
+
     const revenueData = [
         { x: 0, y: 5000, label: 'Jan' },
         { x: 1, y: 7000, label: 'Feb' },
@@ -28,6 +32,8 @@ const AdminOverview: React.FC = () => {
         // Add more months and data points as needed
     ];
 
+    if (isLoading) return <LoadingSpinier />;
+    if (!isLoading && isError) return <FetchErrorElmt />
 
     return (
         <Box sx={{ padding: '20px' }}>
@@ -41,7 +47,7 @@ const AdminOverview: React.FC = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h6">Total Bookings</Typography>
-                            <Typography variant="h4" color="rose.600">320</Typography>
+                            <Typography variant="h4" color="rose.600">{data?.data?.total_booking}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -51,7 +57,7 @@ const AdminOverview: React.FC = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h6">Available Cars</Typography>
-                            <Typography variant="h4" color="rose.600">120</Typography>
+                            <Typography variant="h4" color="rose.600">{data?.data?.total_vehicles}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -61,7 +67,7 @@ const AdminOverview: React.FC = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h6">Revenue</Typography>
-                            <Typography variant="h4" color="rose.600">$25,000</Typography>
+                            <Typography variant="h4" color="rose.600">${data?.data?.total_revenue}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -106,18 +112,18 @@ const AdminOverview: React.FC = () => {
                     </Card>
                 </Grid>
 
-                {/* Top Car Categories (Pie Chart) */}
+                {/* Top Car locations (Pie Chart) */}
                 <Grid item xs={12} md={6}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6">Top Car Categories</Typography>
+                            <Typography variant="h6">Top Rent Locations</Typography>
                             <PieChart
                                 series={[
                                     {
                                         data: [
-                                            { id: 0, value: 40, label: 'SUV' },
-                                            { id: 1, value: 35, label: 'Economy' },
-                                            { id: 2, value: 25, label: 'Luxury' },
+                                            { id: 0, value: 40, label: 'Rangpur' },
+                                            { id: 1, value: 35, label: 'Chattogram' },
+                                            { id: 2, value: 25, label: 'Dhaka' },
                                         ],
                                     },
                                 ]}
