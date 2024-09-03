@@ -19,8 +19,6 @@ const Bookings = () => {
         isError: boolean;
     }>(filter ? [filter] : []);
 
-    console.log(filter);
-
     if (isLoading) return <LoadingSpinier />;
     // if (!data?.data.length && !isError) return <NoDataErrorElmt />;
     if (isError) return <FetchErrorElmt />
