@@ -3,6 +3,8 @@ import { TBookingCardProps } from '../../../../components/dashboard/admin/bookin
 import { usePatchBookingStatusMutation } from '../../../../redux/features/booking/booking.api';
 import Swal from 'sweetalert2';
 import { TBookingResponse } from '../../../../interface/response.booking.interface';
+import { TNotificationEmail } from '../../../../interface/email.emailjs.params.interface';
+import sendEmail from '../../../../utils/sendEmail';
 
 const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) => {
     const [patchBookingStatus] = usePatchBookingStatusMutation();
@@ -27,16 +29,26 @@ const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) =
 
                 if (res.success) {
                     // TODO: email to user for booking cancelation notification
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
-                    });
+                    const EMAIL_PARAMS: TNotificationEmail = {
+                        name: booking?.user?.name,
+                        email: booking?.user?.email,
+                        subject: `Booking Cancellation Confirmation for ${booking?.car?.name}`,
+                        description: `This is to confirm that your booking for the "${booking?.car?.name}" has been successfully canceled. 
+                        If you have any questions or need assistance with a new booking, please feel free to contact us.
+                        
+                        We apologize for any inconvenience this may have caused and appreciate your understanding.`
+                    };
+                    const emailSend = await sendEmail(2, EMAIL_PARAMS);
+                    if (emailSend?.status === 200) {
+                        Swal.fire({
+                            title: "Canceled",
+                            text: "Your order has been canceled.",
+                            icon: "success"
+                        });
+                    }
                 }
-
             }
         });
-
     }
 
     return (
