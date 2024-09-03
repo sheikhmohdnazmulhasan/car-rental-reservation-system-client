@@ -24,6 +24,7 @@ import NotFoundError from "../components/error/404";
 import UserRoot from "../pages/dashboard/user/UserRoot";
 import UserOverview from "../pages/dashboard/user/UserOverview";
 import Bookings from "../pages/dashboard/user/bookings/Bookings";
+import RoleGard from "../utils/protected_route/RoleGard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
       // admin (protected)
       {
         path: '/dashboard/admin',
-        element: <AdminRoot />,
+        element: <RoleGard role="admin"> <AdminRoot /></RoleGard>,
         children: [
           { path: 'overview', element: <AdminOverview /> },
           { path: 'vehicles/manage/view', element: <AllVehicles /> },
@@ -62,7 +63,7 @@ export const router = createBrowserRouter([
       // customer
       {
         path: '/dashboard/user',
-        element: <UserRoot />,
+        element: <RoleGard role="user"><UserRoot /></RoleGard>,
         children: [
           { path: 'overview', element: <UserOverview /> },
           { path: 'bookings/manage', element: <Bookings /> },
