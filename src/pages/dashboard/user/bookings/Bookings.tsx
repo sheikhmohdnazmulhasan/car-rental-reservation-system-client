@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { TBookingResponse } from "../../../../interface/response.booking.interface";
-import { useGetUserSpecificBookingsQuery } from "../../../../redux/features/booking/booking.api";
+import { useGetUserSpecificBookingsQuery, usePatchBookingStatusMutation } from "../../../../redux/features/booking/booking.api";
 import BookingCard from "./BookingCard";
 import LoadingSpinier from "../../../../components/global/LoadingSpinier";
 import NoDataErrorElmt from "../../../../components/error/NoDataErrorElmt";
@@ -11,7 +11,6 @@ import FetchErrorElmt from "../../../../components/error/FetchErrorElmt";
 const Bookings = () => {
     const filter = {}
     const [clickedItem, setClickedItem] = useState<TBookingResponse | null>(null);
-
     const { data, isLoading, isError } = useGetUserSpecificBookingsQuery<{
         data: {
             data: TBookingResponse[]
