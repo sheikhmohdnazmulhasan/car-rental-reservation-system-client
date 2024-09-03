@@ -21,6 +21,23 @@ const bookingApi = baseApi.injectEndpoints({
             providesTags: ['booking']
         }),
 
+        getUserSpecificBookings: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item: TQueryParams) => {
+                        params.append(Object.keys(item)[0], Object.values(item)[0]);
+                    });
+                };
+
+                return {
+                    url: '/bookings/my-bookings',
+                    method: 'GET',
+                    params
+                }
+            }
+        }),
+
         createNewBooking: builder.mutation({
             query: (args) => ({
                 url: '/bookings',
@@ -64,5 +81,6 @@ export const {
     useGetBookingForAdminQuery,
     usePatchBookingStatusMutation,
     useCreateNewBookingMutation,
-    useDeleteBookingMutation
+    useDeleteBookingMutation,
+    useGetUserSpecificBookingsQuery
 } = bookingApi;

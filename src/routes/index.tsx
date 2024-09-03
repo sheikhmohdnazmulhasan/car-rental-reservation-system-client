@@ -21,6 +21,9 @@ import Recover from "../pages/auth/Recover";
 import Vehicles from "../pages/root/Vehicles";
 import VehicleDetails from "../pages/root/VehicleDetails";
 import NotFoundError from "../components/error/404";
+import UserRoot from "../pages/dashboard/user/UserRoot";
+import UserOverview from "../pages/dashboard/user/UserOverview";
+import Bookings from "../pages/dashboard/user/Bookings";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +56,17 @@ export const router = createBrowserRouter([
           { path: 'bookings/manage/canceled', element: <CanceledBookings /> },
           { path: 'users/manage/admins', element: <Admins /> },
           { path: 'users/manage/customers', element: <Customers /> },
+        ]
+      },
+
+      // customer
+      {
+        path: '/dashboard/user',
+        element: <UserRoot />,
+        children: [
+          { path: 'overview', element: <UserOverview /> },
+          { path: 'bookings/manage', element: <Bookings /> },
+
         ]
       }
     ]

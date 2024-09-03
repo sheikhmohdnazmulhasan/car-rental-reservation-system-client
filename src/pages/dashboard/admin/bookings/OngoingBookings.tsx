@@ -14,6 +14,7 @@ const OngoingBookings = () => {
     if (isLoading) return <LoadingSpinier />;
     if (!data?.data.length && !isError) return <NoDataErrorElmt />;
     if (isError) return <FetchErrorElmt />
+
     if (clickedItem) {
         return <BookingDetails
             booking={clickedItem as TBookingResponse}

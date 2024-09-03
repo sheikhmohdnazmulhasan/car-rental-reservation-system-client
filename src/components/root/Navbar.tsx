@@ -74,7 +74,7 @@ const Navbar = () => {
                                     <Link to={`/profile/settings`} >Profile Settings</Link>
                                 </li>
                                 <li>
-                                    <Link to={`/dashboard/${user?.role}`} >Dashboard</Link>
+                                    <Link to={`/dashboard/${user?.role}/overview`} >Dashboard</Link>
                                 </li>
                                 <li onClick={() => dispatch(logout())}> <a>Logout</a> </li>
                             </ul>
@@ -107,7 +107,7 @@ const Navbar = () => {
                                 <Link to={`/profile/settings`} >Profile Settings</Link>
                             </li>
                             <li>
-                                <Link to={`/dashboard/${user?.role}`} >Dashboard</Link>
+                                <Link to={`/dashboard/${user?.role}/overview`} >Dashboard</Link>
                             </li>
                             <li onClick={() => dispatch(logout())}> <a>Logout</a> </li>
                         </ul>

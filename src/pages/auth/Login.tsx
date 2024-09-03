@@ -42,7 +42,7 @@ const Login = () => {
                     navigate(location.state);
                 } else {
                     // console.log(serverResponse?.data?.data?.role);
-                    navigate(`/dashboard/${serverResponse?.data?.data?.role}`)
+                    navigate(`/dashboard/${serverResponse?.data?.data?.role}/overview`)
                 }
                 toast.success('Logged in Success', { id: toastId });
             }
