@@ -89,11 +89,19 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
         }
 
         if (paymentIntent?.status === "succeeded") {
+            // TODO: update the booking's payment status
             toast.dismiss(toastId);
             const EMAIL_PARAMS: TNotificationEmail = {
-                name: booking?.user.name as string,
-                email: booking?.user.email as string,
-                subject: ``
+                name: booking ? booking[0].user.name as string : null,
+                email: booking ? booking[0].user.email as string : null,
+                subject: ` Payment Confirmation: Thank You for Settling Your Account`,
+                description: `We have successfully received your payment of [Total Amount] for your recent rental with RentNGo.
+
+                Transaction ID: ${paymentIntent.id}
+                Amount Paid: ${booking ? booking[0].totalCost : null}
+
+                
+                `
 
             }
             Swal.fire({
