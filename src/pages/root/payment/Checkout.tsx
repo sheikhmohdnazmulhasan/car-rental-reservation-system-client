@@ -9,18 +9,18 @@ import {
 
 import React, { FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { useCurrentToken, useCurrentUser } from "../../../redux/features/auth/auth.slice";
+import { useCurrentToken } from "../../../redux/features/auth/auth.slice";
 import { useAppSelector } from "../../../redux/hooks";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { TNotificationEmail } from "../../../interface/email.emailjs.params.interface";
+import { TBookingResponse } from "../../../interface/response.booking.interface";
 
-const Checkout: React.FC<{ bookingId: string | undefined }> = ({ bookingId }) => {
+const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingResponse[] | null }> = ({ bookingId, booking }) => {
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const stripe = useStripe();
     const elements = useElements();
     const token = useAppSelector(useCurrentToken);
-    const user = useAppSelector(useCurrentUser);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -91,6 +91,10 @@ const Checkout: React.FC<{ bookingId: string | undefined }> = ({ bookingId }) =>
         if (paymentIntent?.status === "succeeded") {
             toast.dismiss(toastId);
             const EMAIL_PARAMS: TNotificationEmail = {
+                name: booking?.user.name as string,
+                email: booking?.user.email as string,
+                subject: ``
+
             }
             Swal.fire({
                 icon: 'success',
@@ -127,6 +131,17 @@ const Checkout: React.FC<{ bookingId: string | undefined }> = ({ bookingId }) =>
                     <label className="block text-start font-bold text-sm mb-2 ml-1">
                         Card Information
                     </label>
+                    <div className="mb-3">
+                        <input
+                            className="w-full px-3  py-1 mb-1 border-2 bg-transparent border-gray-200 rounded-md focus:outline-none"
+                            placeholder="Full name on card"
+                            type="text"
+                            required
+                        />
+                    </div>
+                    <label className="block text-start font-bold text-sm mb-2 ml-1">
+                        Card Number
+                    </label>
                     <CardNumberElement
                         id="card-number"
                         className="w-full px-3 py-2 mb-1 border-2 border-gray-300 rounded-md"
@@ -155,7 +170,7 @@ const Checkout: React.FC<{ bookingId: string | undefined }> = ({ bookingId }) =>
                         </label>
                         <CardCvcElement
                             id="cvc"
-                            className="w-24 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md"
+                            className="w-full md:w-24 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md"
                         />
                     </div>
                     <div className="px-2">
@@ -170,25 +185,16 @@ const Checkout: React.FC<{ bookingId: string | undefined }> = ({ bookingId }) =>
                             required
                             maxLength={5}
                             placeholder="POST"
-                            className="w-24 px-3 py-1 mb-1 border-2 bg-transparent border-gray-200 rounded-md focus:outline-none"
+                            className="w-full md:w-24 px-3 py-1 mb-1 border-2 bg-transparent border-gray-200 rounded-md focus:outline-none"
                         />
                     </div>
                 </div>
-                <div className="mb-3">
-                    <label className="block text-start font-bold text-sm mb-2 ml-1">
-                        Cardholder name
-                    </label>
-                    <input
-                        className="w-full px-3  py-1 mb-1 border-2 bg-transparent border-gray-200 rounded-md focus:outline-none"
-                        placeholder="Full name on card"
-                        type="text"
-                        required
-                    />
-                </div>
+
                 <button
-                    className="btn w-full bg-blue-700 text-white rounded-md text-xl"
+                    disabled={!stripe || !elements}
+                    className="btn w-full bg-rose-600 hover:bg-rose-700 transition-all text-white rounded-md text-xl"
                     type="submit">
-                    Pay
+                    Pay Now
                 </button>
 
             </form>

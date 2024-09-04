@@ -2,14 +2,27 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Checkout from "./Checkout";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
+import { useCurrentToken } from "../../../redux/features/auth/auth.slice";
+import { TBookingResponse } from "../../../interface/response.booking.interface";
 
 const stripePromise = loadStripe('pk_test_51OVWkVHfRFCfVZp8dwEwzuDWjUPgnMadf3sHxxb8mf3xzabCF3m5KEDKLHbGOafbOvQFi2NlokV0TBoWAqDaLDt500R0LHclLj');
 
 const Payment = () => {
+    const token = useAppSelector(useCurrentToken);
     const { bookingId } = useParams();
+    const [booking, setBooking] = useState<TBookingResponse[] | null>(null);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/api/bookings/my-bookings?_id=${bookingId}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        }).then((res) => res.json()).then((data) => setBooking(data?.data))
+    }, [bookingId, token]);
 
     return (
         <div className="h-screen">
@@ -40,17 +53,26 @@ const Payment = () => {
                                     leaveTo="opacity-0 scale-95"
                                 >
                                     <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                        <Link to={'/dashboard/user/bookings/manage'} className="flex justify-end font-bold">X</Link>
                                         <div className="flex flex-col md:flex-row mt-10">
                                             <div className="lg:w-1/2">
-                                                <h1 className="text-start text-xl flex items-center">RapidLink</h1>
+                                                <h1 className="text-start text-2xl font-bold flex items-center">Rent<span className="text-rose-600">NGo—</span></h1>
+                                                <p><strong>Payment For:</strong> {
+                                                    booking?.length ? booking[0].car?.name : null
+                                                }</p>
+                                                <div className="mt-3">
+                                                    <p className="text-2xl"><strong>Total Due:</strong> ${
+                                                        booking?.length ? booking[0].totalCost : null
+                                                    }</p>
+                                                </div>
 
                                                 <div className="overflow-x-auto">
-                                                    <p className="py-5 pr-10">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam blanditiis ratione quam laboriosam explicabo qui natus neque ex perferendis ab aut quae dolores nemo corrupti est dolorum nam eligendi, sapiente optio deserunt incidunt. Explicabo, neque.</p>
+                                                    <p className="py-5 pr-10">Welcome to RentNGo payment system. Hope you get a good payment experience from here</p>
                                                 </div>
                                             </div>
                                             <div className="lg:w-1/2">
                                                 <Elements stripe={stripePromise}>
-                                                    <Checkout bookingId={bookingId} />
+                                                    <Checkout bookingId={bookingId} booking={booking} />
                                                 </Elements>
                                             </div>
                                         </div>
