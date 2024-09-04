@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { TBookingResponse } from '../../../../interface/response.booking.interface';
 import { TNotificationEmail } from '../../../../interface/email.emailjs.params.interface';
 import sendEmail from '../../../../utils/sendEmail';
+import { Link } from 'react-router-dom';
 
 const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) => {
     const [patchBookingStatus] = usePatchBookingStatusMutation();
@@ -77,9 +78,9 @@ const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) =
                         </button>}
 
                     {booking.status === 'succeed' && booking.paymentStatus === 'unverified' &&
-                        < button
+                        <Link to={`/user/booking/payout/${booking._id}`}
                             className={`border px-1 rounded-md bg-rose-600 text-white transition-all hover:scale-105`}>Pay ${booking.totalCost}
-                        </button>}
+                        </Link>}
                 </div>
             </div>
         </div >

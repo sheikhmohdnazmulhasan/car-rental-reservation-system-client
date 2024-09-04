@@ -2,6 +2,7 @@
 import { BaseQueryApi, BaseQueryFn, createApi, DefinitionType, FetchArgs, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import toast from "react-hot-toast";
 import { RootState } from "../store";
+import { logout } from "../features/auth/auth.slice";
 
 
 const baseQuery = fetchBaseQuery({
@@ -23,6 +24,7 @@ const baseQueryWithAdditionalFeatures: BaseQueryFn<FetchArgs, BaseQueryApi, Defi
         case 401:
             console.log('access token invalid or expired');
             // TODO: call "/api/auth/refresh-token" (GET) for getting new access token.
+            api.dispatch(logout());
             break;
 
         case 400:

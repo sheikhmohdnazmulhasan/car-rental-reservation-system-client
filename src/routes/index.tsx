@@ -25,6 +25,8 @@ import UserRoot from "../pages/dashboard/user/UserRoot";
 import UserOverview from "../pages/dashboard/user/UserOverview";
 import Bookings from "../pages/dashboard/user/bookings/Bookings";
 import RoleGard from "../utils/protected_route/RoleGard";
+import Payout from '../pages/root/payment/Payout';
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +43,8 @@ export const router = createBrowserRouter([
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/recover', element: <Recover /> },
       { path: '/profile/settings', element: <ProfileSettings /> },
+      { path: '/user/booking/payout/:bookingId', element: <Payout /> },
+
 
       // admin (protected)
       {
