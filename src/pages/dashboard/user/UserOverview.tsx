@@ -14,11 +14,26 @@ const UserOverview: React.FC = () => {
         isLoading: boolean;
         isError: boolean;
     }>([]);
+
     // Sample data for booking history, cancellation, and success rate
+    const totalBookings = bookingHistory?.data?.length;
+    const successCount = bookingHistory?.data?.filter((booking: TBookingResponse) => booking.status === 'succeed').length;
+    const cancelCount = bookingHistory?.data?.filter((booking: TBookingResponse) => booking.status === 'canceled').length;
+
+    const successPercentage = (successCount / totalBookings) * 100;
+    const cancelPercentage = (cancelCount / totalBookings) * 100;
 
     const successRateData = [
-        { id: 0, value: 40, label: 'Success' },
-        { id: 1, value: 23, label: 'Cancelled' },
+        {
+            id: 0,
+            value: parseFloat(successPercentage.toFixed(2)),
+            label: 'Success'
+        },
+        {
+            id: 1,
+            value: parseFloat(cancelPercentage.toFixed(2)),
+            label: 'Cancelled'
+        },
     ];
 
     if (isLoading) return <LoadingSpinier />;
