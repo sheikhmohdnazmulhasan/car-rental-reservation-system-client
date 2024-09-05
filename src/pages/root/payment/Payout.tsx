@@ -5,8 +5,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from 'react'
 import Checkout from "./Checkout";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../../../redux/hooks";
-import { useCurrentToken, useCurrentUser } from "../../../redux/features/auth/auth.slice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { logout, useCurrentToken, useCurrentUser } from "../../../redux/features/auth/auth.slice";
 import { TBookingResponse } from "../../../interface/response.booking.interface";
 import LoadingSpinier from "../../../components/global/LoadingSpinier";
 
@@ -18,6 +18,7 @@ const Payment = () => {
     const { bookingId } = useParams();
     const [booking, setBooking] = useState<TBookingResponse[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         fetch(`http://localhost:5000/api/bookings/my-bookings?_id=${bookingId}`, {
@@ -31,6 +32,10 @@ const Payment = () => {
     }, [bookingId, token]);
 
     if (!user) return <Navigate to={'/auth/login'} replace state={location.pathname} />;
+    if (user.role !== 'user') {
+        dispatch(logout())
+        // <Navigate to={'/auth/login'} replace state={location.pathname} />
+    }
     if (isLoading) return <LoadingSpinier />
 
     return (

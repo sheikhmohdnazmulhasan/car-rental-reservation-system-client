@@ -57,6 +57,9 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                                 const user: TFullUser = returnRes?.data?.data?.user;
                                 const car: TVehicleResponse = returnRes?.data?.data?.car;
                                 const due = returnRes?.data?.data?.totalCost;
+                                const fullUrl = location.href;
+                                const baseUrl = fullUrl.split('/').slice(0, 3).join('/')
+                                const paymentUrl = baseUrl + `/user/booking/payout/${booking._id}`;
 
                                 const EMAIL_PARAMS: TNotificationEmail = {
                                     name: user?.name,
@@ -64,8 +67,10 @@ const BookingCard: React.FC<TBookingCardProps> = ({ setClickedItem, booking }) =
                                     subject: `Vehicle Return Confirmation & Payment Due for ${car?.name}`,
                                     description: `Thank you for returning the "${car.name}" to RentNGo. We hope you had a great experience.
 
-                                    Please note that your total due for this rental is USD ${due}. Kindly clear the outstanding payment at your earliest convenience. 
+                                    Please note that your total due for this rental is USD ${due}.
+                                    Payment Link: ${paymentUrl}
 
+                                    Kindly clear the outstanding payment at your earliest convenience. 
                                     If you have any questions or need assistance, feel free to contact us.`
                                 }
 
