@@ -11,7 +11,7 @@ const AllVehicles = () => {
     if (isError) return <FetchErrorElmt />
 
     return (
-        <div className="">
+        <div data-aos='fade-left' className="">
             <h1 className="text-2xl font-semibold mb-5">Manage Rentable Vehicles</h1>
             <div className="grid grid-cols-2 gap-5">
                 {data?.data?.slice()?.reverse().map((vehicle: TVehicleResponse, indx: number) => {

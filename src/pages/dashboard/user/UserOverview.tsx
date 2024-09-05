@@ -40,7 +40,7 @@ const UserOverview: React.FC = () => {
     if (isError) return <FetchErrorElmt />
 
     return (
-        <Grid container spacing={3}>
+        <Grid data-aos='fade-left' container spacing={3}>
             {/* Other dashboard components */}
 
             {/* Booking History */}

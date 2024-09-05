@@ -31,7 +31,7 @@ const Bookings = () => {
     }
 
     return (
-        <div className="">
+        <div data-aos='fade-left' className="">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-semibold mb-5">Manage Your Bookings</h1>
                 <div className="">

@@ -59,7 +59,7 @@ const AddVehicle: FC = () => {
     }
 
     return (
-        <div>
+        <div data-aos='fade-left'>
             <h1 className="text-2xl font-semibold mb-5">Add New Vehicle</h1>
             <form className="mt-10 mx-5 space-y-5" onSubmit={handleSubmit(handleCreateNewVehicle)}>
 

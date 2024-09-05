@@ -23,7 +23,7 @@ const OngoingBookings = () => {
     }
 
     return (
-        <div className="">
+        <div data-aos='fade-left' className="">
             <h1 className="text-2xl font-semibold mb-5">Manage Ongoing Bookings</h1>
             <div className="flex flex-col w-full  mx-auto">
                 {/* Column Headers */}

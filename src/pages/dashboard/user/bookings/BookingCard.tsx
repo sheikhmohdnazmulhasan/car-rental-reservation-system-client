@@ -79,7 +79,7 @@ const BookingCard: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) =
 
                     {booking.status === 'succeed' && booking.paymentStatus === 'unverified' &&
                         <Link to={`${booking.totalCost > 0 ? `/user/booking/payout/${booking._id}` : '/dashboard/user/bookings/manage'}`}
-                            className={`border px-1 rounded-md ${booking.totalCost > 0 ? 'bg-rose-600' : 'bg-gray-400 cursor-not-allowed'} text-white transition-all hover:scale-105`}>Pay ${booking.totalCost}
+                            className={`border px-1 rounded-md ${booking.totalCost > 0 ? 'bg-rose-600 hover:scale-105' : 'bg-gray-400 cursor-not-allowed'} text-white transition-all`}>Pay ${booking.totalCost}
                         </Link>}
                 </div>
             </div>

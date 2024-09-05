@@ -116,7 +116,7 @@ const ProfileSettings = () => {
     return (
         <div className="">
             <Navbar />
-            <div className="max-w-full mt-5 md:mx-10 p-6 bg-white shadow-md rounded-lg">
+            <div data-aos='fade-left' className="max-w-full mt-5 md:mx-10 p-6 bg-white shadow-md rounded-lg">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                     {/* Left Column - User Data */}

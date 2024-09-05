@@ -71,7 +71,7 @@ const Vehicles = () => {
     return (
         <div className="">
             <Navbar />
-            <div className="min-h-screen m-5 md:m-10">
+            <div data-aos='fade-left' className="min-h-screen m-5 md:m-10">
                 <div className="">
                     <div className="md:flex hidden justify-between items-center">
 

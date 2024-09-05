@@ -4,7 +4,7 @@ import { TBookingCardProps } from "./BookingsCard";
 
 const BookingDetails: React.FC<TBookingCardProps> = ({ booking, setClickedItem }) => {
 
-    return <div className="">
+    return <div data-aos='zoom-out' className="">
         {/* head */}
         <h3 className="text-xl font-semibold">Booking Details</h3>
         <p className="mb-5">{booking?.date}</p>
@@ -38,14 +38,14 @@ const BookingDetails: React.FC<TBookingCardProps> = ({ booking, setClickedItem }
                     <p><strong>Address: </strong>{booking?.user?.address}</p>
                 </div>
             </div>
-            <div className="">
+            {/* <div className="">
                 <h3 className="text-xl font-semibold mb-5">Extra Features</h3>
                 <div className="mt-5">
                     {booking?.additionalInfo?.extraFeatures.map((feature) => (
                         <span>{feature},&nbsp;</span>
                     ))}
                 </div>
-            </div>
+            </div> */}
         </div>
 
         {/* close */}

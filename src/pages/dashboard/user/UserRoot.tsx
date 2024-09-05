@@ -15,7 +15,7 @@ const UserRoot = () => {
                 <div className="fixed w-full z-50">
                     <Navbar />
                 </div>
-                <div className="pt-[60px]">
+                <div data-aos='fade-left' className="pt-[60px]">
                     <aside id="sidebar-multi-level-sidebar" className="fixed border-r left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50">
                             <ul className="space-y-2 font-medium">

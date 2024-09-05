@@ -5,7 +5,7 @@ const About = () => {
     return (
         <div className="">
             <Navbar />
-            <div>
+            <div data-aos='fade-left'>
                 {/* Header Section */}
                 <header className="bg-rose-600 text-white py-6">
                     <div className="max-w-7xl mx-auto px-4">
