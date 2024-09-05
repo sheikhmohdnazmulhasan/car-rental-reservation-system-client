@@ -67,7 +67,8 @@ const bookingApi = baseApi.injectEndpoints({
                 url: '/bookings/action/payout/success',
                 method: 'PATCH',
                 body: args?.payload
-            })
+            }),
+            invalidatesTags: ['booking']
         }),
 
         deleteBooking: builder.mutation({

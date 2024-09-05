@@ -9,19 +9,21 @@ import {
 
 import React, { FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { useCurrentToken } from "../../../redux/features/auth/auth.slice";
+import { useCurrentToken, useCurrentUser } from "../../../redux/features/auth/auth.slice";
 import { useAppSelector } from "../../../redux/hooks";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { TNotificationEmail } from "../../../interface/email.emailjs.params.interface";
 import { TBookingResponse } from "../../../interface/response.booking.interface";
 import { useAfterPayPatchMutation } from "../../../redux/features/booking/booking.api";
+import sendEmail from "../../../utils/sendEmail";
 
 const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingResponse[] | null }> = ({ bookingId, booking }) => {
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const stripe = useStripe();
     const elements = useElements();
     const token = useAppSelector(useCurrentToken);
+    const user = useAppSelector(useCurrentUser)
     const navigate = useNavigate();
     const [patch_after_payout] = useAfterPayPatchMutation();
 
@@ -32,7 +34,7 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`, // Ensure token is properly set
+                        "Authorization": `Bearer ${token}`,
                     },
                 });
 
@@ -61,7 +63,7 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
         if (token) {
             fetchClientSecret();
         } else {
-            navigate('/auth/login'); // Redirect to login if no token is available
+            navigate('/auth/login');
         }
     }, [bookingId, token, navigate]);
 
@@ -91,38 +93,39 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
         }
 
         if (paymentIntent?.status === "succeeded") {
-            // TODO: update the booking's payment status
+            // DONE: update the booking's payment status
             const res = await patch_after_payout({
                 payload: {
                     bookingId: booking ? booking[0]._id : null,
                     transactionId: paymentIntent.id
                 }
             });
-
-            console.log(res);
-
-            // TODO: after successful patch payment booking status send email to user
-            const EMAIL_PARAMS: TNotificationEmail = {
-                name: booking ? booking[0].user.name as string : null,
-                email: booking ? booking[0].user.email as string : null,
-                subject: ` Payment Confirmation: Thank You for Settling Your Account`,
-                description: `We have successfully received your payment of USD ${booking ? booking[0].totalCost : null} for your recent rental with RentNGo.
-
-                Vehicle: ${booking ? booking[0].car.name : null}
-                Rent Period: ${booking ? booking[0].totalCost / booking[0].car.pricePerHour : null} Hours
-                Amount Paid: USD ${booking ? booking[0].totalCost : null}
-                Transaction ID: ${paymentIntent.id}
-
-                Thank you for settling your account. We hope you had a great experience with us and look forward to serving you again in the future.`
-            };
-
-            console.log(EMAIL_PARAMS);
-            toast.dismiss(toastId);
-            Swal.fire({
-                icon: 'success',
-                title: 'Successfully Paid',
-                text: 'Thanks for clearing your due, we have emailed you the transaction id'
-            });
+            if (res.data?.success) {
+                // DONE: after successful patch payment booking status send email to user
+                const EMAIL_PARAMS: TNotificationEmail = {
+                    name: booking ? booking[0].user.name as string : null,
+                    email: booking ? booking[0].user.email as string : null,
+                    subject: ` Payment Confirmation: Thank You for Settling Your Account`,
+                    description: `We have successfully received your payment of USD ${booking ? booking[0].totalCost : null} for your recent rental with RentNGo.
+    
+                    Vehicle: ${booking ? booking[0].car.name : null}
+                    Rent Period: ${booking ? booking[0].totalCost / booking[0].car.pricePerHour : null} Hours
+                    Amount Paid: USD ${booking ? booking[0].totalCost : null}
+                    Transaction ID: ${paymentIntent.id}
+    
+                    Thank you for settling your account. We hope you had a great experience with us and look forward to serving you again in the future.`
+                };
+                const emailSend = await sendEmail(2, EMAIL_PARAMS);
+                if (emailSend?.status === 200) {
+                    toast.dismiss(toastId);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully Paid',
+                        text: 'Thanks for clearing your due, we have emailed you the transaction id'
+                    });
+                    navigate('/dashboard/user/bookings/manage');
+                }
+            }
         }
     }
 
@@ -145,7 +148,7 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
                         className="w-full px-3  py-1 mb-1 border-2 bg-transparent border-gray-200 rounded-md focus:outline-none"
                         placeholder="Your Email"
                         type="text"
-                        // defaultValue={user?.displayName}
+                        defaultValue={user?.user}
                         required
                     />
                 </div>
