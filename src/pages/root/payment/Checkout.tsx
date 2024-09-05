@@ -44,7 +44,7 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
                     } else if (response.status === 417) {
                         throw new Error("booking is not successful yet or the payment is already completed");
                     } else if (response.status === 400) {
-                        throw new Error("You cannot make payments on someone else's booking. Not event GF/BF")
+                        throw new Error("You cannot make payments on someone else's booking. Not even GF/BF")
                     } else {
                         throw new Error(`Error: ${response.status} ${response.statusText}`);
                     }

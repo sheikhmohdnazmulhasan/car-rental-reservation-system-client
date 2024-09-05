@@ -4,25 +4,34 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from 'react'
 import Checkout from "./Checkout";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
-import { useCurrentToken } from "../../../redux/features/auth/auth.slice";
+import { useCurrentToken, useCurrentUser } from "../../../redux/features/auth/auth.slice";
 import { TBookingResponse } from "../../../interface/response.booking.interface";
+import LoadingSpinier from "../../../components/global/LoadingSpinier";
 
 const stripePromise = loadStripe('pk_test_51OVWkVHfRFCfVZp8dwEwzuDWjUPgnMadf3sHxxb8mf3xzabCF3m5KEDKLHbGOafbOvQFi2NlokV0TBoWAqDaLDt500R0LHclLj');
 
 const Payment = () => {
     const token = useAppSelector(useCurrentToken);
+    const user = useAppSelector(useCurrentUser);
     const { bookingId } = useParams();
     const [booking, setBooking] = useState<TBookingResponse[] | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetch(`http://localhost:5000/api/bookings/my-bookings?_id=${bookingId}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
-        }).then((res) => res.json()).then((data) => setBooking(data?.data))
+        }).then((res) => res.json()).then((data) => {
+            setBooking(data?.data);
+            setIsLoading(false)
+        })
     }, [bookingId, token]);
+
+    if (!user) return <Navigate to={'/auth/login'} replace state={location.pathname} />;
+    if (isLoading) return <LoadingSpinier />
 
     return (
         <div className="h-screen">
