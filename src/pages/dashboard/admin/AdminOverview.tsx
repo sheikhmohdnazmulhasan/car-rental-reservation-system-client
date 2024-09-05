@@ -67,7 +67,7 @@ const AdminOverview: React.FC = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h6">Revenue</Typography>
-                            <Typography variant="h4" color="rose.600">${data?.data?.total_revenue}</Typography>
+                            <Typography variant="h4" color="rose.600">${parseFloat(String(data?.data?.total_revenue)).toFixed(2)}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
