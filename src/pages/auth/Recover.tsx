@@ -178,7 +178,7 @@ const Recover: FC = () => {
     return (
         <div>
             <Navbar />
-            <div className="min-h-screen flex justify-center px-5 items-center -mt-5 md:-mt-20">
+            <div data-aos='zoom-out' className="min-h-screen flex justify-center px-5 items-center -mt-5 md:-mt-20">
                 <div className={`md:h-96 ${user ? 'md:flex' : 'block'} justify-between w-full md:w-[${user ? '80%' : '40%'}] mx-auto py-16 md:py-0 shadow-md rounded-md`}>
                     {/* search */}
                     <div className="flex flex-1 justify-center h-full px-5 md:px-10 flex-col">
@@ -204,7 +204,7 @@ const Recover: FC = () => {
                     </div>
 
                     {/* profile details */}
-                    {user && !passed && <div className="flex-1 border-t md:border-t-0">
+                    {user && !passed && <div data-aos='zoom-out' className="flex-1 border-t md:border-t-0">
                         <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => setUser(null)}>x</p>
                         <div className=" flex flex-col mt-2 justify-center px-5 md:px-10 items-center border-l">
                             {/* name and photo */}
@@ -224,7 +224,7 @@ const Recover: FC = () => {
                         </div>
                     </div>}
 
-                    {passed && user && <div className="flex-1 border-t md:border-t-0">
+                    {passed && user && <div data-aos='zoom-out' className="flex-1 border-t md:border-t-0">
                         <p className='text-end p-5 text-xl font-semibold cursor-pointer' onClick={() => {
                             setUser(null);
                             setPassed(false);

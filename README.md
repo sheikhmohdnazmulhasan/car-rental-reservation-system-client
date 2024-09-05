@@ -1,50 +1,83 @@
-# React + TypeScript + Vite
+# RentNGo - Car Rental Reservation System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project is a **RentNGo** designed to offer a smooth experience for browsing, booking, and managing cars. The system includes both customer and admin functionalities, providing a user-friendly interface for car rental services, while allowing administrators to manage inventory and reservations efficiently.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Public Pages
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Home Page**: Includes a hero section with a prominent "Book Now" button, car availability search, featured cars, customer testimonials, and a footer.
+- **Car Listing Page**: Displays all available cars in a grid or list view with filtering options based on car type, price, and other relevant features.
+- **Car Details Page**: Shows detailed information about selected cars with booking options.
+- **About Us Page**: Contains the company's history, team, fleet, values, and contact information.
+- **Error Page**: Custom 404 page and backend error handling.
+- **User Authentication**: Sign up, login, password recovery with real-time validation and error handling.
 
-- Configure the top-level `parserOptions` property like this:
+### User Pages
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **User Dashboard**: Manage personal information, view booking history, and handle payment after car return.
+- **Booking Management**: View, modify, or cancel existing bookings (with conditions).
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Admin Pages
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Admin Dashboard**: Manage cars, bookings, users, and reports. Admins can block/activate users and promote users to admins.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Payout Solution
+
+- **Payment Integration**: Secure payment processing after car return using Stripe payment methods.
+
+## Technologies Used
+
+- **Frontend**: React, TypeScript, Zod, Hook-Form, Tailwind CSS, Ant Design, MUI, HeadlessUi and more.
+- **Backend**: Node.js, Express, TypeScript, Mongoose, Bcrypt, Moment, Zod and more.
+- **Database**: MongoDB
+- **Authentication**: JWT
+- **Payment Integration**: Stripe
+- **State Management**: Redux
+- **Deployment**: Hosted on Vercel
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sheikhmohdnazmulhasan/rentNgo-car-rental-reservation-system-client.git
+   cd rentNgo-car-rental-reservation-system-client
+   ```
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+### Project Structure
+
+/src
+│
+├── components
+│ ├── Admin
+│ ├── User
+│ ├── Booking
+│ └── Shared
+├── pages
+│ ├── Home.tsx
+│ ├── CarListing.tsx
+│ ├── CarDetails.tsx
+│ ├── AboutUs.tsx
+│ ├── UserDashboard.tsx
+│ ├── AdminDashboard.tsx
+│ └── Error.tsx
+├── assets
+│ └── images
+├── services
+│ └── api.ts
+├── utils
+│ └── helpers.ts
+└── App.tsx
