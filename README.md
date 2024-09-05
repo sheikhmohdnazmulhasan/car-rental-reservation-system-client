@@ -59,6 +59,7 @@ This project is a **RentNGo** designed to offer a smooth experience for browsing
 
 ### Project Structure
 
+```bash
 /src
 │
 ├── components
@@ -81,3 +82,4 @@ This project is a **RentNGo** designed to offer a smooth experience for browsing
 ├── utils
 │ └── helpers.ts
 └── App.tsx
+```
