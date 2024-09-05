@@ -107,7 +107,7 @@ const Featured: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="-mx-6 lg:col-span-2 lg:mx-0">
+                    <div data-aos='fade-left' className="-mx-6 lg:col-span-2 lg:mx-0">
                         <div ref={sliderRef} className="keen-slider">
 
                             {data?.data?.slice(2, 5).map((vehicle: TVehicleResponse, indx: number) => {

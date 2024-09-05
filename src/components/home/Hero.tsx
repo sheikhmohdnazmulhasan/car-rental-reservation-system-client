@@ -52,7 +52,7 @@ export const Hero = () => {
                                 Hit the road with RentNGo— your go-to car rental solution. Choose from a wide range of vehicles at unbeatable prices, with easy booking and 24/7 support. Enjoy flexible rentals and exclusive deals. Your journey starts here!"
                             </p>
 
-                            <div data-aos='fade-right' className="mt-8 flex flex-wrap gap-4 text-center !justify-start md:justify-center">
+                            <div className="mt-8 flex flex-wrap gap-4 text-center !justify-start md:justify-center">
 
                                 <Link to={`/vehicles`} className="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto">
                                     Book Now

@@ -20,20 +20,20 @@ const Home = () => {
                 <div className="">
                     <HotRides />
                 </div>
-                <div className="mt-10">
+                <div data-aos='zoom-out' className="mt-10">
                     <Cta />
                 </div>
 
-                <div className="">
+                <div data-aos='fade-up' className="">
                     <WhyChooseUs />
                 </div>
-                <div className="">
+                <div data-aos='fade-up' className="">
                     <Team />
                 </div>
-                <div className="">
+                <div data-aos='fade-up' className="">
                     <Testimonial />
                 </div>
-                <div className="">
+                <div data-aos='fade-up' className="">
                     <Accordion />
                 </div>
                 <div className="">

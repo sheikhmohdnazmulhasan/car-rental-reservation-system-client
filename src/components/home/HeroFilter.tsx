@@ -63,7 +63,7 @@ const HeroFilter = () => {
     };
 
     return (
-        <div className="w-96 hidden md:flex flex-col p-7 bg-rose-600 bg-opacity-20 rounded-md -mt-40">
+        <div data-aos="zoom-out" className="w-96 hidden md:flex flex-col p-7 bg-rose-600 bg-opacity-20 rounded-md -mt-40">
             <form className="w-full space-y-2" onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className="">
                     <p className="text-left mb-1">Location</p>

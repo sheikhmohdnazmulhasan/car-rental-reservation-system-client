@@ -7,7 +7,7 @@ const HotRides: React.FC = () => {
     const { data } = useGetVehiclesQuery(undefined)
 
     return (
-        <div className='flex md:flex-row flex-col-reverse  md:justify-center md:items-center'>
+        <div data-aos='fade-up' className='flex md:flex-row flex-col-reverse  md:justify-center md:items-center'>
             <div className="md:flex ">
                 {data?.data?.slice(4, 7)?.reverse()?.map((vehicle: TVehicleResponse, indx: number) => {
                     return (

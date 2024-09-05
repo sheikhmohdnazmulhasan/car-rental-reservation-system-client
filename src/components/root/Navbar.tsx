@@ -15,7 +15,7 @@ const Navbar = () => {
     const { data: fullUser } = useGetFullUserQuery([{ email: user?.user }], { skip: !user });
 
     return (
-        < Headroom className='!z-[2000]'>
+        < Headroom className='!z-[2000]' >
 
             <nav className="flex z-20 border-b items-center justify-between text-[#393E46] px-4 py-2 bg-white">
                 <div className="scale-100 cursor-pointer rounded-2xl px-3 py-2 text-xl font-semibold  transition-all duration-200 hover:scale-110">
