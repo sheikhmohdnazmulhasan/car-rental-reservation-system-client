@@ -132,7 +132,7 @@ const VehicleDetails: FC = () => {
     return (
         <div className="font-sans bg-white">
             <Navbar />
-            <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
+            <div data-aos='fade-left' className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
                 <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] p-6 rounded-lg">
                     <div className="lg:col-span-3 w-full lg:sticky top-0 text-center">
                         <div className="rounded-lg shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative">

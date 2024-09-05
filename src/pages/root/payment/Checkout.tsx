@@ -30,7 +30,7 @@ const Checkout: React.FC<{ bookingId: string | undefined; booking: TBookingRespo
     useEffect(() => {
         const fetchClientSecret = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/user/booking/pay?booking=${bookingId}`, {
+                const response = await fetch(`https://car-rental-reservation-system-nine.vercel.app/api/user/booking/pay?booking=${bookingId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

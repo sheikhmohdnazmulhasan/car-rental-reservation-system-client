@@ -82,7 +82,7 @@ const Register = () => {
                                     </p>
                                 </div>
                                 <div>
-                                    <label htmlFor="password2" className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
+                                    <label htmlFor="password2" className="block mb-2 text-sm font-medium text-gray-900 ">Confirm Password</label>
                                     <input type={showPassword2 ? 'text' : 'password'} id="password2" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 relative rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required {...register('password2')} />
                                     <p className="absolute hidden md:flex -mt-8 cursor-pointer ml-[350px]" onClick={() => setShowPassword2(!showPassword2)}>
                                         {showPassword2 ? <FaEyeSlash /> : <FaEye />}

@@ -21,7 +21,7 @@ const Payment = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/bookings/my-bookings?_id=${bookingId}`, {
+        fetch(`https://car-rental-reservation-system-nine.vercel.app/api/bookings/my-bookings?_id=${bookingId}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }

@@ -36,7 +36,7 @@ const EditVehicle: React.FC = () => {
     useEffect(() => {
         const fetchVehicle = async () => {
             try {
-                const vehicle = await axios.get(`http://localhost:5000/api/cars/${_id}`);
+                const vehicle = await axios.get(`https://car-rental-reservation-system-nine.vercel.app/api/cars/${_id}`);
                 setInitialValues(vehicle?.data?.data);
                 setShowFileName({ name: `${vehicle?.data?.data?.photo.slice(0, 35)}...` })
                 // Populate form fields with fetched data

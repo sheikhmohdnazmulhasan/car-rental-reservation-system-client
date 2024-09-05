@@ -6,7 +6,7 @@ import { logout } from "../features/auth/auth.slice";
 
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api',
+    baseUrl: 'https://car-rental-reservation-system-nine.vercel.app/api',
     credentials: 'include',
 
     prepareHeaders: (headers, { getState }) => {
