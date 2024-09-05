@@ -62,6 +62,14 @@ const bookingApi = baseApi.injectEndpoints({
             invalidatesTags: ['booking', 'vehicle', 'statistics']
         }),
 
+        afterPayPatch: builder.mutation({
+            query: (args) => ({
+                url: '/bookings/action/payout/success',
+                method: 'PATCH',
+                body: args?.payload
+            })
+        }),
+
         deleteBooking: builder.mutation({
             query: (args: { _id: string; }) => {
                 const params = new URLSearchParams;
@@ -83,5 +91,6 @@ export const {
     usePatchBookingStatusMutation,
     useCreateNewBookingMutation,
     useDeleteBookingMutation,
-    useGetUserSpecificBookingsQuery
+    useGetUserSpecificBookingsQuery,
+    useAfterPayPatchMutation
 } = bookingApi;
