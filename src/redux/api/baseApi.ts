@@ -28,7 +28,8 @@ const baseQueryWithAdditionalFeatures: BaseQueryFn<FetchArgs, BaseQueryApi, Defi
             break;
 
         case 400:
-            toast.error(result.error.data.message);
+            // @ts-expect-error: Type mismatch
+            toast.error(result?.error?.data?.message);
             break;
 
         default:
